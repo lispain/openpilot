@@ -1802,7 +1802,7 @@ void SpeedLimitOffset::refresh() {
   btnplus.setText("＋");
 }
 
-RESChoice::RESChoice() : AbstractControl("자동 RES 옵션", "자동RES옵션을 설정합니다. 1. 일시적 크루즈속도 조정, 2. 설정속도 자체를 조정", "../assets/offroad/icon_shell.png") {
+RESChoice::RESChoice() : AbstractControl("자동 RES 옵션", "자동RES옵션을 설정합니다. 1. 속도에 따라(75km/h기준) 자동으로 RES/SET, 2. 설정속도 자체를 조정", "../assets/offroad/icon_shell.png") {
 
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
@@ -1858,7 +1858,7 @@ RESChoice::RESChoice() : AbstractControl("자동 RES 옵션", "자동RES옵션�
 void RESChoice::refresh() {
   QString option = QString::fromStdString(params.get("AutoResOption"));
   if (option == "0") {
-    label.setText(QString::fromStdString("크루즈속도조정"));
+    label.setText(QString::fromStdString("자동SET/RES"));
   } else {
     label.setText(QString::fromStdString("설정속도조정"));
   }
