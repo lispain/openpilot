@@ -468,8 +468,8 @@ class CarController():
         self.v_cruise_kph_auto_res = 0
         self.res_speed = 0
 
-    if self.model_speed > 95 and self.cancel_counter == 0 and not CS.acc_active and not CS.out.brakeLights and \
-     (CS.lead_distance < 149 or int(CS.clu_Vanz) > 10) and self.auto_res_timer <= 0 and self.opkr_cruise_auto_res:
+    if self.model_speed > 95 and self.cancel_counter == 0 and not CS.acc_active and not CS.out.brakeLights and int(CS.VSetDis) >= 30 and \
+     (CS.lead_distance < 149 or int(CS.clu_Vanz) > 30) and self.auto_res_timer <= 0 and self.opkr_cruise_auto_res:
       if self.opkr_cruise_auto_res_option == 0 and int(CS.clu_Vanz) > 75: #크루즈속도조절 선택 시 속도에 따라 SET/RES
         can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.RES_ACCEL)) if not self.longcontrol \
          else can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.RES_ACCEL, clu11_speed, CS.CP.sccBus))  # auto res @ above 75kph
