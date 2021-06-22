@@ -179,9 +179,6 @@ class CarInterface(CarInterfaceBase):
     elif candidate == CAR.K3:
       ret.mass = 1260. + STD_CARGO_KG
       ret.wheelbase = 2.70
-    elif candidate == CAR.CEED:
-      ret.mass = 1350. + STD_CARGO_KG
-      ret.wheelbase = 2.65
     elif candidate == CAR.SPORTAGE:
       ret.mass = 1985. + STD_CARGO_KG
       ret.wheelbase = 2.78
@@ -197,6 +194,9 @@ class CarInterface(CarInterfaceBase):
     elif candidate == CAR.SOUL_EV:
       ret.mass = 1375. + STD_CARGO_KG
       ret.wheelbase = 2.6
+    elif candidate == CAR.MOHAVE:
+      ret.mass = 2285. + STD_CARGO_KG
+      ret.wheelbase = 2.895
 
     ret.radarTimeStep = 0.05
     ret.centerToFront = ret.wheelbase * 0.4
@@ -221,16 +221,16 @@ class CarInterface(CarInterfaceBase):
     ret.brakeMaxV = [0.7, 3.0]   # max brake allowed
 
     ret.longitudinalTuning.kpBP = [0., 4., 9., 17., 23., 31.]
-    ret.longitudinalTuning.kpV = [0.59, 0.71, 0.54, 0.36, 0.28, 0.19]
+    ret.longitudinalTuning.kpV = [0.59, 0.71, 0.54, 0.36, 0.32, 0.28]
     ret.longitudinalTuning.kiBP = [0., 4., 9., 17., 23., 31.]
-    ret.longitudinalTuning.kiV = [0.015, 0.025, 0.024, 0.02, 0.018, 0.016]
+    ret.longitudinalTuning.kiV = [0.015, 0.025, 0.024, 0.02, 0.02, 0.02]
 
     ret.longitudinalTuning.deadzoneBP = [0., 9., 17.]
-    ret.longitudinalTuning.deadzoneV = [0., 0.1, 0.05]
+    ret.longitudinalTuning.deadzoneV = [0., 0.1, 0.01]
     ret.longitudinalTuning.kdBP = [0., 4., 9., 17., 23., 31.]
-    ret.longitudinalTuning.kdV = [0.8, 0.7, 0.75, 0.75, 0.45, 0.35]
+    ret.longitudinalTuning.kdV = [0.8, 0.7, 0.75, 0.75, 0.7, 0.7]
     ret.longitudinalTuning.kfBP = [0., 4., 9., 17., 23., 31.]
-    ret.longitudinalTuning.kfV = [1., 1., 1., 1., 0.9, 0.7]
+    ret.longitudinalTuning.kfV = [1., 1., 1., 1., 1., 1.]
 
     ret.enableCamera = True
     ret.enableBsm = 0x58b in fingerprint[0]
