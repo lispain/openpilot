@@ -131,7 +131,7 @@ class LongControl():
       if self.vRel_prev != vRel and vRel <= 0 and CS.vEgo > 13.8 and self.damping_timer == 0: # decel mitigation for a while
         if (vRel - self.vRel_prev)*3.6 < -5:
           self.damping_timer = 30
-          self.decel_damping2 = interp(abs((vRel - self.vRel_prev)*3.6), [5, 20], [1, 0.1])
+          self.decel_damping2 = interp(abs((vRel - self.vRel_prev)*3.6), [5, 20], [1, 0.05])
         self.vRel_prev = vRel
       elif self.damping_timer > 0:
         self.damping_timer -= 1
