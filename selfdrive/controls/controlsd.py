@@ -419,7 +419,7 @@ class Controls:
         self.v_cruise_kph = round(CS.cruiseState.speed * CV.MS_TO_KPH)
         self.v_cruise_kph_last = self.v_cruise_kph
       elif CS.driverAcc and Params().get_bool('OpkrVariableCruise') and Params().get_bool('CruiseOverMaxSpeed') and 30 <= self.v_cruise_kph < int(round(CS.vEgo*CV.MS_TO_KPH)):
-        self.v_cruise_kph = int(round(CS.vEgo*CV.MS_TO_KPH))
+        self.v_cruise_kph = int(round(CS.vEgo*CV.MS_TO_KPH)) + 5
         self.v_cruise_kph_last = self.v_cruise_kph
 
     # decrease the soft disable timer at every step, as it's reset on
