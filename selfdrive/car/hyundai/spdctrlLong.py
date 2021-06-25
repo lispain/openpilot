@@ -11,7 +11,7 @@ import common.log as trace1
 
 from selfdrive.controls.lib.events import Events
 
-EventName = car.CarEvent.EventName
+LaneChangeState = log.LateralPlan.LaneChangeState
 
 
 class SpdctrlLong(SpdController):
@@ -164,19 +164,19 @@ class SpdctrlLong(SpdController):
 
         # 2. 커브 감속.
         #if self.cruise_set_speed_kph >= 100:
-        if CS.out.cruiseState.modeSel == 1 and Events().names not in [EventName.laneChangeManual, EventName.laneChange] and not self.map_decel_only:
-            if curve_speed <= 30 and CS.clu_Vanz > 40 and CS.lead_distance >= 15:
+        if CS.out.cruiseState.modeSel == 1 and sm['lateralPlan'].laneChangeState == LaneChangeState.off and not self.map_decel_only:
+            if curve_speed <= 35 and CS.clu_Vanz > 40 and CS.lead_distance >= 15:
                 set_speed = min(40, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.2))
                 self.seq_step_debug = "커브감속-5"
-                wait_time_cmd = 30
-            elif curve_speed < 40 and CS.clu_Vanz > 40 and CS.lead_distance >= 15:
+                wait_time_cmd = 15
+            elif curve_speed < 45 and CS.clu_Vanz > 40 and CS.lead_distance >= 15:
                 set_speed = min(45, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.15))
                 self.seq_step_debug = "커브감속-4"
-                wait_time_cmd = 40
+                wait_time_cmd = 30
             elif curve_speed < 60 and CS.clu_Vanz > 40 and CS.lead_distance >= 15:
                 set_speed = min(60, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.1))
                 self.seq_step_debug = "커브감속-3"
-                wait_time_cmd = 50
+                wait_time_cmd = 45
             elif curve_speed < 75 and CS.clu_Vanz > 40 and CS.lead_distance >= 15:
                 set_speed = min(75, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.075))
                 self.seq_step_debug = "커브감속-2"
@@ -184,7 +184,7 @@ class SpdctrlLong(SpdController):
             elif curve_speed < 90 and CS.clu_Vanz > 40 and CS.lead_distance >= 15:
                 set_speed = min(90, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.05))
                 self.seq_step_debug = "커브감속-1"
-                wait_time_cmd = 70
+                wait_time_cmd = 75
 
         return wait_time_cmd, set_speed
 
