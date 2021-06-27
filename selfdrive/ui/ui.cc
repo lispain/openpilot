@@ -311,7 +311,7 @@ static void update_params(UIState *s) {
   const uint64_t frame = s->sm->frame;
   UIScene &scene = s->scene;
   Params params;
-  if (frame % (5*UI_FREQ) == 0) {
+  if (frame % (10*UI_FREQ) == 0) {
     scene.is_metric = params.getBool("IsMetric");
     s->is_OpenpilotViewEnabled = params.getBool("IsOpenpilotViewEnabled");
     s->driving_record = params.getBool("OpkrDrivingRecord");

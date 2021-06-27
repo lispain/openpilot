@@ -83,12 +83,6 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
     QObject::connect(toggles.back(), &ToggleControl::toggleFlipped, [=](bool state) {
       Params().remove("CalibrationParams");
     });
-
-    toggles.append(new ParamControl("EnableLteOnroad",
-                                    "Enable LTE while onroad",
-                                    "",
-                                    "../assets/offroad/icon_network.png",
-                                    this));
   }
 
   toggles.append(new ParamControl("OpkrEnableDriverMonitoring",
@@ -686,7 +680,9 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
 
 #ifdef ENABLE_MAPS
   if (!Params().get("MapboxToken").empty()) {
-    panels.push_back({"Navigation", new MapPanel(this)});
+    auto map_panel = new MapPanel(this);
+    panels.push_back({"Navigation", map_panel});
+    QObject::connect(map_panel, &MapPanel::closeSettings, this, &SettingsWindow::closeSettings);
   }
 #endif
   const int padding = panels.size() > 3 ? 18 : 28;
