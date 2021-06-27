@@ -83,12 +83,6 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
     QObject::connect(toggles.back(), &ToggleControl::toggleFlipped, [=](bool state) {
       Params().remove("CalibrationParams");
     });
-
-    toggles.append(new ParamControl("EnableLteOnroad",
-                                    "Enable LTE while onroad",
-                                    "",
-                                    "../assets/offroad/icon_network.png",
-                                    this));
   }
 
   toggles.append(new ParamControl("OpkrEnableDriverMonitoring",
@@ -220,6 +214,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   cal_param_init_layout->setSpacing(50);
 
   QPushButton *calinit_btn = new QPushButton("캘리브레이션 리셋");
+  calinit_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
   cal_param_init_layout->addWidget(calinit_btn);
   QObject::connect(calinit_btn, &QPushButton::released, [=]() {
     if (ConfirmationDialog::confirm("캘리브레이션을 초기화할까요? 자동 재부팅됩니다.", this)) {
@@ -232,6 +227,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
 
   QPushButton *paraminit_btn = new QPushButton("파라미터 초기화");
+  paraminit_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
   cal_param_init_layout->addWidget(paraminit_btn);
   QObject::connect(paraminit_btn, &QPushButton::released, [=]() {
     if (ConfirmationDialog::confirm("파라미터를 초기상태로 되돌립니다. 진행하시겠습니까?", this)) {
@@ -244,6 +240,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   presetone_layout->setSpacing(50);
 
   QPushButton *presetoneload_btn = new QPushButton("프리셋1 불러오기");
+  presetoneload_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
   presetone_layout->addWidget(presetoneload_btn);
   QObject::connect(presetoneload_btn, &QPushButton::released, [=]() {
     if (ConfirmationDialog::confirm("프리셋1을 불러올까요?", this)) {
@@ -252,6 +249,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
 
   QPushButton *presetonesave_btn = new QPushButton("프리셋1 저장하기");
+  presetonesave_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
   presetone_layout->addWidget(presetonesave_btn);
   QObject::connect(presetonesave_btn, &QPushButton::released, [=]() {
     if (ConfirmationDialog::confirm("프리셋1을 저장할까요?", this)) {
@@ -264,6 +262,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   presettwo_layout->setSpacing(50);
 
   QPushButton *presettwoload_btn = new QPushButton("프리셋2 불러오기");
+  presettwoload_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
   presettwo_layout->addWidget(presettwoload_btn);
   QObject::connect(presettwoload_btn, &QPushButton::released, [=]() {
     if (ConfirmationDialog::confirm("프리셋2을 불러올까요?", this)) {
@@ -272,6 +271,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
 
   QPushButton *presettwosave_btn = new QPushButton("프리셋2 저장하기");
+  presettwosave_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
   presettwo_layout->addWidget(presettwosave_btn);
   QObject::connect(presettwosave_btn, &QPushButton::released, [=]() {
     if (ConfirmationDialog::confirm("프리셋2을 저장할까요?", this)) {
@@ -284,6 +284,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   power_layout->setSpacing(50);
 
   QPushButton *reboot_btn = new QPushButton("재시작");
+  reboot_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
   power_layout->addWidget(reboot_btn);
   QObject::connect(reboot_btn, &QPushButton::released, [=]() {
     if (ConfirmationDialog::confirm("재시작하시겠습니까?", this)) {
@@ -292,7 +293,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
 
   QPushButton *poweroff_btn = new QPushButton("전원끄기");
-  poweroff_btn->setStyleSheet("background-color: #E22C2C;");
+  poweroff_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #E22C2C;");
   power_layout->addWidget(poweroff_btn);
   QObject::connect(poweroff_btn, &QPushButton::released, [=]() {
     if (ConfirmationDialog::confirm("전원을 끄시겠습니까?", this)) {
@@ -310,15 +311,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(horizontal_line());
 
   main_layout->addLayout(power_layout);
-
-  setStyleSheet(R"(
-    QPushButton {
-      padding: 20;
-      height: 120px;
-      border-radius: 15px;
-      background-color: #393939;
-    }
-  )");
 }
 
 SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
@@ -686,7 +678,9 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
 
 #ifdef ENABLE_MAPS
   if (!Params().get("MapboxToken").empty()) {
-    panels.push_back({"Navigation", new MapPanel(this)});
+    auto map_panel = new MapPanel(this);
+    panels.push_back({"Navigation", map_panel});
+    QObject::connect(map_panel, &MapPanel::closeSettings, this, &SettingsWindow::closeSettings);
   }
 #endif
   const int padding = panels.size() > 3 ? 18 : 28;

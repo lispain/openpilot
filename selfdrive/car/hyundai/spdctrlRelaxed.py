@@ -11,7 +11,7 @@ import common.log as trace1
 
 from selfdrive.controls.lib.events import Events
 
-EventName = car.CarEvent.EventName
+LaneChangeState = log.LateralPlan.LaneChangeState
 
 
 class SpdctrlRelaxed(SpdController):
@@ -111,9 +111,9 @@ class SpdctrlRelaxed(SpdController):
         else:
             d_delta2 = 0
  
-        if CS.driverAcc_time and not self.map_decel_only: #운전자가 가속페달 밟으면 크루즈 설정속도를 현재속도+5로 동기화
-            if int(CS.VSetDis) < int(round(CS.clu_Vanz)):
-              lead_set_speed = int(round(CS.clu_Vanz))
+        if CS.driverAcc_time and not self.map_decel_only: #운전자가 가속페달 밟으면 크루즈 설정속도를 현재속도+1로 동기화
+            if int(CS.VSetDis) < int(round(CS.clu_Vanz)) + 1:
+              lead_set_speed = int(round(CS.clu_Vanz)) + 1
               self.seq_step_debug = "운전자가속"
               lead_wait_cmd = 8
         elif int(round(self.target_speed)) < int(CS.VSetDis) and self.map_enable and ((int(round(self.target_speed)) < int(round(self.cruise_set_speed_kph))) and self.target_speed != 0):
@@ -209,8 +209,8 @@ class SpdctrlRelaxed(SpdController):
             elif 7 < int(CS.clu_Vanz) < 30 and lead_objspd < 0 and CS.VSetDis > 30:
                 self.seq_step_debug = "SS>VS,30이하"
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 8, -5)
-            elif lead_objspd == 0 and int(CS.clu_Vanz)+3 <= int(CS.VSetDis) and int(CS.clu_Vanz) > 40 and 1 < dRel < 149: # 앞차와 속도 같을 시 현재속도+5로 크루즈설정속도 유지
-                self.seq_step_debug = "SS>VS,vRel=0"
+            elif lead_objspd <= 0 and int(CS.clu_Vanz)+4 <= int(CS.VSetDis) and int(CS.clu_Vanz) > 40 and 1 < dRel < 149: # 앞차와 속도 같을 시 현재속도+5로 크루즈설정속도 유지
+                self.seq_step_debug = "SS>VS,vRel<=0"
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 8, -1)
             elif d_delta == 0 and lead_objspd == 0 and int(CS.clu_Vanz//10) >= int(CS.VSetDis//10) and dRel > 149 and ((int(round(self.target_speed)) > int(CS.VSetDis) and self.target_speed != 0) or self.target_speed == 0):
                 self.seq_step_debug = "선행차없음"
@@ -251,27 +251,27 @@ class SpdctrlRelaxed(SpdController):
 
         # 2. 커브 감속.
         #if self.cruise_set_speed_kph >= 100:
-        if CS.out.cruiseState.modeSel == 1 and Events().names not in [EventName.laneChangeManual, EventName.laneChange] and not (CS.left_blinker_flash or CS.right_blinker_flash)and not self.map_decel_only:
-            if curve_speed < 25 and int(CS.clu_Vanz) >= 40 and CS.lead_distance >= 15:
+        if CS.out.cruiseState.modeSel == 1 and sm['lateralPlan'].laneChangeState == LaneChangeState.off and not (CS.left_blinker_flash or CS.right_blinker_flash)and not self.map_decel_only:
+            if curve_speed < 35 and int(CS.clu_Vanz) >= 40 and CS.lead_distance >= 15:
                 set_speed = min(45, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.3))
                 self.seq_step_debug = "커브감속-5"
-                wait_time_cmd = 8
+                wait_time_cmd = 15
             elif curve_speed < 40 and int(CS.clu_Vanz) >= 40 and CS.lead_distance >= 15:
                 set_speed = min(55, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.25))
                 self.seq_step_debug = "커브감속-4"
-                wait_time_cmd = 8
+                wait_time_cmd = 30
             elif curve_speed < 60 and int(CS.clu_Vanz) >= 40 and CS.lead_distance >= 15:
                 set_speed = min(65, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.2))
                 self.seq_step_debug = "커브감속-3"
-                wait_time_cmd = 8
+                wait_time_cmd = 45
             elif curve_speed < 75 and int(CS.clu_Vanz) >= 40 and CS.lead_distance >= 15:
                 set_speed = min(75, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.15))
                 self.seq_step_debug = "커브감속-2"
-                wait_time_cmd = 8
+                wait_time_cmd = 60
             elif curve_speed < 90 and int(CS.clu_Vanz) >= 40 and CS.lead_distance >= 15:
                 set_speed = min(85, self.cruise_set_speed_kph - int(CS.clu_Vanz * 0.1))
                 self.seq_step_debug = "커브감속-1"
-                wait_time_cmd = 8
+                wait_time_cmd = 75
 
         return wait_time_cmd, set_speed
 

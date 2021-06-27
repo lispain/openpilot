@@ -50,6 +50,7 @@ class CarState(CarStateBase):
     self.safety_dist = 0
     self.safety_block_remain_dist = 0
     self.is_highway = False
+    self.is_expressway = False
     self.on_speed_control = False
 
   def update(self, cp, cp2, cp_cam):
@@ -188,31 +189,32 @@ class CarState(CarStateBase):
     self.safety_sign_check = cp.vl["NAVI"]['OPKR_S_Sign']
     self.safety_block_remain_dist = cp.vl["NAVI"]['OPKR_SBR_Dist']
     self.is_highway = cp_scc.vl["SCC11"]["Navi_SCC_Camera_Act"] != 0.
-    if self.safety_sign_check in [25.] and not self.is_highway:
+    self.is_expressway = cp.vl["NAVI2"]['OPKR_S_Loc'] == 1.
+    if self.safety_sign_check in [24., 25., 26.] and not self.is_highway and not self.is_expressway:
       self.safety_sign = 30.
       self.safety_sign_last = self.safety_sign
-    elif self.safety_sign_check in [1.] and not self.is_highway:
+    elif self.safety_sign_check in [0., 1., 2.] and not self.is_highway and not self.is_expressway:
       self.safety_sign = 40.
       self.safety_sign_last = self.safety_sign
-    elif self.safety_sign_check in [8., 9., 10.] and not self.is_highway:
+    elif self.safety_sign_check in [8., 9., 10.] and not self.is_highway and not self.is_expressway:
       self.safety_sign = 50.
       self.safety_sign_last = self.safety_sign
     elif self.safety_sign_check in [16., 17., 18.] and not self.is_highway:
       self.safety_sign = 60.
       self.safety_sign_last = self.safety_sign
-    elif self.safety_sign_check in [24.] and not self.is_highway:
+    elif self.safety_sign_check in [24., 25., 26.] and not self.is_highway:
       self.safety_sign = 70.
       self.safety_sign_last = self.safety_sign
     elif self.safety_sign_check in [0., 1., 2.]:
       self.safety_sign = 80.
       self.safety_sign_last = self.safety_sign
-    elif self.safety_sign_check in [8., 10.] and self.is_highway:
+    elif self.safety_sign_check in [8., 9., 10.]:
       self.safety_sign = 90.
       self.safety_sign_last = self.safety_sign
-    elif self.safety_sign_check in [16., 18.] and self.is_highway:
+    elif self.safety_sign_check in [16., 17., 18.] and self.is_highway:
       self.safety_sign = 100.
       self.safety_sign_last = self.safety_sign
-    elif self.safety_sign_check in [24., 26.] and self.is_highway:
+    elif self.safety_sign_check in [24., 25., 26.] and self.is_highway:
       self.safety_sign = 110.
       self.safety_sign_last = self.safety_sign
     elif self.safety_block_remain_dist < 255.:
@@ -447,10 +449,10 @@ class CarState(CarStateBase):
       ("CR_FCA_Alive", "FCA11", 0),
       ("Supplemental_Counter", "FCA11", 0),
 
-      ("MainMode_ACC", "SCC11", 0),
+      ("MainMode_ACC", "SCC11", 1),
       ("SCCInfoDisplay", "SCC11", 0),
       ("AliveCounterACC", "SCC11", 0),
-      ("VSetDis", "SCC11", 0),
+      ("VSetDis", "SCC11", 30),
       ("ObjValid", "SCC11", 0),
       ("DriverAlertDisplay", "SCC11", 0),
       ("TauGapSet", "SCC11", 4),
@@ -504,6 +506,7 @@ class CarState(CarStateBase):
       ("OPKR_S_Dist", "NAVI", 0),
       ("OPKR_S_Sign", "NAVI", 31),
       ("OPKR_SBR_Dist", "NAVI", 0),
+      ("OPKR_S_Loc", "NAVI2", 3),
     ]
 
     checks = [
@@ -672,10 +675,10 @@ class CarState(CarStateBase):
     ]
     if CP.sccBus == 2:
       signals += [
-        ("MainMode_ACC", "SCC11", 0),
+        ("MainMode_ACC", "SCC11", 1),
         ("SCCInfoDisplay", "SCC11", 0),
         ("AliveCounterACC", "SCC11", 0),
-        ("VSetDis", "SCC11", 0),
+        ("VSetDis", "SCC11", 30),
         ("ObjValid", "SCC11", 0),
         ("DriverAlertDisplay", "SCC11", 0),
         ("TauGapSet", "SCC11", 4),

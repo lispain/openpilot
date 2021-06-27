@@ -12,7 +12,7 @@ from common.basedir import BASEDIR
 from common.params import Params, ParamKeyType
 from common.text_window import TextWindow
 from selfdrive.boardd.set_time import set_time
-from selfdrive.hardware import EON, HARDWARE, PC, TICI
+from selfdrive.hardware import EON, HARDWARE, PC
 from selfdrive.hardware.eon.apk import (pm_apply_packages, update_apks)
 from selfdrive.manager.helpers import unblock_stdout
 from selfdrive.manager.process import ensure_running
@@ -142,8 +142,6 @@ def manager_init():
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
-  if TICI:
-    default_params.append(("EnableLteOnroad", "0"))
 
   if params.get_bool("RecordFrontLock"):
     params.put_bool("RecordFront", True)

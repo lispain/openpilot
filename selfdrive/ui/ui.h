@@ -79,9 +79,9 @@ typedef enum UIStatus {
 
 const QColor bg_colors [] = {
   [STATUS_DISENGAGED] =  QColor(0x17, 0x33, 0x49, 0xc8),
-  [STATUS_ENGAGED] = QColor(0x17, 0x86, 0x44, 0xf1),
-  [STATUS_WARNING] = QColor(0xDA, 0x6F, 0x25, 0xf1),
-  [STATUS_ALERT] = QColor(0xC9, 0x22, 0x31, 0xf1),
+  [STATUS_ENGAGED] = QColor(0x17, 0x86, 0x44, 0x96),
+  [STATUS_WARNING] = QColor(0xDA, 0x6F, 0x25, 0x96),
+  [STATUS_ALERT] = QColor(0xC9, 0x22, 0x31, 0x96),
 };
 
 typedef struct {
@@ -160,6 +160,8 @@ typedef struct UIScene {
   bool comma_stock_ui;
   bool map_is_running;
   bool apks_enabled;
+  bool is_OpenpilotViewEnabled;
+  bool driving_record;
 
   cereal::DeviceState::Reader deviceState;
   cereal::RadarState::LeadData::Reader lead_data[2];
@@ -253,11 +255,9 @@ typedef struct UIState {
   bool awake;
 
   bool is_speed_over_limit;
-  bool is_OpenpilotViewEnabled;
   bool nDebugUi1;
   bool nDebugUi2;
   bool nOpkrBlindSpotDetect;
-  bool driving_record;
   bool sidebar_view;
 
   Rect video_rect, viz_rect;
