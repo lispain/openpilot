@@ -140,7 +140,7 @@ class SpdctrlLong(SpdController):
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 20, -1)
             elif d_delta == 0 and lead_objspd == 0 and self.cruise_set_speed_kph > int(CS.VSetDis) and dRel > 149 and ((int(round(self.target_speed)) > int(CS.VSetDis) and self.target_speed != 0) or self.target_speed == 0):
                 self.seq_step_debug = "점진가속"
-                lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 60, 1)
+                lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 50, 1)
             elif lead_objspd == 0 and int(CS.clu_Vanz) == 0 and dRel <= 6:
                 self.seq_step_debug = "출발대기"
             else:
