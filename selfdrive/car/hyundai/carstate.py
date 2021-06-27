@@ -50,7 +50,7 @@ class CarState(CarStateBase):
     self.safety_dist = 0
     self.safety_block_remain_dist = 0
     self.is_highway = False
-    self.is_city = False
+    self.is_expressway = False
     self.on_speed_control = False
 
   def update(self, cp, cp2, cp_cam):
@@ -189,14 +189,14 @@ class CarState(CarStateBase):
     self.safety_sign_check = cp.vl["NAVI"]['OPKR_S_Sign']
     self.safety_block_remain_dist = cp.vl["NAVI"]['OPKR_SBR_Dist']
     self.is_highway = cp_scc.vl["SCC11"]["Navi_SCC_Camera_Act"] != 0.
-    self.is_city = cp.vl["NAVI2"]['OPKR_S_Loc'] == 1.
-    if self.safety_sign_check in [24., 25., 26.] and not self.is_highway and self.is_city:
+    self.is_expressway = cp.vl["NAVI2"]['OPKR_S_Loc'] == 1.
+    if self.safety_sign_check in [24., 25., 26.] and not self.is_highway and not self.is_expressway:
       self.safety_sign = 30.
       self.safety_sign_last = self.safety_sign
-    elif self.safety_sign_check in [0., 1., 2.] and not self.is_highway and self.is_city:
+    elif self.safety_sign_check in [0., 1., 2.] and not self.is_highway and not self.is_expressway:
       self.safety_sign = 40.
       self.safety_sign_last = self.safety_sign
-    elif self.safety_sign_check in [8., 9., 10.] and not self.is_highway and self.is_city:
+    elif self.safety_sign_check in [8., 9., 10.] and not self.is_highway and not self.is_expressway:
       self.safety_sign = 50.
       self.safety_sign_last = self.safety_sign
     elif self.safety_sign_check in [16., 17., 18.] and not self.is_highway:
