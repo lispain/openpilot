@@ -1040,7 +1040,7 @@ static void bb_ui_draw_UI(UIState *s) {
 }
 
 static void draw_navi_button(UIState *s) {
-  if (s->vipc_client->connected || s->is_OpenpilotViewEnabled) {
+  if (s->vipc_client->connected || s->scene.is_OpenpilotViewEnabled) {
     int btn_w = 140;
     int btn_h = 140;
     int btn_x1 = s->viz_rect.x + s->viz_rect.w - btn_w - 355;
@@ -1065,7 +1065,7 @@ static void draw_navi_button(UIState *s) {
 }
 
 static void draw_laneless_button(UIState *s) {
-  if (s->vipc_client->connected || s->is_OpenpilotViewEnabled) {
+  if (s->vipc_client->connected || s->scene.is_OpenpilotViewEnabled) {
     int btn_w = 140;
     int btn_h = 140;
     int btn_x1 = s->viz_rect.x + s->viz_rect.w - btn_w - 195;

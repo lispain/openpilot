@@ -310,12 +310,11 @@ static void update_state(UIState *s) {
 static void update_params(UIState *s) {
   const uint64_t frame = s->sm->frame;
   UIScene &scene = s->scene;
-  Params params;
-  if (frame % (10*UI_FREQ) == 0) {
-    scene.is_metric = params.getBool("IsMetric");
-    s->is_OpenpilotViewEnabled = params.getBool("IsOpenpilotViewEnabled");
-    s->driving_record = params.getBool("OpkrDrivingRecord");
-    scene.end_to_end = params.getBool("EndToEndToggle");
+  if (frame % (15*UI_FREQ) == 0) {
+    scene.is_metric = Params().getBool("IsMetric");
+    scene.is_OpenpilotViewEnabled = Params().getBool("IsOpenpilotViewEnabled");
+    scene.driving_record = Params().getBool("OpkrDrivingRecord");
+    scene.end_to_end = Params().getBool("EndToEndToggle");
   }
 }
 

@@ -210,7 +210,7 @@ static void rotate_video(UIState *s) {
 static void screen_draw_button(UIState *s) {
   // Set button to bottom left of screen
 //  if (s->vision_connected && s->plus_state == 0) {
-  if (s->vipc_client->connected || s->is_OpenpilotViewEnabled) {
+  if (s->vipc_client->connected || s->scene.is_OpenpilotViewEnabled) {
     int btn_w = 140;
     int btn_h = 140;
     int btn_x = s->viz_rect.x + s->viz_rect.w - btn_w - 35;
@@ -289,7 +289,7 @@ void dashcam(UIState *s) {
     stop_capture();
   }
 
-  if (s->driving_record) {
+  if (s->scene.driving_record) {
     if (s->scene.car_state.getVEgo() > 1 && captureState == CAPTURE_STATE_NOT_CAPTURING && s->scene.controls_state.getEnabled()) {
       start_capture(s);
     } else if (s->scene.standStill && captureState == CAPTURE_STATE_CAPTURING && s->scene.controls_state.getEnabled()) {

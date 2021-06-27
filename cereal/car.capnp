@@ -382,19 +382,11 @@ struct CarControl {
       chimeWarningRepeat @6;
       chimePrompt @7;
       chimeWarning2Repeat @8;
-      chimeReady @9;
-      chimeDoorOpen @10;
-      chimeGearDrive @11;
-      chimeLaneChange @12;
-      chimeLaneDeparture @13;
-      chimeRoadWarning @14;
-      chimeSeatBelt @15;
-      chimeViewUncertain @16;
-      chimeModeOpenpilot @17;
-      chimeModeDistcurv @18;
-      chimeModeDistance @19;
-      chimeModeOneway @20;
-      chimeModeMaponly @21;
+      chimeModeOpenpilot @9;
+      chimeModeDistcurv @10;
+      chimeModeDistance @11;
+      chimeModeOneway @12;
+      chimeModeMaponly @13;
     }
   }
 

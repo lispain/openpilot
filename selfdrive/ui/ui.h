@@ -160,6 +160,8 @@ typedef struct UIScene {
   bool comma_stock_ui;
   bool map_is_running;
   bool apks_enabled;
+  bool is_OpenpilotViewEnabled;
+  bool driving_record;
 
   cereal::DeviceState::Reader deviceState;
   cereal::RadarState::LeadData::Reader lead_data[2];
@@ -253,11 +255,9 @@ typedef struct UIState {
   bool awake;
 
   bool is_speed_over_limit;
-  bool is_OpenpilotViewEnabled;
   bool nDebugUi1;
   bool nDebugUi2;
   bool nOpkrBlindSpotDetect;
-  bool driving_record;
   bool sidebar_view;
 
   Rect video_rect, viz_rect;
