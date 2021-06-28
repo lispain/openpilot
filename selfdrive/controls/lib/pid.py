@@ -114,7 +114,7 @@ class LongPIDController:
     self._k_d = k_d  # derivative gain
     self._k_f = k_f  # feedforward gain
 
-    self.max_accel_d = 0.4 * CV.MPH_TO_MS
+    self.max_accel_d = 1.0 * CV.KPH_TO_MS
 
     self.pos_limit = pos_limit
     self.neg_limit = neg_limit
@@ -189,10 +189,10 @@ class LongPIDController:
               not freeze_integrator:
         self.id = i
 
-    # if abs(setpoint - self.last_setpoint) / self.rate < self.max_accel_d:  # if setpoint isn't changing much
-    #   d = self.k_d * (error - self.last_error)
-    #   if (self.id > 0 and self.id + d >= 0) or (self.id < 0 and self.id + d <= 0):  # if changing integral doesn't make it cross zero
-    #     self.id += d
+    if abs(setpoint - self.last_setpoint) / self.rate < self.max_accel_d:  # if setpoint isn't changing much
+      d = self.k_d * (error - self.last_error)
+      if (self.id > 0 and self.id + d >= 0) or (self.id < 0 and self.id + d <= 0):  # if changing integral doesn't make it cross zero
+        self.id += d
 
     control = self.p + self.f + self.id
     if self.convert is not None:
