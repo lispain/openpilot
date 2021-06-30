@@ -217,8 +217,8 @@ class CarInterface(CarInterfaceBase):
     # TODO: adjust?
     ret.gasMaxBP = [0., 15. * CV.KPH_TO_MS, 30. * CV.KPH_TO_MS, 60. * CV.KPH_TO_MS, 80. * CV.KPH_TO_MS, 110. * CV.KPH_TO_MS] 
     ret.gasMaxV = [1.5, 1.1, 0.6, 0.5, 0.4, 0.3]    # max gas allowed
-    ret.brakeMaxBP = [0., 30. * CV.KPH_TO_MS, 110. * CV.KPH_TO_MS] 
-    ret.brakeMaxV = [0.7, 3.0, 0.9]   # max brake allowed
+    ret.brakeMaxBP = [0., 30. * CV.KPH_TO_MS] 
+    ret.brakeMaxV = [0.7, 3.0]   # max brake allowed
 
     ret.longitudinalTuning.kpBP = [0., 15. * CV.KPH_TO_MS, 30. * CV.KPH_TO_MS, 60. * CV.KPH_TO_MS, 80. * CV.KPH_TO_MS, 110. * CV.KPH_TO_MS]
     ret.longitudinalTuning.kpV = [0.59, 0.65, 0.52, 0.34, 0.31, 0.28]
