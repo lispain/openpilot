@@ -92,13 +92,13 @@ void HomeWindow::mousePressEvent(QMouseEvent* e) {
     effect2.play();
     QUIState::ui_state.scene.map_is_running = !QUIState::ui_state.scene.map_is_running;
     if (QUIState::ui_state.scene.map_is_running) {
-      QProcess::execute("am start com.skt.tmap.ku/com.skt.tmap.activity.TmapNaviActivity");
+      QProcess::execute("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
       QUIState::ui_state.scene.map_on_top = true;
       QUIState::ui_state.scene.map_is_running = true;
       QUIState::ui_state.scene.map_on_overlay = false;
       Params().put("OpkrMapEnable", "1", 1);
     } else {
-      QProcess::execute("pkill com.skt.tmap.ku");
+      QProcess::execute("pkill com.mnsoft.mappyobn");
       QUIState::ui_state.scene.map_on_top = false;
       QUIState::ui_state.scene.map_on_overlay = false;
       QUIState::ui_state.scene.map_is_running = false;
