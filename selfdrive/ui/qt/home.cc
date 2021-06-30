@@ -137,16 +137,6 @@ void HomeWindow::mousePressEvent(QMouseEvent* e) {
     }
     return;
   }
-  // // ML Button
-  // if (QUIState::ui_state.scene.started && !sidebar->isVisible() && !QUIState::ui_state.scene.map_on_top && QUIState::ui_state.scene.model_long && !QUIState::ui_state.scene.comma_stock_ui && ml_btn.ptInRect(e->x(), e->y())) {
-  //   QUIState::ui_state.scene.mlButtonEnabled = !QUIState::ui_state.scene.mlButtonEnabled;
-  //   if (QUIState::ui_state.scene.mlButtonEnabled) {
-  //     Params().put("ModelLongEnabled", "1", 1);
-  //   } else {
-  //     Params().put("ModelLongEnabled", "0", 1);
-  //   }
-  //   return;
-  // }
   // Stock UI Toggle
   if (QUIState::ui_state.scene.started && !sidebar->isVisible() && !QUIState::ui_state.scene.map_on_top && stockui_btn.ptInRect(e->x(), e->y())) {
     QUIState::ui_state.scene.comma_stock_ui = !QUIState::ui_state.scene.comma_stock_ui;
