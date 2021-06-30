@@ -92,7 +92,7 @@ void HomeWindow::mousePressEvent(QMouseEvent* e) {
     effect2.play();
     QUIState::ui_state.scene.map_is_running = !QUIState::ui_state.scene.map_is_running;
     if (QUIState::ui_state.scene.map_is_running) {
-      QProcess::execute("am start com.mnsoft.mappyobn/com.mnsoft.mappy.hud.HudActivity");
+      QProcess::execute("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
       QUIState::ui_state.scene.map_on_top = true;
       QUIState::ui_state.scene.map_is_running = true;
       QUIState::ui_state.scene.map_on_overlay = false;
