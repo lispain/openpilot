@@ -56,12 +56,8 @@ static void ui_init_vision(UIState *s) {
   assert(glGetError() == GL_NO_ERROR);
   s->scene.recording = false;
   s->scene.touched = false;
-  s->scene.map_on_top = false;
-  s->scene.map_on_overlay = false;
   s->scene.setbtn_count = 0;
   s->scene.homebtn_count = 0;
-  s->scene.mlButtonEnabled = false;
-  s->scene.map_is_running = false;
 }
 
 static int get_path_length_idx(const cereal::ModelDataV2::XYZTData::Reader &line, const float path_height) {
@@ -306,7 +302,7 @@ static void update_state(UIState *s) {
 static void update_params(UIState *s) {
   const uint64_t frame = s->sm->frame;
   UIScene &scene = s->scene;
-  if (frame % (15*UI_FREQ) == 0) {
+  if (frame % (10*UI_FREQ) == 0) {
     scene.is_metric = Params().getBool("IsMetric");
     scene.is_OpenpilotViewEnabled = Params().getBool("IsOpenpilotViewEnabled");
     scene.driving_record = Params().getBool("OpkrDrivingRecord");
@@ -379,11 +375,21 @@ static void update_status(UIState *s) {
       s->scene.scr.nTime = s->scene.scr.autoScreenOff * 60 * UI_FREQ;
       s->scene.comma_stock_ui = Params().getBool("CommaStockUI");
       s->scene.apks_enabled = Params().getBool("OpkrApksEnable");
-      Params().put("ModelLongEnabled", "0", 1);
       Params().put("OpkrMapEnable", "0", 1);
       Params().put("LimitSetSpeedCamera", "0", 1);
       Params().put("LimitSetSpeedCameraDist", "0", 1);
       Params().put("OpkrMapSign", "0", 1);
+      //opkr navi on boot
+      s->scene.map_on_top = false;
+      s->scene.map_on_overlay = false;
+      s->scene.map_is_running = false;
+      if (Params().getBool("OpkrRunNaviOnBoot")) {
+        s->scene.map_is_running = true;
+        s->scene.map_on_top = true;
+        s->scene.map_on_overlay = false;
+        Params().put("OpkrMapEnable", "1", 1);
+        system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
+      }
     } else {
       s->vipc_client->connected = false;
     }
