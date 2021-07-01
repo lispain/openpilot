@@ -306,7 +306,7 @@ static void update_state(UIState *s) {
 static void update_params(UIState *s) {
   const uint64_t frame = s->sm->frame;
   UIScene &scene = s->scene;
-  if (frame % (15*UI_FREQ) == 0) {
+  if (frame % (10*UI_FREQ) == 0) {
     scene.is_metric = Params().getBool("IsMetric");
     scene.is_OpenpilotViewEnabled = Params().getBool("IsOpenpilotViewEnabled");
     scene.driving_record = Params().getBool("OpkrDrivingRecord");
@@ -384,6 +384,14 @@ static void update_status(UIState *s) {
       Params().put("LimitSetSpeedCamera", "0", 1);
       Params().put("LimitSetSpeedCameraDist", "0", 1);
       Params().put("OpkrMapSign", "0", 1);
+      //opkr navi on boot
+      if (Params().getBool("OpkrRunNaviOnBoot")) {
+        s->scene.map_is_running = true;
+        s->scene.map_on_top = true;
+        s->scene.map_on_overlay = false;
+        Params().put("OpkrMapEnable", "1", 1);
+        system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
+      }
     } else {
       s->vipc_client->connected = false;
     }
