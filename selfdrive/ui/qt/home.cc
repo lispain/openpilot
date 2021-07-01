@@ -80,7 +80,7 @@ void HomeWindow::mousePressEvent(QMouseEvent* e) {
     effect1.play();
     QProcess::execute("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
     QUIState::ui_state.scene.map_on_top = false;
-    QUIState::ui_state.scene.map_on_overlay = !QUIState::ui_state.scene.map_on_overlay;
+    QUIState::ui_state.scene.map_on_overlay = true;
     return;
   }
   if (QUIState::ui_state.scene.apks_enabled && QUIState::ui_state.scene.started && !sidebar->isVisible() && !QUIState::ui_state.scene.map_on_top && map_btn.ptInRect(e->x(), e->y())) {
