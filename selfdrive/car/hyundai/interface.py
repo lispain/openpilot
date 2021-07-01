@@ -221,16 +221,16 @@ class CarInterface(CarInterfaceBase):
     ret.brakeMaxV = [0.7, 3.0]   # max brake allowed
 
     ret.longitudinalTuning.kpBP = [0., 15. * CV.KPH_TO_MS, 30. * CV.KPH_TO_MS, 60. * CV.KPH_TO_MS, 80. * CV.KPH_TO_MS, 110. * CV.KPH_TO_MS]
-    ret.longitudinalTuning.kpV = [0.59, 0.65, 0.52, 0.34, 0.31, 0.28]
+    ret.longitudinalTuning.kpV = [0.59, 0.65, 0.6, 0.5, 0.45, 0.4]
     ret.longitudinalTuning.kiBP = [0., 15. * CV.KPH_TO_MS, 30. * CV.KPH_TO_MS, 60. * CV.KPH_TO_MS, 80. * CV.KPH_TO_MS, 110. * CV.KPH_TO_MS]
     ret.longitudinalTuning.kiV = [0.015, 0.023, 0.0215, 0.017, 0.015, 0.015]
 
     ret.longitudinalTuning.deadzoneBP = [0., 17.]
     ret.longitudinalTuning.deadzoneV = [0., 0.1]
     ret.longitudinalTuning.kdBP = [0., 15. * CV.KPH_TO_MS, 30. * CV.KPH_TO_MS, 60. * CV.KPH_TO_MS, 80. * CV.KPH_TO_MS, 110. * CV.KPH_TO_MS]
-    ret.longitudinalTuning.kdV = [0.8, 0.95, 0.87, 0.83, 0.75, 0.65]
+    ret.longitudinalTuning.kdV = [0.65, 0.75, 0.7, 0.7, 0.7, 0.65]
     ret.longitudinalTuning.kfBP = [0., 15. * CV.KPH_TO_MS, 30. * CV.KPH_TO_MS, 60. * CV.KPH_TO_MS, 80. * CV.KPH_TO_MS, 110. * CV.KPH_TO_MS]
-    ret.longitudinalTuning.kfV = [1., 1.05, 1., 0.95, 0.90, 0.85]
+    ret.longitudinalTuning.kfV = [1., 1.05, 1., 0.95, 0.9, 0.85]
 
     ret.enableCamera = True
     ret.enableBsm = 0x58b in fingerprint[0]
