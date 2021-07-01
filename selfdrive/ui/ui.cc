@@ -297,6 +297,16 @@ static void update_state(UIState *s) {
     scene.lateralPlan.lanelessModeStatus = data.getLanelessMode();
     scene.lateralPlan.steerActuatorDelay = data.getSteerActuatorDelay();
   }
+  // opkr
+  if (sm.updated("liveMapData")) {
+    scene.live_map_data = sm["liveMapData"].getLiveMapData();
+    auto data = sm["liveMapData"].getLiveMapData();
+
+    scene.liveMapData.opkrspeedlimit = data.getSpeedLimit();
+    scene.liveMapData.opkrspeedlimitdist = data.getSpeedLimitDistance();
+    scene.liveMapData.opkrspeedsign = data.getSafetySign();
+    scene.liveMapData.opkrcurveangle = data.getRoadCurvature();
+  }
 }
 
 static void update_params(UIState *s) {
@@ -376,9 +386,6 @@ static void update_status(UIState *s) {
       s->scene.comma_stock_ui = Params().getBool("CommaStockUI");
       s->scene.apks_enabled = Params().getBool("OpkrApksEnable");
       Params().put("OpkrMapEnable", "0", 1);
-      Params().put("LimitSetSpeedCamera", "0", 1);
-      Params().put("LimitSetSpeedCameraDist", "0", 1);
-      Params().put("OpkrMapSign", "0", 1);
       //opkr navi on boot
       s->scene.map_on_top = false;
       s->scene.map_on_overlay = false;
@@ -402,7 +409,7 @@ QUIState::QUIState(QObject *parent) : QObject(parent) {
   ui_state.sm = std::make_unique<SubMaster, const std::initializer_list<const char *>>({
     "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "liveLocationKalman",
     "pandaState", "carParams", "driverMonitoringState", "sensorEvents", "carState", "ubloxGnss",
-    "gpsLocationExternal", "roadCameraState", "liveParameters", "lateralPlan",
+    "gpsLocationExternal", "roadCameraState", "liveParameters", "lateralPlan", "liveMapData",
   });
 
   ui_state.fb_w = vwp_w;

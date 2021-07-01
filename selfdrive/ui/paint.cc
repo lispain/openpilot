@@ -406,8 +406,16 @@ static void ui_draw_debug(UIState *s)
       } else if (scene.long_plan_source == 5) {
         ui_print(s, ui_viz_rx, ui_viz_ry+500, "LP:model");
       }
+      if (s->scene.map_is_running) {
+        ui_print(s, ui_viz_rx, ui_viz_ry+700, "MS:%.0f", scene.mapSign);
+        ui_print(s, ui_viz_rx, ui_viz_ry+750, "RC:%.0f", scene.liveMapData.opkrcurveangle);
+      }
+    } else {
+      if (s->scene.map_is_running) {
+        ui_print(s, ui_viz_rx, ui_viz_ry+650, "MS:%.0f", scene.mapSign);
+        ui_print(s, ui_viz_rx, ui_viz_ry+700, "RC:%.0f", scene.liveMapData.opkrcurveangle);
+      }
     }
-    //if (s->scene.map_is_running) ui_print(s, ui_viz_rx, ui_viz_ry+600, "MS:%.0f", scene.mapSign);
     nvgFontSize(s->vg, 40);
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
     if (scene.lateralControlMethod == 0) {
