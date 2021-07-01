@@ -375,7 +375,6 @@ static void update_status(UIState *s) {
       s->scene.scr.nTime = s->scene.scr.autoScreenOff * 60 * UI_FREQ;
       s->scene.comma_stock_ui = Params().getBool("CommaStockUI");
       s->scene.apks_enabled = Params().getBool("OpkrApksEnable");
-      Params().put("ModelLongEnabled", "0", 1);
       Params().put("OpkrMapEnable", "0", 1);
       Params().put("LimitSetSpeedCamera", "0", 1);
       Params().put("LimitSetSpeedCameraDist", "0", 1);
