@@ -24,7 +24,6 @@ typedef struct LiveMapDataResult {
 int main() {
   setpriority(PRIO_PROCESS, 0, -15);
 
-  int     opkr =0;
   int     nTime = 0;
   ExitHandler do_exit;
   PubMaster pm({"liveMapData"});
@@ -69,7 +68,7 @@ int main() {
         res.mapEnable = Params().getBool("OpkrMapEnable");
       }
       
-      res.mapValid = 0;
+      res.mapValid = Params().getBool("OpkrApksEnable");
 
       MessageBuilder msg;
       auto framed = msg.initEvent().initLiveMapData();
@@ -80,30 +79,38 @@ int main() {
 
 */
       // code based from atom
-      opkr = 0;
-      if( strcmp( entry.tag, "opkrspddist" ) == 0 )
+      if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
-        opkr = 1;
+        res.speedLimit = atoi( entry.message );
+      }
+      else if( strcmp( entry.tag, "opkrspddist" ) == 0 )
+      {
         res.speedLimitDistance = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
       {
-        opkr = 1;
         res.safetySign = atoi( entry.message );
-      }
-      else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
-      {
-        opkr = 1;
-        res.speedLimit = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrcurvangle" ) == 0 )
       {
-        opkr = 1;
         res.roadCurvature = atoi( entry.message );
       }
-
-
-      res.mapValid = opkr;
+      else if( strcmp( entry.tag, "opkrspdlimit" ) != 0 )
+      {
+        res.speedLimit = 0;
+      }
+      else if( strcmp( entry.tag, "opkrspddist" ) != 0 )
+      {
+        res.speedLimitDistance = 0;
+      }
+      else if( strcmp( entry.tag, "opkrsigntype" ) != 0 )
+      {
+        res.safetySign = 0;
+      }
+      else if( strcmp( entry.tag, "opkrcurvangle" ) != 0 )
+      {
+        res.roadCurvature = -1;
+      }
 
       framed.setSpeedLimit( res.speedLimit );  // Float32;
       framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
