@@ -157,7 +157,7 @@ class Planner():
       self.second = 0
     if self.map_enabled and v_ego > 0.3:
       self.target_speed_map_counter += 1
-      if self.target_speed_map_counter >= (45+self.target_speed_map_counter1) and self.target_speed_map_counter_check == False:
+      if self.target_speed_map_counter >= (40+self.target_speed_map_counter1) and self.target_speed_map_counter_check == False:
         self.sm.update(0)
         try:
           self.mapspeed = float(self.sm['liveMapData'].speedLimit)
@@ -170,7 +170,7 @@ class Planner():
         if self.target_speed_map_counter3 > 1:
           self.target_speed_map_counter3 = 0
           os.system("logcat -c &")
-      elif self.target_speed_map_counter >= (60+self.target_speed_map_counter1):
+      elif self.target_speed_map_counter >= (50+self.target_speed_map_counter1):
         self.target_speed_map_counter1 = 0
         self.target_speed_map_counter = 0
         self.target_speed_map_counter_check = False
@@ -180,7 +180,7 @@ class Planner():
             self.target_speed_map_dist = self.mapspeeddist
             if self.target_speed_map_dist > 1001:
               self.target_speed_map_block = True
-            self.target_speed_map_counter1 = 70
+            self.target_speed_map_counter1 = 60
             os.system("logcat -c &")
           else:
             self.target_speed_map = 0
@@ -188,20 +188,21 @@ class Planner():
             self.target_speed_map_block = False
         elif not self.mapspeed and not self.mapspeeddist and self.target_speed_map_counter2 < 2:
           self.target_speed_map_counter2 += 1
-          self.target_speed_map_counter = 47
+          self.target_speed_map_counter = 41
           self.target_speed_map = 0
           self.target_speed_map_dist = 0
           self.target_speed_map_counter_check = True
           self.target_speed_map_block = False
           self.target_speed_map_sign = False
         else:
-          self.target_speed_map_counter = 43
+          self.target_speed_map_counter = 39
           self.target_speed_map_counter2 = 0
           self.target_speed_map = 0
           self.target_speed_map_dist = 0
           self.target_speed_map_counter_check = False
           self.target_speed_map_block = False
           self.target_speed_map_sign = False
+          self.map_sign = 0
 
     # Calculate speed for normal cruise control
     if enabled and not self.first_loop and not sm['carState'].brakePressed and not sm['carState'].gasPressed:
