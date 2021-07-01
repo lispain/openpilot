@@ -109,6 +109,7 @@ class SpdController():
         self.map_spd_camera = 0
         self.map_enabled = False
         self.second = 0
+        self.sm = messaging.SubMaster(['liveMapData'])
 
     def reset(self):
         self.v_model = 0
@@ -343,7 +344,7 @@ class SpdController():
             self.second = 0
 
         if self.map_enabled:
-            self.map_spd_camera = float(sm['liveMapData'].speedLimit)
+            self.map_spd_camera = float(self.sm['liveMapData'].speedLimit)
             self.map_spd_enable = True if self.map_spd_camera > 29 else False
         else:
             self.map_spd_camera = CS.out.safetySign
