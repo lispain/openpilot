@@ -97,6 +97,8 @@ class Planner():
     self.vego = 0
     self.second = 0.0
     self.map_enabled = False
+    self.mapspeed = 0
+    self.mapspeeddist = 0
 
   def choose_solution(self, v_cruise_setpoint, enabled):
     if enabled:
@@ -153,13 +155,11 @@ class Planner():
       self.map_enabled = self.params.get_bool("OpkrMapEnable")
       self.second = 0
     if self.map_enabled and v_ego > 0.3:
-      mapspeed = 0
-      mapspeeddist = 0
       self.target_speed_map_counter += 1
       if self.target_speed_map_counter >= (45+self.target_speed_map_counter1) and self.target_speed_map_counter_check == False:
         try:
-          mapspeed = float(sm['liveMapData'].speedLimit)
-          mapspeeddist = float(sm['liveMapData'].speedLimitDistance)
+          self.mapspeed = float(sm['liveMapData'].speedLimit)
+          self.mapspeeddist = float(sm['liveMapData'].speedLimitDistance)
           self.map_sign = float(sm['liveMapData'].safetySign)
         except:
           pass
@@ -172,10 +172,10 @@ class Planner():
         self.target_speed_map_counter1 = 0
         self.target_speed_map_counter = 0
         self.target_speed_map_counter_check = False
-        if mapspeed and mapspeeddist:
-          if mapspeed > 29:
-            self.target_speed_map = mapspeed
-            self.target_speed_map_dist = mapspeeddist
+        if self.mapspeed and self.mapspeeddist:
+          if self.mapspeed > 29:
+            self.target_speed_map = self.mapspeed
+            self.target_speed_map_dist = self.mapspeeddist
             if self.target_speed_map_dist > 1001:
               self.target_speed_map_block = True
             self.target_speed_map_counter1 = 70
@@ -184,7 +184,7 @@ class Planner():
             self.target_speed_map = 0
             self.target_speed_map_dist = 0
             self.target_speed_map_block = False
-        elif not mapspeed and not mapspeeddist and self.target_speed_map_counter2 < 2:
+        elif not self.mapspeed and not self.mapspeeddist and self.target_speed_map_counter2 < 2:
           self.target_speed_map_counter2 += 1
           self.target_speed_map_counter = 47
           self.target_speed_map = 0
