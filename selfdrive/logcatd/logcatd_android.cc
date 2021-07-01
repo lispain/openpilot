@@ -10,14 +10,14 @@
 #include "selfdrive/common/params.h"
 
 
-# atom
+// atom
 typedef struct LiveMapDataResult {
       float speedLimit;  // Float32;
       float speedLimitDistance;  // Float32;
       float safetySign;    // Float32;
       float roadCurvature;    // Float32;
       bool  mapValid;    // bool;
-      int   mapEnable;    // Int32;
+      bool  mapEnable;    // bool;
 } LiveMapDataResult;
 
 
@@ -73,12 +73,10 @@ int main() {
 
       MessageBuilder msg;
       auto framed = msg.initEvent().initLiveMapData();
-      framed.setWayId(log_msg.id());
-
 
    //  opkrspdlimit, opkrspddist, opkrsigntype, opkrcurvangle
 /*
-   opkrsigntype? 값정리
+   opkrsigntype 값정리
 
 */
       // code based from atom
