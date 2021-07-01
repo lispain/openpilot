@@ -153,6 +153,8 @@ class Planner():
       self.map_enabled = self.params.get_bool("OpkrMapEnable")
       self.second = 0
     if self.map_enabled and v_ego > 0.3:
+      mapspeed = 0
+      mapspeeddist = 0
       self.target_speed_map_counter += 1
       if self.target_speed_map_counter >= (45+self.target_speed_map_counter1) and self.target_speed_map_counter_check == False:
         try:
