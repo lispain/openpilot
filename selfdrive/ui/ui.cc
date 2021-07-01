@@ -56,12 +56,8 @@ static void ui_init_vision(UIState *s) {
   assert(glGetError() == GL_NO_ERROR);
   s->scene.recording = false;
   s->scene.touched = false;
-  s->scene.map_on_top = false;
-  s->scene.map_on_overlay = false;
   s->scene.setbtn_count = 0;
   s->scene.homebtn_count = 0;
-  s->scene.mlButtonEnabled = false;
-  s->scene.map_is_running = false;
 }
 
 static int get_path_length_idx(const cereal::ModelDataV2::XYZTData::Reader &line, const float path_height) {
@@ -385,6 +381,9 @@ static void update_status(UIState *s) {
       Params().put("LimitSetSpeedCameraDist", "0", 1);
       Params().put("OpkrMapSign", "0", 1);
       //opkr navi on boot
+      s->scene.map_on_top = false;
+      s->scene.map_on_overlay = false;
+      s->scene.map_is_running = false;
       if (Params().getBool("OpkrRunNaviOnBoot")) {
         s->scene.map_is_running = true;
         s->scene.map_on_top = true;
