@@ -99,6 +99,7 @@ class Planner():
     self.map_enabled = False
     self.mapspeed = 0
     self.mapspeeddist = 0
+    self.sm = messaging.SubMaster(['liveMapData'])
 
   def choose_solution(self, v_cruise_setpoint, enabled):
     if enabled:
@@ -157,10 +158,11 @@ class Planner():
     if self.map_enabled and v_ego > 0.3:
       self.target_speed_map_counter += 1
       if self.target_speed_map_counter >= (45+self.target_speed_map_counter1) and self.target_speed_map_counter_check == False:
+        self.sm.update(0)
         try:
-          self.mapspeed = float(sm['liveMapData'].speedLimit)
-          self.mapspeeddist = float(sm['liveMapData'].speedLimitDistance)
-          self.map_sign = float(sm['liveMapData'].safetySign)
+          self.mapspeed = float(self.sm['liveMapData'].speedLimit)
+          self.mapspeeddist = float(self.sm['liveMapData'].speedLimitDistance)
+          self.map_sign = float(self.sm['liveMapData'].safetySign)
         except:
           pass
         self.target_speed_map_counter_check = True
