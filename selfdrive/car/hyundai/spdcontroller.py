@@ -344,6 +344,7 @@ class SpdController():
             self.second = 0
 
         if self.map_enabled:
+            self.sm.update(0)
             self.map_spd_camera = float(self.sm['liveMapData'].speedLimit)
             self.map_spd_enable = True if self.map_spd_camera > 29 else False
         else:
