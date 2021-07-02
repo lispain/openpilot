@@ -160,6 +160,7 @@ typedef struct UIScene {
   bool apks_enabled;
   bool is_OpenpilotViewEnabled;
   bool driving_record;
+  bool move_to_background;
 
   cereal::DeviceState::Reader deviceState;
   cereal::RadarState::LeadData::Reader lead_data[2];
