@@ -150,7 +150,8 @@ class Planner():
     if self.second > 30:
       self.map_enabled = self.params.get_bool("OpkrMapEnable")
       self.second = 0
-    if self.map_enabled and v_ego > 0.3:
+    #if self.map_enabled and v_ego > 0.3:
+    if self.map_enabled:
       self.map_sign = sm['liveMapData'].safetySign
       self.target_speed_map_dist = sm['liveMapData'].speedLimitDistance
       if self.target_speed_map_dist_prev != self.target_speed_map_dist: 
