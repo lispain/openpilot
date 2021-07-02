@@ -115,6 +115,7 @@ int main() {
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         printf("spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
         system("logcat -c &");
+        util::sleep_for(1500);
       }
       else if ( oValue == 3 )
       {
@@ -122,6 +123,11 @@ int main() {
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         system("logcat -c &");
+        util::sleep_for(1500);
+        printf("spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
+      }
+      else if ( oValue == 0 )
+      {
         printf("spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
       }
 
