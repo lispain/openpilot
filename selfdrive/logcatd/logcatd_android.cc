@@ -133,7 +133,6 @@ int main() {
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         printf("0: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign); 
       }
-      }
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
       
