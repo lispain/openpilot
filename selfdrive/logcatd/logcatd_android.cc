@@ -150,9 +150,10 @@ int main() {
       
      // if( opkr )
      // {
-     printf("logcat ID(%d) - PID=%d tag=%d.[%s] \n", log_msg.id(), entry.pid,  entry.tid, entry.tag);
-     printf("entry.message=[%s]\n", entry.message);
-     printf("spd = %f\n", res.speedLimit );
+     // printf("logcat ID(%d) - PID=%d tag=%d.[%s] \n", log_msg.id(), entry.pid,  entry.tid, entry.tag);
+     // printf("entry.message=[%s]\n", entry.message);
+      printf("spd = %f\n", res.speedLimit );
+      printf("spd = %f\n", oTime );
      // }
 
       pm.send("liveMapData", msg);
