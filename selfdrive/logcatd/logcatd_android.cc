@@ -25,6 +25,9 @@ int main() {
   setpriority(PRIO_PROCESS, 0, -15);
 
   int     nTime = 0;
+  int     oTime = 0;
+  int     oValue = 0;
+
   ExitHandler do_exit;
   PubMaster pm({"liveMapData"});
   LiveMapDataResult res;
@@ -66,41 +69,73 @@ int main() {
       {
         nTime = 0;
         res.mapEnable = Params().getBool("OpkrMapEnable");
+        res.mapValid = Params().getBool("OpkrApksEnable");
       }
-      
-      res.mapValid = Params().getBool("OpkrApksEnable");
-
-      MessageBuilder msg;
-      auto framed = msg.initEvent().initLiveMapData();
 
    //  opkrspdlimit, opkrspddist, opkrsigntype, opkrcurvangle
-/*
-   opkrsigntype 값정리
 
-*/
       // code based from atom
       if( strcmp( entry.tag, "opkrspddist" ) == 0 )
       {
+        oValue = 1;
+        oTime = 0;
         res.speedLimitDistance = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
+        oValue = 2;
+        oTime = 0;
         res.speedLimit = atoi( entry.message );
+      }
+      else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
+      {
+        oValue = 3;
+        res.safetySign = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrcurvangle" ) == 0 )
       {
         res.roadCurvature = atoi( entry.message );
       }
-      else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
+      else
       {
-        res.safetySign = atoi( entry.message );
+        oValue = 0;
       }
 
-      framed.setSpeedLimit( res.speedLimit );  // Float32;
-      framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
-      framed.setSafetySign( res.safetySign ); // map_sign Float32;
-      framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+      MessageBuilder msg;
+      auto framed = msg.initEvent().initLiveMapData();
+      if ( oValue == 1 )
+      {
+        framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+      }
+      else if ( oValue == 2 )
+      {
+        framed.setSpeedLimit( res.speedLimit );  // Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        oTime = 0;
+        printf("1: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
+        system("logcat -c &");
+      }
+      else if ( oValue == 3 )
+      {
+        framed.setSafetySign( res.safetySign ); // map_sign Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        printf("2: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
+      }
 
+      oTime++;
+      if ( oValue == 0 && oTime > 30 )
+      {
+        oTime = 0;
+        res.speedLimitDistance = 0;
+        res.speedLimit = 0;
+        res.safetySign = 0;
+        framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
+        framed.setSpeedLimit( res.speedLimit );  // Float32;
+        framed.setSafetySign( res.safetySign ); // map_sign Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        printf("0: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign); 
+      }
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
       
@@ -109,7 +144,8 @@ int main() {
      // {
      // printf("logcat ID(%d) - PID=%d tag=%d.[%s] \n", log_msg.id(), entry.pid,  entry.tid, entry.tag);
      // printf("entry.message=[%s]\n", entry.message);
-     // printf("spd = %f\n", res.speedLimit );
+      // printf("spd = %f\n", res.speedLimit );
+      // printf("spd = %d\n", oTime );
      // }
 
       pm.send("liveMapData", msg);
