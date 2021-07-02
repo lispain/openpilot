@@ -105,16 +105,11 @@ int main() {
       if ( oValue == 1 )
       {
         oTime = 0;
-        printf("1: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
         system("logcat -c &");
       }
       else if ( oValue == 2 )
       {
         oTime = 0;
-      }
-      else if ( oValue == 3 )
-      {
-        printf("2: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
       }
 
       framed.setSpeedLimit( res.speedLimit );  // Float32;
@@ -131,7 +126,6 @@ int main() {
         res.speedLimitDistance = 0;
         res.speedLimit = 0;
         res.safetySign = 0;
-        printf("0: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign); 
       }
       
       
