@@ -121,7 +121,7 @@ int main() {
         framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
-        system("logcat -c &")
+        system("logcat -c &");
       }
       else if ( oTime > 35 && oValue == 0)
       {
@@ -132,7 +132,7 @@ int main() {
         if ( oValue1 == 1 )
         {
           oValue1 = 0;
-          system("logcat -c &")
+          system("logcat -c &");
         }
         else if ( oValue1 == 0)
         {
