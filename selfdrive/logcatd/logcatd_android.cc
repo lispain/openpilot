@@ -28,7 +28,6 @@ int main() {
   int     oTime = 0;
   int     oValue = 0;
   int     oValue1 = 0;
-  int     nDist_prev = 0;
 
   ExitHandler do_exit;
   PubMaster pm({"liveMapData"});
@@ -105,17 +104,9 @@ int main() {
       }
 
       oTime++;
-      if ( nDist_prev != res.speedLimitDistance && oTime > 30 && oValue == 1)
+      if ( oTime > 50 && oValue == 1)
       {
         oTime = 0;
-        nDist_prev = res.speedLimitDistance;
-        framed.setSpeedLimit( res.speedLimit );  // Float32;
-        framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
-        framed.setSafetySign( res.safetySign ); // map_sign Float32;
-        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
-      }
-      else if ( oTime > 35 && oValue == 1)
-      {
         oValue = 0;
         framed.setSpeedLimit( res.speedLimit );  // Float32;
         framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
@@ -123,10 +114,9 @@ int main() {
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         system("logcat -c &");
       }
-      else if ( oTime > 60 && oValue == 0)
+      else if ( oTime > 50 && oValue == 0)
       {
         oTime = 0;
-        nDist_prev = 0;
         res.speedLimitDistance = 0;
         res.speedLimit = 0;
         if ( oValue1 == 1 )
@@ -153,7 +143,7 @@ int main() {
      // printf("logcat ID(%d) - PID=%d tag=%d.[%s] \n", log_msg.id(), entry.pid,  entry.tid, entry.tag);
      // printf("entry.message=[%s]\n", entry.message);
       printf("spd = %f\n", res.speedLimit );
-      printf("spd = %f\n", oTime );
+      printf("spd = %d\n", oTime );
      // }
 
       pm.send("liveMapData", msg);
