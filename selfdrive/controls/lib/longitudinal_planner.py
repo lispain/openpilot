@@ -161,7 +161,6 @@ class Planner():
             self.target_speed_map_block = True
         else:
           self.target_speed_map_block = False
-      print("map_speed = {}   map_dist = {}   map_sign = {}".format(self.target_speed_map, self.target_speed_map_dist, self.map_sign))
 
     # Calculate speed for normal cruise control
     if enabled and not self.first_loop and not sm['carState'].brakePressed and not sm['carState'].gasPressed:
