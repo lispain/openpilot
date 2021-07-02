@@ -25,6 +25,7 @@ int main() {
   setpriority(PRIO_PROCESS, 0, -15);
 
   int     nTime = 0;
+  int     oTime = 0;
   int     oValue = 0;
 
   ExitHandler do_exit;
@@ -125,13 +126,14 @@ int main() {
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         printf("0: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign); 
       }
-      if ( oValue == 0 )
+      oTime++;
+      if ( oValue == 0 && oTime > 10 )
       {
+        oTime = 0;
         res.speedLimitDistance = 0;
         res.speedLimit = 0;
         res.roadCurvature = -1;
         res.safetySign = 0;
-        util::sleep_for(1500);
       }
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
