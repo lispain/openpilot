@@ -167,6 +167,7 @@ class Planner():
           self.map_sign = float(self.sm['liveMapData'].safetySign)
         except:
           pass
+        print("map_speed = {}   map_dist = {}".format(self.target_speed_map, self.target_speed_map_dist))
 
     # Calculate speed for normal cruise control
     if enabled and not self.first_loop and not sm['carState'].brakePressed and not sm['carState'].gasPressed:
