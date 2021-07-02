@@ -153,7 +153,8 @@ class Planner():
       self.second = 0
     if self.map_enabled and v_ego > 0.3:
       self.target_speed_map_counter += 1
-      if self.target_speed_map_counter >= 30:
+      if self.target_speed_map_counter >= 50:
+        self.target_speed_map_counter = 0
         self.sm.update(0)
         try:
           self.target_speed_map = float(self.sm['liveMapData'].speedLimit) if float(self.sm['liveMapData'].speedLimit) > 29 else 0
