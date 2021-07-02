@@ -103,7 +103,7 @@ int main() {
         res.safetySign = atoi( entry.message );
       }
 
-      printf("spd = %f    spddist = %f    rc = %f    ss = %f", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
+      printf("spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
 
       oTime++;
       if ( oTime > 50 && oValue == 1)
