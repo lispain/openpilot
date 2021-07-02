@@ -107,8 +107,6 @@ int main() {
         res.safetySign = atoi( entry.message );
       }
 
-      printf("spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
-
       oTime++;
       if ( oTime > 30 && oValue == 1)
       {
@@ -119,6 +117,7 @@ int main() {
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         system("logcat -c &");
+        printf("spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
       }
 
       framed.setMapEnable( res.mapEnable );
