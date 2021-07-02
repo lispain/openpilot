@@ -70,18 +70,11 @@ int main() {
       {
         nTime = 0;
         res.mapEnable = Params().getBool("OpkrMapEnable");
+        res.mapValid = Params().getBool("OpkrApksEnable");
       }
-      
-      res.mapValid = Params().getBool("OpkrApksEnable");
-
-      MessageBuilder msg;
-      auto framed = msg.initEvent().initLiveMapData();
 
    //  opkrspdlimit, opkrspddist, opkrsigntype, opkrcurvangle
-/*
-   opkrsigntype 값정리
 
-*/
       // code based from atom
       res.speedLimitDistance = 0;
       res.speedLimit = 0;
@@ -92,23 +85,25 @@ int main() {
         oValue = 1;
         res.speedLimitDistance = atoi( entry.message );
       }
-      else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
+      if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
         oValue = 1;
         res.speedLimit = atoi( entry.message );
       }
-      else if( strcmp( entry.tag, "opkrcurvangle" ) == 0 )
+      if( strcmp( entry.tag, "opkrcurvangle" ) == 0 )
       {
         res.roadCurvature = atoi( entry.message );
       }
-      else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
+      if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
       {
         oValue1 = 1;
         res.safetySign = atoi( entry.message );
       }
 
+      MessageBuilder msg;
+      auto framed = msg.initEvent().initLiveMapData();
       oTime++;
-      if ( oTime > 30 && oValue == 1)
+      if ( oTime > 35 && oValue == 1)
       {
         oTime = 0;
         oValue = 0;
