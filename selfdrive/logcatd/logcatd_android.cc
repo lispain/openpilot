@@ -87,6 +87,7 @@ int main() {
       {
         oValue = 1;
         res.speedLimitDistance = atoi( entry.message );
+        printf("spd = %f\n", res.speedLimit );
       }
       else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
@@ -112,7 +113,7 @@ int main() {
         framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
-        system("logcat -c &");
+        // system("logcat -c &");
       }
       else if ( oTime > 50 && oValue == 0)
       {
@@ -122,7 +123,7 @@ int main() {
         if ( oValue1 == 1 )
         {
           oValue1 = 0;
-          system("logcat -c &");
+          // system("logcat -c &");
         }
         else if ( oValue1 == 0)
         {
@@ -142,8 +143,8 @@ int main() {
      // {
      // printf("logcat ID(%d) - PID=%d tag=%d.[%s] \n", log_msg.id(), entry.pid,  entry.tid, entry.tag);
      // printf("entry.message=[%s]\n", entry.message);
-      printf("spd = %f\n", res.speedLimit );
-      printf("spd = %d\n", oTime );
+      // printf("spd = %f\n", res.speedLimit );
+      // printf("spd = %d\n", oTime );
      // }
 
       pm.send("liveMapData", msg);
