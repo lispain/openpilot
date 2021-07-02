@@ -105,7 +105,7 @@ int main() {
       }
 
       oTime++;
-      if ( nDist_prev != res.speedLimitDistance && oTime > 20 && oValue == 1)
+      if ( nDist_prev != res.speedLimitDistance && oTime > 30 && oValue == 1)
       {
         oTime = 0;
         nDist_prev = res.speedLimitDistance;
@@ -114,7 +114,7 @@ int main() {
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
       }
-      else if ( oTime > 21 && oValue == 1)
+      else if ( oTime > 35 && oValue == 1)
       {
         oValue = 0;
         framed.setSpeedLimit( res.speedLimit );  // Float32;
@@ -123,7 +123,7 @@ int main() {
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         system("logcat -c &");
       }
-      else if ( oTime > 35 && oValue == 0)
+      else if ( oTime > 60 && oValue == 0)
       {
         oTime = 0;
         nDist_prev = 0;
