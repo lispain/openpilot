@@ -85,15 +85,16 @@ class Planner():
     self.first_loop = True
 
     self.target_speed_map = 0
+    self.target_speed_map_prev = 0
     self.target_speed_map_counter = 0
     self.target_speed_map_dist = 0
+    self.target_speed_map_dist_prev = 0
     self.target_speed_map_block = False
     self.target_speed_map_sign = False
     self.map_sign = 0
     self.vego = 0
     self.second = 0
     self.map_enabled = False
-    self.sm = messaging.SubMaster(['liveMapData'])
 
   def choose_solution(self, v_cruise_setpoint, enabled):
     if enabled:
@@ -150,20 +151,16 @@ class Planner():
       self.map_enabled = self.params.get_bool("OpkrMapEnable")
       self.second = 0
     if self.map_enabled and v_ego > 0.3:
-      self.target_speed_map_counter += 1
-      if self.target_speed_map_counter >= 75:
-        self.sm.update(0)
-        try:
-          self.target_speed_map = float(self.sm['liveMapData'].speedLimit) if float(self.sm['liveMapData'].speedLimit) > 29 else 0
-          if self.target_speed_map > 29:
-            self.target_speed_map_dist = float(self.sm['liveMapData'].speedLimitDistance)
-            if self.target_speed_map_dist > 1001:
-              self.target_speed_map_block = True
-          else:
-            self.target_speed_map_block = False
-          self.map_sign = float(self.sm['liveMapData'].safetySign)
-        except:
-          pass
+      self.map_sign = sm['liveMapData'].safetySign
+      self.target_speed_map_dist = sm['liveMapData'].speedLimitDistance
+      if self.target_speed_map_dist_prev != self.target_speed_map_dist: 
+        self.target_speed_map_dist_prev = self.target_speed_map_dist
+        self.target_speed_map = sm['liveMapData'].speedLimit
+        if self.target_speed_map > 29:
+          if self.target_speed_map_dist > 1001:
+            self.target_speed_map_block = True
+        else:
+          self.target_speed_map_block = False
 
     # Calculate speed for normal cruise control
     if enabled and not self.first_loop and not sm['carState'].brakePressed and not sm['carState'].gasPressed:
