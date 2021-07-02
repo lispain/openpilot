@@ -76,7 +76,6 @@ int main() {
       // code based from atom
       if ( oValue == 0 )
       {
-        printf("spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
         res.speedLimitDistance = 0;
         res.speedLimit = 0;
         res.roadCurvature = -1;
@@ -120,7 +119,16 @@ int main() {
         oValue = 0;
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        printf("1: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
         system("logcat -c &");
+      }
+      else if ( oValue == 0 )
+      {
+        framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
+        framed.setSpeedLimit( res.speedLimit );  // Float32;
+        framed.setSafetySign( res.safetySign ); // map_sign Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        printf("0: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign); 
       }
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
