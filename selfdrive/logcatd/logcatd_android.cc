@@ -74,14 +74,6 @@ int main() {
    //  opkrspdlimit, opkrspddist, opkrsigntype, opkrcurvangle
 
       // code based from atom
-      if ( oValue == 0 )
-      {
-        res.speedLimitDistance = 0;
-        res.speedLimit = 0;
-        res.roadCurvature = -1;
-        res.safetySign = 0;
-        util::sleep_for(1500);
-      }
       if( strcmp( entry.tag, "opkrspddist" ) == 0 )
       {
         oValue = 1;
@@ -111,15 +103,18 @@ int main() {
       }
       else if ( oValue == 2 )
       {
+        oValue = 0;
         framed.setSpeedLimit( res.speedLimit );  // Float32;
-        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;        
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        printf("1: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
+        system("logcat -c &");
       }
       else if ( oValue == 3 )
       {
         oValue = 0;
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
-        printf("1: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
+        printf("2: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
         system("logcat -c &");
       }
       else if ( oValue == 0 )
@@ -129,6 +124,14 @@ int main() {
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         printf("0: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign); 
+      }
+      if ( oValue == 0 )
+      {
+        res.speedLimitDistance = 0;
+        res.speedLimit = 0;
+        res.roadCurvature = -1;
+        res.safetySign = 0;
+        util::sleep_for(1500);
       }
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
