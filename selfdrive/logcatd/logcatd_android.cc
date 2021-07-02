@@ -78,13 +78,11 @@ int main() {
       if( strcmp( entry.tag, "opkrspddist" ) == 0 )
       {
         oValue = 1;
-        oTime = 0;
         res.speedLimitDistance = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
         oValue = 2;
-        oTime = 0;
         res.speedLimit = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
@@ -107,14 +105,15 @@ int main() {
       {
         framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        oTime = 0;
+        printf("1: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
+        system("logcat -c &");
       }
       else if ( oValue == 2 )
       {
         framed.setSpeedLimit( res.speedLimit );  // Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         oTime = 0;
-        printf("1: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
-        system("logcat -c &");
       }
       else if ( oValue == 3 )
       {
@@ -124,7 +123,7 @@ int main() {
       }
 
       oTime++;
-      if ( oValue == 0 && oTime > 30 )
+      if ( oValue == 0 && oTime > 15 )
       {
         oTime = 0;
         res.speedLimitDistance = 0;
