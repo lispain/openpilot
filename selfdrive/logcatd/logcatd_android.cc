@@ -25,9 +25,7 @@ int main() {
   setpriority(PRIO_PROCESS, 0, -15);
 
   int     nTime = 0;
-  int     oTime = 0;
   int     oValue = 0;
-  int     oValue1 = 0;
 
   ExitHandler do_exit;
   PubMaster pm({"liveMapData"});
