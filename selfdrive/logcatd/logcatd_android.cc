@@ -113,6 +113,7 @@ int main() {
       }
       else if ( oValue == 3 )
       {
+        oTime = 0;
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         printf("1: spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
@@ -120,7 +121,7 @@ int main() {
       }
 
       oTime++;
-      if ( oValue == 0 && oTime > 20 )
+      if ( oValue == 0 && oTime > 50 )
       {
         oTime = 0;
         res.speedLimitDistance = 0;
