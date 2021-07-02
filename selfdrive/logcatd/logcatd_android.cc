@@ -85,7 +85,7 @@ int main() {
       }
       else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
-        oValue = 2;
+        oValue = 1;
         res.speedLimit = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrcurvangle" ) == 0 )
@@ -94,17 +94,24 @@ int main() {
       }
       else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
       {
-        oValue = 3;
+        oValue = 2;
         res.safetySign = atoi( entry.message );
       }
 
       MessageBuilder msg;
       auto framed = msg.initEvent().initLiveMapData();
-      if ( oValue == 3 )
+      if ( oValue == 1 )
       {
         oValue = 0;
         framed.setSpeedLimit( res.speedLimit );  // Float32;
         framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        system("logcat -c &");
+        printf("spd = %f    spddist = %f    rc = %f    ss = %f\n", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
+      }
+      if ( oValue == 2 )
+      {
+        oValue = 0;
         framed.setSafetySign( res.safetySign ); // map_sign Float32;
         framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
         system("logcat -c &");
