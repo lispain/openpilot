@@ -25,6 +25,11 @@ int main() {
   setpriority(PRIO_PROCESS, 0, -15);
 
   int     nTime = 0;
+  int     oTime = 0;
+  int     oValue = 0;
+  int     oValue1 = 0;
+  int     nDist_prev = 0;
+
   ExitHandler do_exit;
   PubMaster pm({"liveMapData"});
   LiveMapDataResult res;
@@ -81,10 +86,12 @@ int main() {
       // code based from atom
       if( strcmp( entry.tag, "opkrspddist" ) == 0 )
       {
+        oValue = 1;
         res.speedLimitDistance = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
+        oValue = 1;
         res.speedLimit = atoi( entry.message );
       }
       else if( strcmp( entry.tag, "opkrcurvangle" ) == 0 )
@@ -93,13 +100,49 @@ int main() {
       }
       else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
       {
+        oValue1 = 1;
         res.safetySign = atoi( entry.message );
       }
 
-      framed.setSpeedLimit( res.speedLimit );  // Float32;
-      framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
-      framed.setSafetySign( res.safetySign ); // map_sign Float32;
-      framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+      oTime++;
+      if ( nDist_prev != res.speedLimitDistance && oTime > 20 && oValue == 1)
+      {
+        oTime = 0;
+        nDist_prev = res.speedLimitDistance;
+        framed.setSpeedLimit( res.speedLimit );  // Float32;
+        framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
+        framed.setSafetySign( res.safetySign ); // map_sign Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+      }
+      else if ( oTime > 21 && oValue == 1)
+      {
+        oValue = 0;
+        framed.setSpeedLimit( res.speedLimit );  // Float32;
+        framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
+        framed.setSafetySign( res.safetySign ); // map_sign Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        system("logcat -c &")
+      }
+      else if ( oTime > 35 && oValue == 0)
+      {
+        oTime = 0;
+        nDist_prev = 0;
+        res.speedLimitDistance = 0;
+        res.speedLimit = 0;
+        if ( oValue1 == 1 )
+        {
+          oValue1 = 0;
+          system("logcat -c &")
+        }
+        else if ( oValue1 == 0)
+        {
+          res.safetySign = 0;
+        }
+        framed.setSpeedLimit( res.speedLimit );  // Float32;
+        framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
+        framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+        framed.setSafetySign( res.safetySign );  // map_sign Float32;
+      }
 
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
