@@ -64,6 +64,9 @@ int main() {
       last_log_time.tv_sec = entry.tv_sec;
       last_log_time.tv_nsec = entry.tv_nsec;
 
+      MessageBuilder msg;
+      auto framed = msg.initEvent().initLiveMapData();
+
       nTime++;
       if( nTime > 10 )
       {
@@ -99,8 +102,6 @@ int main() {
         oValue = 0;
       }
 
-      MessageBuilder msg;
-      auto framed = msg.initEvent().initLiveMapData();
       if ( oValue == 1 )
       {
         framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
