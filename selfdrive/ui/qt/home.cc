@@ -142,6 +142,12 @@ void HomeWindow::mousePressEvent(QMouseEvent* e) {
     QUIState::ui_state.scene.comma_stock_ui = !QUIState::ui_state.scene.comma_stock_ui;
     if (QUIState::ui_state.scene.comma_stock_ui) {
       Params().put("CommaStockUI", "1", 1);
+      QMouseEvent* mouseEvent = new QMouseEvent(QEvent::MouseButtonPress,
+                                                QPointF(75, 540),
+                                                Qt::LeftButton,
+                                                Qt::LeftButton,
+                                                Qt::NoModifier);
+      QApplication::sendEvent(mainWindow, &mouseEvent);
     } else {
       Params().put("CommaStockUI", "0", 1);
     }
