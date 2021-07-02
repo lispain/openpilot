@@ -85,27 +85,25 @@ int main() {
         oValue = 1;
         res.speedLimitDistance = atoi( entry.message );
       }
-      if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
+      else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
-        oValue = 1;
+        oValue = 2;
         res.speedLimit = atoi( entry.message );
       }
-      if( strcmp( entry.tag, "opkrcurvangle" ) == 0 )
+      else if( strcmp( entry.tag, "opkrcurvangle" ) == 0 )
       {
         res.roadCurvature = atoi( entry.message );
       }
-      if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
+      else if( strcmp( entry.tag, "opkrsigntype" ) == 0 )
       {
-        oValue1 = 1;
+        oValue = 3;
         res.safetySign = atoi( entry.message );
       }
 
       MessageBuilder msg;
       auto framed = msg.initEvent().initLiveMapData();
-      oTime++;
-      if ( oTime > 35 && oValue == 1)
+      if ( oValue == 3 )
       {
-        oTime = 0;
         oValue = 0;
         framed.setSpeedLimit( res.speedLimit );  // Float32;
         framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
