@@ -87,7 +87,6 @@ int main() {
       {
         oValue = 1;
         res.speedLimitDistance = atoi( entry.message );
-        printf("spd = %f\n", res.speedLimit );
       }
       else if( strcmp( entry.tag, "opkrspdlimit" ) == 0 )
       {
@@ -103,6 +102,8 @@ int main() {
         oValue1 = 1;
         res.safetySign = atoi( entry.message );
       }
+
+      printf("spd = %f    spddist = %f    rc = %f    ss = %f", res.speedLimit, res.speedLimitDistance, res.roadCurvature, res.safetySign);
 
       oTime++;
       if ( oTime > 50 && oValue == 1)
