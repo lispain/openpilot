@@ -147,7 +147,7 @@ void HomeWindow::mousePressEvent(QMouseEvent* e) {
                                                 Qt::LeftButton,
                                                 Qt::LeftButton,
                                                 Qt::NoModifier);
-      QApplication::sendEvent(this->view, &mouseEvent);
+      QApplication::sendEvent(this, &mouseEvent);
     } else {
       Params().put("CommaStockUI", "0", 1);
     }
