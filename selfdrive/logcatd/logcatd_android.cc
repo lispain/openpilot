@@ -120,14 +120,22 @@ int main() {
       framed.setMapValid( res.mapValid );
 
       oTime++;
-      if ( oValue == 0 && oTime > 20 )
+      if ( oValue == 0 && oTime > 25 )
       {
         oTime = 0;
         res.speedLimitDistance = 0;
         res.speedLimit = 0;
         res.safetySign = 0;
       }
-      
+    /*
+    signtype
+    1. 118, 127 어린이보호구역
+    2. 111 오른쪽 급커브
+    3. 112 왼쪽 급커브
+    4. 113 굽은도로
+    5. 124 과속방지턱
+
+    */  
       
      // if( opkr )
      // {

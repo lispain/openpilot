@@ -61,6 +61,7 @@ const int bdr_s = 15;
 const int header_h = 420;
 const int footer_h = 280;
 const Rect map_overlay_btn = {0, 465, 150, 150};
+const Rect map_return_btn = {930, 465, 150, 150};
 const Rect map_btn = {1425, 905, 140, 140};
 const Rect rec_btn = {1745, 905, 140, 140};
 const Rect laneless_btn = {1585, 905, 140, 140};
