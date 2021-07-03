@@ -1,4 +1,4 @@
-/8#include "selfdrive/ui/paint.h"
+#include "selfdrive/ui/paint.h"
 
 #include <algorithm>
 #include <cassert>
