@@ -283,7 +283,7 @@ class Planner():
         longitudinalPlan.onSpeedControl = False
       elif self.target_speed_map == 0 and self.target_speed_map_dist != 0.:
         longitudinalPlan.targetSpeedCamera = float(self.target_speed_map)
-        longitudinalPlan.targetSpeedCameraDist = 100.
+        longitudinalPlan.targetSpeedCameraDist = float(self.target_speed_map_dist)
         longitudinalPlan.onSpeedControl = False
       else:
         longitudinalPlan.targetSpeedCamera = 0
