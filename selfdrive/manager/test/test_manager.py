@@ -42,7 +42,7 @@ class TestManager(unittest.TestCase):
     for p in ALL_PROCESSES:
       managed_processes[p].start()
 
-    time.sleep(10)
+    time.sleep(30)
 
     for p in reversed(ALL_PROCESSES):
       state = managed_processes[p].get_process_state_msg()

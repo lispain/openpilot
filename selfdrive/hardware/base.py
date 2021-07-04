@@ -113,7 +113,3 @@ class HardwareBase:
   @abstractmethod
   def set_power_save(self, enabled):
     pass
-
-  @abstractmethod
-  def get_gpu_usage_percent(self):
-    pass
