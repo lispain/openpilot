@@ -410,12 +410,16 @@ static void ui_draw_debug(UIState *s)
       }
       if (s->scene.map_is_running) {
         ui_print(s, ui_viz_rx, ui_viz_ry+700, "MS:%.0f", scene.mapSign);
-        //ui_print(s, ui_viz_rx, ui_viz_ry+750, "RC:%.0f", scene.liveMapData.opkrcurveangle);
+        if (s->scene.limitSpeedCameraDist) {
+          ui_print(s, ui_viz_rx, ui_viz_ry+750, "D:%.0f", scene.limitSpeedCameraDist);
+        }
       }
     } else {
       if (s->scene.map_is_running) {
         ui_print(s, ui_viz_rx, ui_viz_ry+650, "MS:%.0f", scene.mapSign);
-        //ui_print(s, ui_viz_rx, ui_viz_ry+700, "RC:%.0f", scene.liveMapData.opkrcurveangle);
+        if (s->scene.limitSpeedCameraDist) {
+          ui_print(s, ui_viz_rx, ui_viz_ry+700, "D:%.0f", scene.limitSpeedCameraDist);
+        }
       }
     }
     nvgFontSize(s->vg, 40);
