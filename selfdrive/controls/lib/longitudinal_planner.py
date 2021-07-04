@@ -153,7 +153,7 @@ class Planner():
     if self.map_enabled and v_ego > 0.3:
       self.map_sign = sm['liveMapData'].safetySign
       self.target_speed_map_dist = sm['liveMapData'].speedLimitDistance
-      if self.target_speed_map_dist_prev != self.target_speed_map_dist: 
+      if self.target_speed_map_dist_prev != self.target_speed_map_dist:
         self.target_speed_map_dist_prev = self.target_speed_map_dist
         self.target_speed_map = sm['liveMapData'].speedLimit
         if self.target_speed_map > 29:
