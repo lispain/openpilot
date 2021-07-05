@@ -16,6 +16,8 @@ typedef struct LiveMapDataResult {
       float speedLimitDistance;  // Float32;
       float safetySign;    // Float32;
       float roadCurvature;    // Float32;
+      float turnInfo;    // Float32;
+      float distanceToTurn;    // Float32;
       bool  mapValid;    // bool;
       bool  mapEnable;    // bool;
 } LiveMapDataResult;
@@ -92,16 +94,24 @@ int main() {
         oTime = 0;
         res.safetySign = atoi( entry.message );
       }
-      else if( res.speedLimitDistance > 0 && res.speedLimitDistance < 50 && strcmp( entry.tag, "AudioFlinger" ) == 0 )  //   msm8974_platform
+      else if( (res.speedLimitDistance > 1 && res.speedLimitDistance < 50) && strcmp( entry.tag, "AudioFlinger" ) == 0 )  //   msm8974_platform
       {
         res.speedLimitDistance = 0;
         res.speedLimit = 0;
         system("logcat -c &");
       }
+      else if( strcmp( entry.tag, "opkrturninfo" ) == 0 )
+      {
+        res.turnInfo = atoi( entry.message );
+      }
+      else if( strcmp( entry.tag, "opkrdistancetoturn" ) == 0 )
+      {
+        res.distanceToTurn = atoi( entry.message );
+      }
       else
       {
         oTime++;
-        if ( oTime > 30 )
+        if ( oTime > 40 )
         {
           oTime = 0;
           res.speedLimitDistance = 0;
@@ -114,16 +124,29 @@ int main() {
       framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
       framed.setSafetySign( res.safetySign ); // map_sign Float32;
       // framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+      framed.setTurnInfo( res.turnInfo );  // Float32;
+      framed.setDistanceToTurn( res.distanceToTurn );  // Float32;
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
 
     /*
     signtype
-    1. 118, 127 어린이보호구역
-    2. 111 오른쪽 급커브
-    3. 112 왼쪽 급커브
-    4. 113 굽은도로
-    5. 124 과속방지턱
+    118, 127 어린이보호구역
+    111 오른쪽 급커브
+    112 왼쪽 급커브
+    113 굽은도로
+    124 과속방지턱
+    198 차선변경금지시작
+    199 차선변경금지종료
+    129 주정차금지구간
+    123 철길건널목
+    246 버스전용차로단속
+    247 과적단속
+    248 교통정보수집
+    249 추월금지구간
+    250 갓길단속
+    251 적재불량단속
+
 
     */  
       
