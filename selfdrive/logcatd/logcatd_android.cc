@@ -92,7 +92,7 @@ int main() {
         oTime = 0;
         res.safetySign = atoi( entry.message );
       }
-      else if( (res.speedLimitDistance > 0 && res.speedLimitDistance < 50) && strcmp( entry.tag, "AudioFlinger" ) == 0 )  //   msm8974_platform
+      else if( (res.speedLimitDistance > 1 && res.speedLimitDistance < 50) && strcmp( entry.tag, "AudioFlinger" ) == 0 )  //   msm8974_platform
       {
         res.speedLimitDistance = 0;
         res.speedLimit = 0;
