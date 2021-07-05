@@ -394,7 +394,7 @@ static void ui_draw_debug(UIState *s)
     ui_print(s, ui_viz_rx, ui_viz_ry+500, "OS:%.2f", abs(scene.output_scale));
     ui_print(s, ui_viz_rx, ui_viz_ry+550, "%.2f|%.2f", scene.lateralPlan.lProb, scene.lateralPlan.rProb);
     if (s->scene.map_is_running) {
-      if (s->scene.mapSign) ui_print(s, ui_viz_rx, ui_viz_ry+600, "M:%.0f", scene.mapSign);
+      if (s->scene.mapSign) ui_print(s, ui_viz_rx, ui_viz_ry+600, "S:%.0f", scene.mapSign);
       if (s->scene.limitSpeedCameraDist) ui_print(s, ui_viz_rx, ui_viz_ry+650, "D:%.0f", scene.limitSpeedCameraDist);
       if (s->scene.liveMapData.opkrturninfo) ui_print(s, ui_viz_rx, ui_viz_ry+700, "T:%.0f", scene.liveMapData.opkrturninfo);
       if (s->scene.liveMapData.opkrdisttoturn) ui_print(s, ui_viz_rx, ui_viz_ry+750, "D:%.0f", scene.liveMapData.opkrdisttoturn);
