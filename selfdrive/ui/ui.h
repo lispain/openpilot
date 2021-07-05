@@ -231,6 +231,8 @@ typedef struct UIScene {
     float opkrspeedlimitdist;
     float opkrspeedsign;
     float opkrcurveangle;
+    float opkrturninfo;
+    float opkrdisttoturn;
   } liveMapData;
 } UIScene;
 

@@ -16,6 +16,8 @@ typedef struct LiveMapDataResult {
       float speedLimitDistance;  // Float32;
       float safetySign;    // Float32;
       float roadCurvature;    // Float32;
+      float turnInfo;    // Float32;
+      float distanceToTurn;    // Float32;
       bool  mapValid;    // bool;
       bool  mapEnable;    // bool;
 } LiveMapDataResult;
@@ -98,6 +100,14 @@ int main() {
         res.speedLimit = 0;
         system("logcat -c &");
       }
+      else if( strcmp( entry.tag, "opkrturninfo" ) == 0 )
+      {
+        res.turnInfo = atoi( entry.message );
+      }
+      else if( strcmp( entry.tag, "opkrdistancetoturn" ) == 0 )
+      {
+        res.distanceToTurn = atoi( entry.message );
+      }
       else
       {
         oTime++;
@@ -114,6 +124,8 @@ int main() {
       framed.setSpeedLimitDistance( res.speedLimitDistance );  // raw_target_speed_map_dist Float32;
       framed.setSafetySign( res.safetySign ); // map_sign Float32;
       // framed.setRoadCurvature( res.roadCurvature ); // road_curvature Float32;
+      framed.setTurnInfo( res.turnInfo );  // Float32;
+      framed.setDistanceToTurn( res.distanceToTurn );  // Float32;
       framed.setMapEnable( res.mapEnable );
       framed.setMapValid( res.mapValid );
 

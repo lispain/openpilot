@@ -307,6 +307,8 @@ static void update_state(UIState *s) {
     scene.liveMapData.opkrspeedlimitdist = data.getSpeedLimitDistance();
     scene.liveMapData.opkrspeedsign = data.getSafetySign();
     scene.liveMapData.opkrcurveangle = data.getRoadCurvature();
+	scene.liveMapData.opkrturninfo = data.getTurnInfo();
+	scene.liveMapData.opkrdisttoturn = data.getDistanceToTurn();
   }
 }
 
