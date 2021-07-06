@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os
 import math
 import numpy as np
 from common.params import Params
@@ -85,8 +84,6 @@ class Planner():
     self.first_loop = True
 
     self.target_speed_map = 0
-    self.target_speed_map_prev = 0
-    self.target_speed_map_counter = 0
     self.target_speed_map_dist = 0
     self.target_speed_map_dist_prev = 0
     self.target_speed_map_block = False

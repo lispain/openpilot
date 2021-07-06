@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from cereal import car
 from selfdrive.config import Conversions as CV
-from selfdrive.car.hyundai.values import CAR, Buttons
+from selfdrive.car.hyundai.values import CAR, Buttons, EV_CAR, HYBRID_CAR
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
 from selfdrive.car.interfaces import CarInterfaceBase
 from common.params import Params
@@ -262,6 +262,12 @@ class CarInterface(CarInterfaceBase):
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
     if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or params.get_bool("MadModeEnabled"):
       ret.safetyModel = car.CarParams.SafetyModel.hyundaiCommunity
+      
+    # set appropriate safety param for gas signal
+    if candidate in HYBRID_CAR:
+      ret.safetyParam = 2
+    elif candidate in EV_CAR:
+      ret.safetyParam = 1
     return ret
 
   def update(self, c, can_strings):
