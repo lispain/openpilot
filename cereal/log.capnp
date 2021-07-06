@@ -883,14 +883,13 @@ struct LateralPlan @0xe1e9318e2ae8b51e {
   curvatureRates @28 :List(Float32);
   
   # opkr
-  outputScale @26 :Float32;
-  steerRateCost @27 :Float32;
-  standstillElapsedTime @28 :Float32;
-  vCruiseSet @29 :Float32;
-  vCurvature @30 :Float32;
-  steerAngleDesireDeg @31 :Float32;
-  lanelessMode @32 :Bool;
-  steerActuatorDelay @33 :Float32;
+  outputScale @29 :Float32;
+  steerRateCost @30 :Float32;
+  standstillElapsedTime @31 :Float32;
+  vCruiseSet @32 :Float32;
+  vCurvature @33 :Float32;
+  lanelessMode @34 :Bool;
+  steerActuatorDelay @35 :Float32;
 
   enum Desire {
     none @0;
