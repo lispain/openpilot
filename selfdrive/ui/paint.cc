@@ -1070,7 +1070,7 @@ static void ui_draw_vision_scc_gap(UIState *s) {
   if(gap <= 0) {
     snprintf(str, sizeof(str), "N/A");
   }
-  else if(gap == 2) {
+  else if(gap == 1) {
     snprintf(str, sizeof(str), "AUTO");
     textColor = nvgRGBA(120, 255, 120, 200);
   }
