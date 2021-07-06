@@ -81,7 +81,7 @@ static void ui_draw_circle_image(const UIState *s, int center_x, int center_y, i
   ui_draw_image(s, {ct_pos, ct_pos, img_size, img_size}, image, img_alpha);
   nvgRestore(s->vg); 
 }
-
+/*
 static void ui_draw_circle_image(const UIState *s, int center_x, int center_y, int radius, const char *image, bool active) {
   float bg_alpha = active ? 0.3f : 0.1f;
   float img_alpha = active ? 1.0f : 0.15f;
@@ -91,7 +91,7 @@ static void ui_draw_circle_image(const UIState *s, int center_x, int center_y, i
     ui_draw_circle_image(s, center_x, center_y, radius, image, nvgRGBA(0, 0, 0, (255 * bg_alpha)), img_alpha);
   }
 }
-
+*/
 static void draw_lead(UIState *s, const cereal::RadarState::LeadData::Reader &lead_data, const vertex_data &vd) {
   // Draw lead car indicator
   auto [x, y] = vd;
@@ -690,13 +690,14 @@ static void ui_draw_vision_event(UIState *s) {
   }
   if (!s->scene.comma_stock_ui) ui_draw_debug(s);
 }
-
+/*
 static void ui_draw_vision_face(UIState *s) {
   const int radius = 85;
   const int center_x = s->viz_rect.x + radius + (bdr_s);
   const int center_y = s->viz_rect.bottom() - footer_h + ((footer_h - radius) / 2);
   ui_draw_circle_image(s, center_x, center_y, radius, "driver_face", s->scene.dm_active);
 }
+*/
 
 //BB START: functions added for the display of various items
 static int bb_ui_draw_measure(UIState *s, const char* bb_value, const char* bb_uom, const char* bb_label,
@@ -1041,6 +1042,50 @@ static void bb_ui_draw_UI(UIState *s) {
   bb_ui_draw_measures_left(s, bb_dmr_x, bb_dmr_y-20, bb_dmr_w);
 }
 
+static void ui_draw_vision_scc_gap(UIState *s) {
+  //const UIScene *scene = &s->scene;
+  auto car_state = (*s->sm)["carState"].getCarState();
+  //auto scc_smoother = s->scene.car_control.getSccSmoother();
+
+  int gap = car_state.getCruiseGapSet();
+  //bool longControl = scc_smoother.getLongControl();
+  //int autoTrGap = scc_smoother.getAutoTrGap();
+
+  const int radius = 96;
+  const int center_x = s->viz_rect.x + radius + (bdr_s * 2);
+  const int center_y = s->viz_rect.bottom() - footer_h / 2;
+
+  NVGcolor color_bg = nvgRGBA(0, 0, 0, (255 * 0.1f));
+
+  nvgBeginPath(s->vg);
+  nvgCircle(s->vg, center_x, center_y, radius);
+  nvgFillColor(s->vg, color_bg);
+  nvgFill(s->vg);
+
+  NVGcolor textColor = nvgRGBA(255, 255, 255, 200);
+  float textSize = 30.f;
+
+  char str[64];
+  if(gap <= 0) {
+    snprintf(str, sizeof(str), "N/A");
+  }
+  else if(gap == 2) {
+    snprintf(str, sizeof(str), "AUTO");
+    textColor = nvgRGBA(120, 255, 120, 200);
+  }
+  else {
+    snprintf(str, sizeof(str), "%d", (int)gap);
+    textColor = nvgRGBA(120, 255, 120, 200);
+    textSize = 38.f;
+  }
+
+  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+
+  ui_draw_text(s, center_x, center_y-36, "GAP", 22 * 2.5f, nvgRGBA(255, 255, 255, 200), "sans-bold");
+  ui_draw_text(s, center_x, center_y+22, str, textSize * 2.5f, textColor, "sans-bold");
+
+}
+
 static void draw_navi_button(UIState *s) {
   if (s->vipc_client->connected || s->scene.is_OpenpilotViewEnabled) {
     int btn_w = 140;
@@ -1198,7 +1243,7 @@ static void ui_draw_vision(UIState *s) {
   // Set Speed, Current Speed, Status/Events
   ui_draw_vision_header(s);
   if ((*s->sm)["controlsState"].getControlsState().getAlertSize() == cereal::ControlsState::AlertSize::NONE) {
-    ui_draw_vision_face(s);
+    ui_draw_vision_scc_gap(s);
     if (!s->scene.comma_stock_ui) {
       ui_draw_vision_car(s);
     }
