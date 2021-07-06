@@ -82,7 +82,6 @@ class LateralPlanner():
     self.standstill_elapsed_time = 0.0
     self.v_cruise_kph = 0
     self.stand_still = False
-    self.steer_actuator_delay_to_send = 0.0
     
     self.output_scale = 0.0
     self.second = 0.0
@@ -301,7 +300,6 @@ class LateralPlanner():
     plan_send.lateralPlan.vCruiseSet = float(self.v_cruise_kph)
     plan_send.lateralPlan.vCurvature = float(sm['controlsState'].curvature)
     plan_send.lateralPlan.lanelessMode = bool(self.laneless_mode_status)
-    plan_send.lateralPlan.steerActuatorDelay = float(self.steer_actuator_delay_to_send)
 
     if self.stand_still:
       self.standstill_elapsed_time += DT_MDL
