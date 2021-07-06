@@ -1042,6 +1042,7 @@ static void bb_ui_draw_UI(UIState *s) {
   bb_ui_draw_measures_left(s, bb_dmr_x, bb_dmr_y-20, bb_dmr_w);
 }
 
+//from neokii
 static void ui_draw_vision_scc_gap(UIState *s) {
   //const UIScene *scene = &s->scene;
   auto car_state = (*s->sm)["carState"].getCarState();
