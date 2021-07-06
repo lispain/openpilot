@@ -100,8 +100,8 @@ class LongitudinalMpc():
 
     # neokii value, opkr mod
     cruise_gap = int(clip(CS.cruiseGapSet, 1., 4.))
-    dynamic_TR = interp(v_ego*3.6, [0, 20, 40, 65, 110], [1.0, 1.17, 1.35, 1.6, 2.0] )
-    TR = interp(float(cruise_gap), [1., 2., 3., 4.], [1.2, dynamic_TR, 1.5, 2.0])
+    dynamic_TR = interp(v_ego*3.6, [0, 20, 40, 65, 110], [1.0, 1.19, 1.37, 1.6, 2.0] )
+    TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, 1.2, 1.5, 2.0])
 
     self.n_its = self.libmpc.run_mpc(self.cur_state, self.mpc_solution, self.a_lead_tau, a_lead, TR)
     self.duration = int((sec_since_boot() - t) * 1e9)
