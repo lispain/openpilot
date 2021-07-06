@@ -153,7 +153,6 @@ static void update_state(UIState *s) {
     } else if (scene.lateralControlMethod == 2) {
       scene.output_scale = scene.controls_state.getLateralControlState().getLqrState().getOutput();
     }
-    scene.angleSteersDes = scene.controls_state.getSteeringAngleDesiredDeg();
 
     scene.alertTextMsg1 = scene.controls_state.getAlertTextMsg1(); //debug1
     scene.alertTextMsg2 = scene.controls_state.getAlertTextMsg2(); //debug2
