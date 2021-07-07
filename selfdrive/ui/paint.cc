@@ -1102,7 +1102,7 @@ static void ui_draw_vision_scc_gap(UIState *s) {
   ui_draw_text(s, center_x, center_y+22, str, textSize * 2.5f, textColor, "sans-bold");
 
 }
-
+/*
 static void draw_navi_button(UIState *s) {
   if (s->vipc_client->connected || s->scene.is_OpenpilotViewEnabled) {
     int btn_w = 140;
@@ -1158,7 +1158,7 @@ static void draw_laneless_button(UIState *s) {
     }
   }
 }
-
+*/
 static void ui_draw_vision_header(UIState *s) {
   NVGpaint gradient = nvgLinearGradient(s->vg, s->viz_rect.x,
                         s->viz_rect.y+(header_h-(header_h/2.5)),
