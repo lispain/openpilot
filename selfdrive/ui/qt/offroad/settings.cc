@@ -326,8 +326,6 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       const QString paramsPath = QString::fromStdString(params.getParamsPath());
       fs_watch->addPath(paramsPath + "/d/LastUpdateTime");
       fs_watch->addPath(paramsPath + "/d/UpdateFailedCount");
-      updateBtn->setText("확인중");
-      updateBtn->setEnabled(false);
     }
     std::system("/data/openpilot/gitcommit.sh");
     QTimer::singleShot(2000, []() {
@@ -337,8 +335,6 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       QString empty = "";
       desc += QString("로  컬: %1\n리모트: %2%3%4").arg(commit_local, commit_remote, empty, empty);
       if (ConfirmationDialog::confirm(desc)) {
-        updateBtn->setText("확인");
-        updateBtn->setEnabled(true);
       }
     });
   });
