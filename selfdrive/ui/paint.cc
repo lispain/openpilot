@@ -571,7 +571,7 @@ static void ui_draw_vision_cruise_speed(UIState *s) {
   
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
   if (s->scene.cruiseAccStatus) {
-    ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+65, "Cruise", 25 * 2.1, nvgRGBA(23, 134, 68, 241), "sans-semibold");
+    ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+65, "Cruise", 25 * 2.1, nvgRGBA(120, 255, 120, 200), "sans-semibold");
   } else {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+65, "Cruise", 25 * 2.1, COLOR_WHITE_ALPHA(100), "sans-semibold");
   }
