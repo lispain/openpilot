@@ -3866,22 +3866,32 @@ CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 �
     background-color: #393939;
   )");
 
-  label2.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label2.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label2.setStyleSheet("color: #e0e879");
-  label3.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label3.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label3.setStyleSheet("color: #e0e879");
-  label4.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label4.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label4.setStyleSheet("color: #e0e879");
+  label2a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label3a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label4a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   
+  hlayout->addWidget(&label2a);
   hlayout->addWidget(&label2);
   btn2.setFixedSize(100, 100);
   hlayout->addWidget(&btn2);
+  hlayout->addWidget(&label3a);
   hlayout->addWidget(&label3);
   btn3.setFixedSize(100, 100);
   hlayout->addWidget(&btn3);
+  hlayout->addWidget(&label4a);
   hlayout->addWidget(&label4);
   btn4.setFixedSize(100, 100);
   hlayout->addWidget(&btn4);
+
+  label2a.setText(" 2단: ");
+  label3a.setText(" 3단: ");
+  label4a.setText(" 4단: ");
 
   QObject::connect(&btn2, &QPushButton::released, [=]() {
     auto str = QString::fromStdString(params.get("CruiseGap2"));
