@@ -320,7 +320,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   osVersionLbl = new LabelControl("OS Version");
   versionLbl = new LabelControl("Version");
   lastUpdateLbl = new LabelControl("Last Update Check", "", "");
-  updateBtn = new ButtonControl("Check for Update", "");
+  updateBtn = new ButtonControl("업데이트 확인", "");
   connect(updateBtn, &ButtonControl::released, [=]() {
     if (params.getBool("IsOffroad")) {
       const QString paramsPath = QString::fromStdString(params.getParamsPath());
@@ -330,6 +330,16 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       updateBtn->setEnabled(false);
     }
     std::system("/data/openpilot/gitcommit.sh");
+    QTimer::singleShot(2000, []() {
+      QString desc = "[깃 커밋 내역]\n";
+      std::string commit_local = Params().get("GitCommit").substr(0, 10));
+      std::string commit_remote = Params().get("GitCommitRemote").substr(0, 10));
+      desc += QString("로  컬: %1\n리모트%: 2").arg(commit_local, commit_remote);
+      if (ConfirmationDialog::confirm(desc)) {
+        updateBtn->setText("확인");
+        updateBtn->setEnabled(true);
+      }
+    }
   });
 
   QVBoxLayout *main_layout = new QVBoxLayout(this);
@@ -340,8 +350,6 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       main_layout->addWidget(horizontal_line());
     }
   }
-
-  main_layout->addWidget(horizontal_line());
 
   main_layout->addWidget(new GitHash());
   const char* gitpull = "/data/openpilot/gitpull.sh ''";
