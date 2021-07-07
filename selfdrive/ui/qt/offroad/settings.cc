@@ -315,7 +315,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 }
 
 SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
-  Params params = Params();
   gitRemoteLbl = new LabelControl("Git Remote");
   gitBranchLbl = new LabelControl("Git Branch");
   gitCommitLbl = new LabelControl("Git Commit");
@@ -329,7 +328,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       fs_watch->addPath(paramsPath + "/d/LastUpdateTime");
       fs_watch->addPath(paramsPath + "/d/UpdateFailedCount");
     }
-    Params().put("LastUpdateTime", QDateTime::currentDateTime().toString(Qt::ISODate));
+    params.put("LastUpdateTime", QDateTime::currentDateTime().toString(Qt::ISODate), 1);
     std::system("/data/openpilot/gitcommit.sh");
     QTimer::singleShot(500, []() {
       QString desc = "";
