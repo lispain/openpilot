@@ -552,7 +552,10 @@ static void ui_draw_vision_maxspeed(UIState *s) {
 }
 
 static void ui_draw_vision_cruise_speed(UIState *s) {
+  const int SET_SPEED_NA = 255;
   float cruise_speed = s->scene.vSetDis;
+  float maxspeed = s->scene.controls_state.getVCruise();
+  const bool is_cruise_set = maxspeed != 0 && maxspeed != SET_SPEED_NA && s->scene.controls_state.getEnabled();  
   if (!s->scene.is_metric) { cruise_speed *= 0.621371; }
   s->is_speed_over_limit = s->scene.limitSpeedCamera > 29 && ((s->scene.limitSpeedCamera+round(s->scene.limitSpeedCamera*0.01*s->scene.speed_lim_off))+1 < s->scene.car_state.getVEgo()*3.6);
   const Rect rect = {s->viz_rect.x + (bdr_s), int(s->viz_rect.y + (bdr_s)), 184, 202};
@@ -570,6 +573,19 @@ static void ui_draw_vision_cruise_speed(UIState *s) {
   }
   
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
+  if (cruise_speed >= 30 && s->scene.controls_state.getEnabled()) {
+    const std::string cruise_speed_str = std::to_string((int)std::nearbyint(cruise_speed));
+    ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+65, cruise_speed_str.c_str(), 26 * 2.8, COLOR_WHITE_ALPHA(is_cruise_set ? 200 : 100), "sans-bold");
+  } else {
+  	ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+65, "-", 26 * 2.8, COLOR_WHITE_ALPHA(is_cruise_set ? 200 : 100), "sans-semibold");
+  }
+  if (is_cruise_set) {
+    const std::string maxspeed_str = std::to_string((int)std::nearbyint(maxspeed));
+    ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, maxspeed_str.c_str(), 48 * 2.4, COLOR_WHITE, "sans-bold");
+  } else {
+    ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "-", 42 * 2.4, COLOR_WHITE_ALPHA(100), "sans-semibold");
+  }
+  /*
   if (s->scene.cruiseAccStatus) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+65, "Cruise", 25 * 2.1, nvgRGBA(120, 255, 120, 200), "sans-semibold");
   } else {
@@ -582,6 +598,7 @@ static void ui_draw_vision_cruise_speed(UIState *s) {
   } else {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "-", 42 * 2.3, COLOR_WHITE_ALPHA(100), "sans-semibold");
   }
+  */
 }
 
 static void ui_draw_vision_speed(UIState *s) {
