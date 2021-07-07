@@ -4,7 +4,8 @@
 #include <string>
 
 #include <QDebug>
-#include <QProcess>
+#include <QProcess> // opkr
+#include <QDateTime> // opkr
 
 #ifndef QCOM
 #include "selfdrive/ui/qt/offroad/networking.h"
@@ -327,8 +328,9 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       fs_watch->addPath(paramsPath + "/d/LastUpdateTime");
       fs_watch->addPath(paramsPath + "/d/UpdateFailedCount");
     }
+    //params.put("LastUpdateTime", QDateTime::currentDateTime().toString(Qt::ISODate));
     std::system("/data/openpilot/gitcommit.sh");
-    QTimer::singleShot(2000, []() {
+    QTimer::singleShot(500, []() {
       QString desc = "";
       QString commit_local = QString::fromStdString(Params().get("GitCommit").substr(0, 10));
       QString commit_remote = QString::fromStdString(Params().get("GitCommitRemote").substr(0, 10));
@@ -630,6 +632,11 @@ QWidget * tuning_panel(QWidget * parent) {
     layout->addWidget(new LqrKi());
     layout->addWidget(new DcGain());
   }
+
+  layout->addWidget(horizontal_line());
+
+  layout->addWidget(new LabelControl("롱컨트롤메뉴", ""));
+  layout->addWidget(new CruiseGapTR());
 
   layout->addStretch(1);
 
