@@ -260,7 +260,10 @@ class CarState(CarStateBase):
     else:
       gear = cp.vl["LVR12"]["CF_Lvr_Gear"]
 
-    ret.gearShifter = self.parse_gear_shifter(self.shifter_values.get(gear))
+    if self.gear_correction:
+      ret.gearShifter = GearShifter.drive
+    else:
+      ret.gearShifter = self.parse_gear_shifter(self.shifter_values.get(gear))
 
     if self.CP.fcaBus != -1 or self.CP.carFingerprint in FEATURES["use_fca"]:
       ret.stockAeb = cp_fca.vl["FCA11"]["FCA_CmdAct"] != 0
