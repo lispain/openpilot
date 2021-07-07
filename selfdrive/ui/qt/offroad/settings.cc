@@ -329,7 +329,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
     }
     std::system("/data/openpilot/gitcommit.sh");
     QTimer::singleShot(2000, []() {
-      QString desc = "[깃 커밋 내역]\n";
+      QString desc = "";
       QString commit_local = QString::fromStdString(Params().get("GitCommit").substr(0, 10));
       QString commit_remote = QString::fromStdString(Params().get("GitCommitRemote").substr(0, 10));
       QString empty = "";
