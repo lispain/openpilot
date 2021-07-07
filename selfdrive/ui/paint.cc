@@ -491,7 +491,6 @@ static void ui_draw_vision_maxspeed(UIState *s) {
 
   //int viz_max_o = 184; //offset value to move right
   const Rect rect = {s->viz_rect.x + (bdr_s) + 184 + 15, int(s->viz_rect.y + (bdr_s)), 184, 202};
-  
   NVGcolor color = COLOR_WHITE;
   
   if (s->is_speed_over_limit) {
@@ -658,7 +657,7 @@ static void ui_draw_vision_speed(UIState *s) {
   ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 96 * 2.5, val_color, "sans-bold");
   ui_draw_text(s, s->viz_rect.centerX(), 320, s->scene.is_metric ? "km/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
 }
-
+/*
 static void ui_draw_vision_event(UIState *s) {
   const int viz_event_w = 220;
   const int viz_event_x = s->viz_rect.right() - (viz_event_w + bdr_s);
@@ -691,7 +690,7 @@ static void ui_draw_vision_event(UIState *s) {
   if ((s->scene.mapSign == 195 || s->scene.mapSign == 197) && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist != 0 && !s->scene.comma_stock_ui) {
     {ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);}
   }
-  /*8
+  
   //draw compass by opkr
   if (s->scene.gpsAccuracyUblox != 0.00 && !s->scene.comma_stock_ui) {
     const int compass_x = s->viz_rect.x + s->viz_rect.w - 167 - (bdr_s);
