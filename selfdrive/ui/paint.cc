@@ -1044,7 +1044,7 @@ static void ui_draw_vision_scc_gap(UIState *s) {
   //int autoTrGap = scc_smoother.getAutoTrGap();
 
   const int radius = 96;
-  const int center_x = s->viz_rect.x + radius + (bdr_s * 2);
+  const int center_x = s->viz_rect.x + radius + (bdr_s * 2) - 10;
   const int center_y = s->viz_rect.bottom() - footer_h / 2;
 
   NVGcolor color_bg = nvgRGBA(0, 0, 0, (255 * 0.1f));
@@ -1061,10 +1061,12 @@ static void ui_draw_vision_scc_gap(UIState *s) {
   if(gap <= 0) {
     snprintf(str, sizeof(str), "N/A");
   }
+  /*
   else if(gap == 1) {
     snprintf(str, sizeof(str), "AUTO");
     textColor = nvgRGBA(120, 255, 120, 200);
   }
+  */
   else {
     snprintf(str, sizeof(str), "%d", (int)gap);
     textColor = nvgRGBA(120, 255, 120, 200);
