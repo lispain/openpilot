@@ -330,7 +330,6 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       updateBtn->setEnabled(false);
     }
     std::system("/data/openpilot/gitcommit.sh");
-    main_layout->addWidget(new GitHash());
   });
 
   QVBoxLayout *main_layout = new QVBoxLayout(this);
@@ -342,6 +341,9 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
     }
   }
 
+  main_layout->addWidget(horizontal_line());
+
+  main_layout->addWidget(new GitHash());
   const char* gitpull = "/data/openpilot/gitpull.sh ''";
   auto gitpullbtn = new ButtonControl("Git Pull", "실행");
   QObject::connect(gitpullbtn, &ButtonControl::released, [=]() {
