@@ -3889,9 +3889,9 @@ CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 �
   btn4.setFixedSize(100, 100);
   hlayout->addWidget(&btn4);
 
-  label2a.setText(" 2칸:");
-  label3a.setText(" 3칸:");
-  label4a.setText(" 4칸:");
+  label2a.setText("2칸:");
+  label3a.setText("3칸:");
+  label4a.setText("4칸:");
 
   QObject::connect(&btn2, &QPushButton::released, [=]() {
     auto str = QString::fromStdString(params.get("CruiseGap2"));
