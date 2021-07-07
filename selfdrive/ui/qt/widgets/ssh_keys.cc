@@ -3840,7 +3840,7 @@ void DcGain::refresh() {
   btnplus.setText("＋");
 }
 
-CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 따른 차간거리를 조절 합니다.", "") {
+CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 따른 차간거리(TR)를 조절 합니다. TR은 앞차와 추돌시간(초)을 말하며 커질수록 앞차와 더 먼 간격을 유지합니다.", "") {
   btn2.setStyleSheet(R"(
     padding: 0;
     border-radius: 50px;
@@ -3889,9 +3889,9 @@ CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 �
   btn4.setFixedSize(100, 100);
   hlayout->addWidget(&btn4);
 
-  label2a.setText(" 2단: ");
-  label3a.setText(" 3단: ");
-  label4a.setText(" 4단: ");
+  label2a.setText(" 2칸:");
+  label3a.setText(" 3칸:");
+  label4a.setText(" 4칸:");
 
   QObject::connect(&btn2, &QPushButton::released, [=]() {
     auto str = QString::fromStdString(params.get("CruiseGap2"));
