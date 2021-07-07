@@ -319,7 +319,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   gitCommitLbl = new LabelControl("Git Commit");
   osVersionLbl = new LabelControl("OS Version");
   versionLbl = new LabelControl("Version");
-  lastUpdateLbl = new LabelControl("Last Update Check", "", "The last time openpilot successfully checked for an update. The updater only runs while the car is off.");
+  lastUpdateLbl = new LabelControl("Last Update Check", "", "");
   updateBtn = new ButtonControl("Check for Update", "");
   connect(updateBtn, &ButtonControl::released, [=]() {
     if (params.getBool("IsOffroad")) {
@@ -329,7 +329,8 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       updateBtn->setText("확인중");
       updateBtn->setEnabled(false);
     }
-    std::system("pkill -1 -f selfdrive.updated");
+    std::system("/data/openpilot/gitcommit.sh");
+    main_layout->addWidget(new GitHash());
   });
 
   QVBoxLayout *main_layout = new QVBoxLayout(this);
@@ -341,9 +342,6 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
     }
   }
 
-  main_layout->addWidget(horizontal_line());
-
-  main_layout->addWidget(new GitHash());
   const char* gitpull = "/data/openpilot/gitpull.sh ''";
   auto gitpullbtn = new ButtonControl("Git Pull", "실행");
   QObject::connect(gitpullbtn, &ButtonControl::released, [=]() {
