@@ -1345,6 +1345,9 @@ private:
   QLabel label2;
   QLabel label3;
   QLabel label4;
+  QLabel label2a;
+  QLabel label3a;
+  QLabel label4a;
   Params params;
   
   void refresh2();
