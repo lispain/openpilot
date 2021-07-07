@@ -111,7 +111,7 @@ int main() {
       else
       {
         oTime++;
-        if ( oTime > 40 )
+        if ( oTime > 35 )
         {
           oTime = 0;
           res.speedLimitDistance = 0;
