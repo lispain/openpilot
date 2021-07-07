@@ -332,9 +332,10 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
     std::system("/data/openpilot/gitcommit.sh");
     QTimer::singleShot(2000, []() {
       QString desc = "[깃 커밋 내역]\n";
-      std::string commit_local = Params().get("GitCommit").substr(0, 10);
-      std::string commit_remote = Params().get("GitCommitRemote").substr(0, 10);
-      desc += QString("로  컬: %1\n리모트: %2").arg(commit_local, commit_remote);
+      QString commit_local = QString::fromStdString(Params().get("GitCommit").substr(0, 10));
+      QString commit_remote = QString::fromStdString(Params().get("GitCommitRemote").substr(0, 10));
+      QString empty = "";
+      desc += QString("로  컬: %1\n리모트: %2%3%4").arg(commit_local, commit_remote, empty, empty);
       if (ConfirmationDialog::confirm(desc)) {
         updateBtn->setText("확인");
         updateBtn->setEnabled(true);
