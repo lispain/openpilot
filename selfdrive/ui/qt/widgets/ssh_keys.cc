@@ -3839,3 +3839,112 @@ void DcGain::refresh() {
   btnminus.setText("－");
   btnplus.setText("＋");
 }
+
+CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 따른 차간거리를 조절 합니다.", "") {
+  btn2.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btn3.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btn4.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+
+  label2.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label2.setStyleSheet("color: #e0e879");
+  label3.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label3.setStyleSheet("color: #e0e879");
+  label4.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label4.setStyleSheet("color: #e0e879");
+  
+  hlayout->addWidget(&label2);
+  btn2.setFixedSize(100, 100);
+  hlayout->addWidget(&btn2);
+  hlayout->addWidget(&label3);
+  btn3.setFixedSize(100, 100);
+  hlayout->addWidget(&btn3);
+  hlayout->addWidget(&label4);
+  btn4.setFixedSize(100, 100);
+  hlayout->addWidget(&btn4);
+
+  QObject::connect(&btn2, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("CruiseGap2"));
+    int value = str.toInt();
+    value = value + 1;
+    if (value >= 16 ) {
+      value = 8;
+    }
+    QString values = QString::number(value);
+    params.put("CruiseGap2", values.toStdString());
+    refresh2();
+  });
+  
+  QObject::connect(&btn3, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("CruiseGap3"));
+    int value = str.toInt();
+    value = value + 1;
+    if (value >= 20 ) {
+      value = 10;
+    }
+    QString values = QString::number(value);
+    params.put("CruiseGap3", values.toStdString());
+    refresh3();
+  });
+
+  QObject::connect(&btn4, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("CruiseGap4"));
+    int value = str.toInt();
+    value = value + 1;
+    if (value >= 30 ) {
+      value = 12;
+    }
+    QString values = QString::number(value);
+    params.put("CruiseGap4", values.toStdString());
+    refresh4();
+  });
+
+  refresh2();
+  refresh3();
+  refresh4();
+}
+
+void CruiseGapTR::refresh2() {
+  auto strs = QString::fromStdString(params.get("CruiseGap2"));
+  int valuei = strs.toInt();
+  float valuef = valuei * 0.1;
+  QString valuefs = QString::number(valuef);
+  label2.setText(QString::fromStdString(valuefs.toStdString()));
+  btn2.setText("▲");
+}
+void CruiseGapTR::refresh3() {
+  auto strs = QString::fromStdString(params.get("CruiseGap3"));
+  int valuei = strs.toInt();
+  float valuef = valuei * 0.1;
+  QString valuefs = QString::number(valuef);
+  label3.setText(QString::fromStdString(valuefs.toStdString()));
+  btn3.setText("▲");
+}
+void CruiseGapTR::refresh4() {
+  auto strs = QString::fromStdString(params.get("CruiseGap4"));
+  int valuei = strs.toInt();
+  float valuef = valuei * 0.1;
+  QString valuefs = QString::number(valuef);
+  label4.setText(QString::fromStdString(valuefs.toStdString()));
+  btn4.setText("▲");
+}

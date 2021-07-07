@@ -325,6 +325,9 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"SteerWarningFix", PERSISTENT},
     {"OpkrRunNaviOnBoot", PERSISTENT},
     {"OpkrApksEnable", PERSISTENT},
+    {"CruiseGap2", PERSISTENT},
+    {"CruiseGap3", PERSISTENT},
+    {"CruiseGap4", PERSISTENT},
 };
 
 } // namespace

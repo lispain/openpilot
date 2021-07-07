@@ -631,6 +631,11 @@ QWidget * tuning_panel(QWidget * parent) {
     layout->addWidget(new DcGain());
   }
 
+  layout->addWidget(horizontal_line());
+
+  layout->addWidget(new LabelControl("롱컨트롤메뉴", ""));
+  layout->addWidget(new CruiseGapTR());
+
   layout->addStretch(1);
 
   return w;
