@@ -490,7 +490,7 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   if (is_cruise_set && !s->scene.is_metric) { maxspeed *= 0.6225; }
 
   int viz_max_o = 184; //offset value to move right
-  const Rect rect = {s->viz_rect.x + (bdr_s) + 92, int(s->viz_rect.y + (bdr_s)), 184+viz_max_o, 202};
+  const Rect rect = {s->viz_rect.x + (bdr_s) + 184, int(s->viz_rect.y + (bdr_s)), 184, 202};
   
   NVGcolor color = COLOR_GREY;
   if (s->is_speed_over_limit) {
