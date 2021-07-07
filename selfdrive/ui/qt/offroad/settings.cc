@@ -339,7 +339,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
         updateBtn->setText("확인");
         updateBtn->setEnabled(true);
       }
-    }
+    });
   });
 
   QVBoxLayout *main_layout = new QVBoxLayout(this);
