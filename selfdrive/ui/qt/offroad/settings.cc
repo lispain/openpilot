@@ -328,7 +328,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       fs_watch->addPath(paramsPath + "/d/LastUpdateTime");
       fs_watch->addPath(paramsPath + "/d/UpdateFailedCount");
     }
-    params.put("LastUpdateTime", QDateTime::currentDateTime().toString(Qt::ISODate), 1);
+    //params.put("LastUpdateTime", QDateTime::currentDateTime().toString(Qt::ISODate));
     std::system("/data/openpilot/gitcommit.sh");
     QTimer::singleShot(500, []() {
       QString desc = "";
