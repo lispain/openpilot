@@ -266,7 +266,7 @@ static void ui_draw_world(UIState *s) {
   }
   nvgResetScissor(s->vg);
 }
-
+/*
 // TPMS code added from OPKR
 static void ui_draw_tpms(UIState *s) {
   char tpmsFl[32];
@@ -336,7 +336,7 @@ static void ui_draw_tpms(UIState *s) {
     ui_draw_text(s, pos_x+55, pos_y+100, tpmsRr, 60, COLOR_WHITE_ALPHA(200), "sans-semibold");
   }
 }
-
+*/
 static void ui_draw_standstill(UIState *s) {
   UIScene &scene = s->scene;
 
@@ -560,7 +560,7 @@ static void ui_draw_vision_cruise_speed(UIState *s) {
   s->is_speed_over_limit = s->scene.limitSpeedCamera > 29 && ((s->scene.limitSpeedCamera+round(s->scene.limitSpeedCamera*0.01*s->scene.speed_lim_off))+1 < s->scene.car_state.getVEgo()*3.6);
   const Rect rect = {s->viz_rect.x + (bdr_s), int(s->viz_rect.y + (bdr_s)), 184, 202};
 
-  ui_fill_rect(s->vg, rect, COLOR_WHITE_ALPHA(0), 30.);
+  ui_fill_rect(s->vg, rect, COLOR_BLACK_ALPHA(100), 30.);
   
   //Draw border
   NVGcolor color = COLOR_GREY;
@@ -1177,7 +1177,7 @@ static void ui_draw_vision_header(UIState *s) {
   ui_draw_vision_event(s);
   if (!s->scene.comma_stock_ui) {
     bb_ui_draw_UI(s);
-    ui_draw_tpms(s);
+    //ui_draw_tpms(s);
     if (s->scene.apks_enabled) draw_navi_button(s);
   }
   if (s->scene.end_to_end && !s->scene.comma_stock_ui) {
