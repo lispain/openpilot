@@ -232,7 +232,6 @@ class CarInterface(CarInterfaceBase):
     ret.longitudinalTuning.kfBP = [0., 4., 9., 17., 23., 31.]
     ret.longitudinalTuning.kfV = [1., 1.05, 1.05, 1., 1., 1.]
 
-    ret.enableCamera = True
     ret.enableBsm = 0x58b in fingerprint[0]
 
     ret.stoppingControl = True
