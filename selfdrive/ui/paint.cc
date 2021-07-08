@@ -507,7 +507,7 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   ui_fill_rect(s->vg, rect, color, 20.);
   
   if (s->scene.limitSpeedCamera > 29) {
-    color = COLOR_RED;
+    color = COLOR_BLACK;
     ui_draw_rect(s->vg, rect, color, 10, 0.);
   } else {
     color = COLOR_WHITE_ALPHA(0);
@@ -525,23 +525,23 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   } else {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+65, "Max", 25 * 2.1, COLOR_WHITE_ALPHA(0), "sans-regular");
   }
-  if (is_cruise_set && s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0&& s->scene.limitSpeedCameraDist != 0) {
+  if (is_cruise_set && s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "30", 42 * 2.3, COLOR_BLACK, "sans-semibold");
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (is_cruise_set && s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "40", 42 * 2.3, COLOR_BLACK, "sans-semibold");
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (is_cruise_set && s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "50", 42 * 2.3, COLOR_BLACK, "sans-semibold");
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (is_cruise_set && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "60", 42 * 2.3, COLOR_BLACK, "sans-semibold");
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (is_cruise_set && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "70", 42 * 2.3, COLOR_BLACK, "sans-semibold");
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (is_cruise_set && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "80", 42 * 2.3, COLOR_BLACK, "sans-semibold");
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (is_cruise_set && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "90", 42 * 2.3, COLOR_BLACK, "sans-semibold");
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (is_cruise_set && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "100", 42 * 2.3, COLOR_BLACK, "sans-semibold");
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (is_cruise_set && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0  && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_text(s, rect.centerX(), int(s->viz_rect.y + (bdr_s))+165, "110", 42 * 2.3, COLOR_BLACK, "sans-semibold");
   } else if (is_cruise_set) {
     const std::string maxspeed_str = std::to_string((int)std::nearbyint(maxspeed));
@@ -577,10 +577,10 @@ static void ui_draw_vision_cameradist(UIState *s) {
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);  
   
   if (s->scene.limitSpeedCamera > 29) {
-    color = COLOR_RED;
+    color = COLOR_BLACK;
     ui_draw_rect(s->vg, rect, color, 10, 0.);
     const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-    ui_draw_text(s, rect.centerX() - 15, int(s->viz_rect.y + (bdr_s))+270, cameradist_str.c_str(), 40 * 2.0, COLOR_BLACK, "sans-semibold");
+    ui_draw_text(s, rect.centerX() - 15, int(s->viz_rect.y + (bdr_s))+270, cameradist_str.c_str(), 36 * 2.0, COLOR_BLACK, "sans-semibold");
     ui_draw_text(s, rect.centerX() + 65, int(s->viz_rect.y + (bdr_s))+270, "m", 28 * 1.6, COLOR_BLACK, "sans-semibold");
   } else {
     color = COLOR_WHITE_ALPHA(0);
@@ -644,66 +644,46 @@ static void ui_draw_vision_cruise_speed(UIState *s) {
 static void ui_draw_vision_speed(UIState *s) {
   const float speed = std::max(0.0, (*s->sm)["carState"].getCarState().getVEgo() * (s->scene.is_metric ? 3.6 : 2.2369363));
   const std::string speed_str = std::to_string((int)std::nearbyint(speed));
-  const Rect &viz_rect = s->viz_rect;
   const UIScene *scene = &s->scene;
-  const int viz_speed_w = 260;
-  const int viz_speed_x = viz_rect.centerX() - viz_speed_w/2;
-  const int header_h2 = 400;
+  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
+  
 
-  // turning blinker from kegman, moving signal by OPKR
-  if(scene->leftBlinker && !s->scene.comma_stock_ui) {
-    nvgBeginPath(s->vg);
-    nvgMoveTo(s->vg, viz_speed_x, viz_rect.y + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x - viz_speed_w/2, viz_rect.y + header_h2/4 + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x, viz_rect.y + header_h2/2 + header_h2/4);
-    nvgClosePath(s->vg);
-    nvgFillColor(s->vg, nvgRGBA(255,230,70,(scene->blinker_blinkingrate<=120 && scene->blinker_blinkingrate>=50)?70:0));
-    nvgFill(s->vg);
-
-    nvgBeginPath(s->vg);
-    nvgMoveTo(s->vg, viz_speed_x-145, viz_rect.y + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x-145 - viz_speed_w/2, viz_rect.y + header_h2/4 + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x-145, viz_rect.y + header_h2/2 + header_h2/4);
-    nvgClosePath(s->vg);
-    nvgFillColor(s->vg, nvgRGBA(255,230,70,(scene->blinker_blinkingrate<=100 && scene->blinker_blinkingrate>=50)?140:0));
-    nvgFill(s->vg);
-
-    nvgBeginPath(s->vg);
-    nvgMoveTo(s->vg, viz_speed_x-290, viz_rect.y + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x-290 - viz_speed_w/2, viz_rect.y + header_h2/4 + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x-290, viz_rect.y + header_h2/2 + header_h2/4);
-    nvgClosePath(s->vg);
-    nvgFillColor(s->vg, nvgRGBA(255,230,70,(scene->blinker_blinkingrate<=80 && scene->blinker_blinkingrate>=50)?210:0));
-    nvgFill(s->vg);
-  }
-  if(scene->rightBlinker && !s->scene.comma_stock_ui) {
-    nvgBeginPath(s->vg);
-    nvgMoveTo(s->vg, viz_speed_x+viz_speed_w, viz_rect.y + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x+viz_speed_w + viz_speed_w/2, viz_rect.y + header_h2/4 + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x+viz_speed_w, viz_rect.y + header_h2/2 + header_h2/4);
-    nvgClosePath(s->vg);
-    nvgFillColor(s->vg, nvgRGBA(255,230,70,(scene->blinker_blinkingrate<=120 && scene->blinker_blinkingrate>=50)?70:0));
-    nvgFill(s->vg);
-
-    nvgBeginPath(s->vg);
-    nvgMoveTo(s->vg, viz_speed_x+viz_speed_w+145, viz_rect.y + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x+viz_speed_w+145 + viz_speed_w/2, viz_rect.y + header_h2/4 + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x+viz_speed_w+145, viz_rect.y + header_h2/2 + header_h2/4);
-    nvgClosePath(s->vg);
-    nvgFillColor(s->vg, nvgRGBA(255,230,70,(scene->blinker_blinkingrate<=100 && scene->blinker_blinkingrate>=50)?140:0));
-    nvgFill(s->vg);
-
-    nvgBeginPath(s->vg);
-    nvgMoveTo(s->vg, viz_speed_x+viz_speed_w+290, viz_rect.y + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x+viz_speed_w+290 + viz_speed_w/2, viz_rect.y + header_h2/4 + header_h2/4);
-    nvgLineTo(s->vg, viz_speed_x+viz_speed_w+290, viz_rect.y + header_h2/2 + header_h2/4);
-    nvgClosePath(s->vg);
-    nvgFillColor(s->vg, nvgRGBA(255,230,70,(scene->blinker_blinkingrate<=80 && scene->blinker_blinkingrate>=50)?210:0));
-    nvgFill(s->vg);
-    }
+  // turning blinker sequential crwusiz / mod by arne-fork Togo
+  const int viz_blinker_w = 280;
+  const int viz_blinker_x = s->viz_rect.centerX() - 140;
+  const int viz_add = 50;
+  
   if(scene->leftBlinker || scene->rightBlinker) {
     s->scene.blinker_blinkingrate -= 5;
     if(scene->blinker_blinkingrate<0) s->scene.blinker_blinkingrate = 120;
+    
+    float progress = (120 - s->scene.blinker_blinkingrate) / 120.0;
+    float offset = progress * (6.4 - 1.0) + 1.0;
+    if (offset < 1.0) offset = 1.0;
+    if (offset > 6.4) offset = 6.4;
+
+    float alpha = 1.0;
+    if (progress < 0.25) alpha = progress / 0.25;
+    if (progress > 0.75) alpha = 1.0 - ((progress - 0.75) / 0.25);
+
+    if(s->scene.leftBlinker) {
+      nvgBeginPath(s->vg);
+      nvgMoveTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/4.2));
+      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset) - (viz_blinker_w/2), s->viz_rect.y + (header_h/2.1));
+      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/1.4));
+      nvgClosePath(s->vg);
+      nvgFillColor(s->vg, nvgRGBA(255,190,70,(scene->blinker_blinkingrate<=120 && scene->blinker_blinkingrate>=50)?70:0));
+      nvgFill(s->vg);
+    }
+    if(s->scene.rightBlinker) {
+      nvgBeginPath(s->vg);
+      nvgMoveTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/4.2));
+      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + (viz_blinker_w*1.5), s->viz_rect.y + (header_h/2.1));
+      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/1.4));
+      nvgClosePath(s->vg);
+      nvgFillColor(s->vg, nvgRGBA(255,190,70,(scene->blinker_blinkingrate<=120 && scene->blinker_blinkingrate>=50)?70:0));
+      nvgFill(s->vg);
+    }
   }
 
   NVGcolor val_color = COLOR_WHITE;
