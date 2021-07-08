@@ -19,7 +19,7 @@ AWARENESS_DECEL = -0.2     # car smoothly decel at .2m/s^2 when user is distract
 
 # lookup tables VS speed to determine min and max accels in cruise
 # make sure these accelerations are smaller than mpc limits
-_A_CRUISE_MIN_V = [-0.65, -0.55, -0.52, -.45, -.26]
+_A_CRUISE_MIN_V = [-0.65, -0.56, -0.53, -.45, -.26]
 _A_CRUISE_MIN_BP = [  0.,  5.,  10., 20.,  40.]
 
 # need fast accel at very low speed for stop and go
@@ -258,9 +258,13 @@ class Planner():
     if self.map_enabled:
       longitudinalPlan.mapSign = float(self.map_sign)
       cam_distance_calc = 0
-      cam_distance_calc = interp(self.vego*CV.MS_TO_KPH, [30,60,100,160], [3,4,4.75,5.5])
-      consider_speed = interp((self.vego*CV.MS_TO_KPH - self.target_speed_map), [10, 30], [1, 1.4])
-      if self.target_speed_map > 29 and self.target_speed_map_dist < cam_distance_calc*consider_speed*self.vego*CV.MS_TO_KPH:
+      cam_distance_calc = interp(self.vego*CV.MS_TO_KPH, [30,110], [2.5,4])
+      consider_speed = interp((self.vego*CV.MS_TO_KPH - self.target_speed_map), [0,40], [1, 1.5])
+      if self.target_speed_map > 29 and self.target_speed_map_sign:
+        longitudinalPlan.targetSpeedCamera = float(self.target_speed_map)
+        longitudinalPlan.targetSpeedCameraDist = float(self.target_speed_map_dist)
+        longitudinalPlan.onSpeedControl = True
+      elif self.target_speed_map > 29 and self.target_speed_map_dist < cam_distance_calc*consider_speed*self.vego*CV.MS_TO_KPH:
         longitudinalPlan.targetSpeedCamera = float(self.target_speed_map)
         longitudinalPlan.targetSpeedCameraDist = float(self.target_speed_map_dist)
         longitudinalPlan.onSpeedControl = True
@@ -270,10 +274,6 @@ class Planner():
         longitudinalPlan.targetSpeedCameraDist = float(self.target_speed_map_dist)
         longitudinalPlan.onSpeedControl = True
         self.target_speed_map_sign = True
-      elif self.target_speed_map > 29 and self.target_speed_map_sign:
-        longitudinalPlan.targetSpeedCamera = float(self.target_speed_map)
-        longitudinalPlan.targetSpeedCameraDist = float(self.target_speed_map_dist)
-        longitudinalPlan.onSpeedControl = True
       elif self.target_speed_map > 29 and self.target_speed_map_dist < 600.:
         longitudinalPlan.targetSpeedCamera = float(self.target_speed_map)
         longitudinalPlan.targetSpeedCameraDist = float(self.target_speed_map_dist)
@@ -282,9 +282,11 @@ class Planner():
         longitudinalPlan.targetSpeedCamera = float(self.target_speed_map)
         longitudinalPlan.targetSpeedCameraDist = float(self.target_speed_map_dist)
         longitudinalPlan.onSpeedControl = False
+        self.target_speed_map_sign = False
       else:
         longitudinalPlan.targetSpeedCamera = 0
         longitudinalPlan.targetSpeedCameraDist = 0
         longitudinalPlan.onSpeedControl = False
+        self.target_speed_map_sign = False
 
     pm.send('longitudinalPlan', plan_send)

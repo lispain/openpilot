@@ -284,7 +284,11 @@ static void update_state(UIState *s) {
 
     scene.light_sensor = std::clamp<float>((1023.0 / max_lines) * (max_lines - camera_state.getIntegLines() * gain), 0.0, 1023.0);
   }
-  scene.started = sm["deviceState"].getDeviceState().getStarted();
+  if (Params().getBool("IsOpenpilotViewEnabled")) {
+    scene.started = sm["deviceState"].getDeviceState().getStarted();
+  } else {
+    scene.started = sm["deviceState"].getDeviceState().getStarted() && scene.ignition;
+  }
   if (sm.updated("lateralPlan")) {
     scene.lateral_plan = sm["lateralPlan"].getLateralPlan();
     auto data = sm["lateralPlan"].getLateralPlan();
