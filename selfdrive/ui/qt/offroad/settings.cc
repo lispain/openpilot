@@ -331,20 +331,18 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
     }
     //params.put("LastUpdateTime", QDateTime::currentDateTime().toString(Qt::ISODate));
     std::system("/data/openpilot/gitcommit.sh");
-    QTimer::singleShot(500, [](this) {
-      QString desc = "";
-      QString commit_local = QString::fromStdString(Params().get("GitCommit").substr(0, 10));
-      QString commit_remote = QString::fromStdString(Params().get("GitCommitRemote").substr(0, 10));
-      QString empty = "";
-      desc += QString("로    컬: %1\n리모트: %2%3%4\n").arg(commit_local, commit_remote, empty, empty);
-      if (commit_local == commit_remote) {
-        desc += QString("로컬과 리모트가 일치합니다. 업데이트가 필요 없습니다.");
-      } else {
-        desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
-      }
-      if (ConfirmationDialog::alert(desc, this)) {
-      }
-    });
+    QString desc = "";
+    QString commit_local = QString::fromStdString(Params().get("GitCommit").substr(0, 10));
+    QString commit_remote = QString::fromStdString(Params().get("GitCommitRemote").substr(0, 10));
+    QString empty = "";
+    desc += QString("로    컬: %1\n리모트: %2%3%4\n").arg(commit_local, commit_remote, empty, empty);
+    if (commit_local == commit_remote) {
+      desc += QString("로컬과 리모트가 일치합니다. 업데이트가 필요 없습니다.");
+    } else {
+      desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
+    }
+    if (ConfirmationDialog::alert(desc, this)) {
+    }
   });
 
   QVBoxLayout *main_layout = new QVBoxLayout(this);
