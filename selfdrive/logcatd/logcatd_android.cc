@@ -98,7 +98,7 @@ int main() {
         sTime = 0;
         res.safetySign = atoi( entry.message );
         if (res.safetySign == 124) {
-          print("test")
+          print("test");
           Params().put("OpkrSpeedBump", "1", 1);
         }
       }
