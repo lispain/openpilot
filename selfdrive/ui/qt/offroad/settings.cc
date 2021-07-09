@@ -156,7 +156,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         qInfo() << "캘리브레이션 파라미터 유효하지 않음";
       }
     }
-    if (ConfirmationDialog::confirm(desc)) {
+    if (ConfirmationDialog::confirm(descm, this)) {
       //Params().remove("CalibrationParams");
     }
   });
@@ -341,7 +341,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       } else {
         desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
       }
-      if (ConfirmationDialog::confirm(desc)) {
+      if (ConfirmationDialog::confirm(desc, this)) {
       }
     });
   });
@@ -359,7 +359,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   const char* gitpull = "/data/openpilot/gitpull.sh ''";
   auto gitpullbtn = new ButtonControl("Git Pull", "실행");
   QObject::connect(gitpullbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Git에서 변경사항이 있는 경우만 적용 후 재부팅 합니다. 깃내역 미반영시 로컬변경사항을 확인하세요. 진행하시겠습니까?")){
+    if (ConfirmationDialog::confirm("Git에서 변경사항이 있는 경우만 적용 후 재부팅 합니다. 깃내역 미반영시 로컬변경사항을 확인하세요. 진행하시겠습니까?", this)){
       std::system(gitpull);
     }
   });
@@ -370,7 +370,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   const char* git_reset = "/data/openpilot/git_reset.sh ''";
   auto gitresetbtn = new ButtonControl("Git Reset", "실행");
   QObject::connect(gitresetbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("로컬변경사항을 강제 초기화 후 리모트Git의 최신 커밋내역을 적용합니다. 진행하시겠습니까?")){
+    if (ConfirmationDialog::confirm("로컬변경사항을 강제 초기화 후 리모트Git의 최신 커밋내역을 적용합니다. 진행하시겠습니까?", this)){
       std::system(git_reset);
     }
   });
@@ -381,7 +381,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   const char* gitpull_cancel = "/data/openpilot/gitpull_cancel.sh ''";
   auto gitpullcanceltbtn = new ButtonControl("Git Pull 취소", "실행");
   QObject::connect(gitpullcanceltbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("GitPull 이전 상태로 되돌립니다. 진행하시겠습니까?")){
+    if (ConfirmationDialog::confirm("GitPull 이전 상태로 되돌립니다. 진행하시겠습니까?", this)){
       std::system(gitpull_cancel);
     }
   });
@@ -392,7 +392,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   const char* panda_flashing = "/data/openpilot/panda_flashing.sh ''";
   auto pandaflashingtbtn = new ButtonControl("판다 플래싱", "실행");
   QObject::connect(pandaflashingtbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("판다플래싱 진행중에는 판다의 녹색LED가 빠르게 깜빡입니다. 절대로 장치의 전원을 끄거나 임의로 분리하지 마십시오. 진행하시겠습니까?")) {
+    if (ConfirmationDialog::confirm("판다플래싱 진행중에는 판다의 녹색LED가 빠르게 깜빡입니다. 절대로 장치의 전원을 끄거나 임의로 분리하지 마십시오. 진행하시겠습니까?", this)) {
       std::system(panda_flashing);
     }
   });
@@ -494,7 +494,7 @@ QWidget * user_panel(QWidget * parent) {
   const char* record_del = "rm -f /storage/emulated/0/videos/*";
   auto recorddelbtn = new ButtonControl("녹화파일 전부 삭제", "실행");
   QObject::connect(recorddelbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("저장된 녹화파일을 모두 삭제합니다. 진행하시겠습니까?")){
+    if (ConfirmationDialog::confirm("저장된 녹화파일을 모두 삭제합니다. 진행하시겠습니까?", this)){
       std::system(record_del);
     }
   });
@@ -502,7 +502,7 @@ QWidget * user_panel(QWidget * parent) {
   const char* realdata_del = "rm -rf /storage/emulated/0/realdata/*";
   auto realdatadelbtn = new ButtonControl("주행로그 전부 삭제", "실행");
   QObject::connect(realdatadelbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("저장된 주행로그를 모두 삭제합니다. 진행하시겠습니까?")){
+    if (ConfirmationDialog::confirm("저장된 주행로그를 모두 삭제합니다. 진행하시겠습니까?", this)){
       std::system(realdata_del);
     }
   });
@@ -552,7 +552,7 @@ QWidget * user_panel(QWidget * parent) {
   const char* cal_ok = "cp -f /data/openpilot/selfdrive/assets/addon/param/CalibrationParams /data/params/d/";
   auto calokbtn = new ButtonControl("캘리브레이션 강제 활성화", "실행");
   QObject::connect(calokbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("캘리브레이션을 강제로 설정합니다. 인게이지 확인용이니 실 주행시에는 초기화 하시기 바랍니다.")){
+    if (ConfirmationDialog::confirm("캘리브레이션을 강제로 설정합니다. 인게이지 확인용이니 실 주행시에는 초기화 하시기 바랍니다.", this)){
       std::system(cal_ok);
     }
   });
@@ -573,7 +573,7 @@ QWidget * user_panel(QWidget * parent) {
   const char* p_edit_go = "/data/openpilot/p_edit.sh ''";
   auto peditbtn = new ButtonControl("판다값 변경 적용", "실행");
   QObject::connect(peditbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("변경된 판다값을 적용합니다. 진행하시겠습니까? 자동 재부팅됩니다.")){
+    if (ConfirmationDialog::confirm("변경된 판다값을 적용합니다. 진행하시겠습니까? 자동 재부팅됩니다.", this)){
       std::system(p_edit_go);
     }
   });
