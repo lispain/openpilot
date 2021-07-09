@@ -339,7 +339,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
     if (commit_local == commit_remote) {
       desc += QString("로컬과 리모트가 일치합니다. 업데이트가 필요 없습니다.");
     } else {
-      desc += QString("업데이트가 있습니다. 적용하려면 확인을 누르세요.");
+      desc += QString("업데이트가 있습니다. 적용하려면 확인버튼을 누르세요.");
     }
     if (ConfirmationDialog::confirm(desc, this)) {
       std::system("/data/openpilot/gitpull.sh");

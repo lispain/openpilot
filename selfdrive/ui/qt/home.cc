@@ -1,5 +1,6 @@
 #include "selfdrive/ui/qt/home.h"
 
+#include <QDate>
 #include <QDateTime>
 #include <QHBoxLayout>
 #include <QMouseEvent>
@@ -274,7 +275,23 @@ void OffroadHome::refresh() {
     return;
   }
 
-  date->setText(QDateTime::currentDateTime().toString("yyyy년 M월 d일 dddd"));
+  QString dayofweek = "";
+  if (QDate::dayOfWeek() == 1) {
+    dayofweek = "월요일";
+  } else if (QDate::dayOfWeek() == 2) {
+    dayofweek = "화요일";
+  } else if (QDate::dayOfWeek() == 3) {
+    dayofweek = "수요일";
+  } else if (QDate::dayOfWeek() == 4) {
+    dayofweek = "목요일";
+  } else if (QDate::dayOfWeek() == 5) {
+    dayofweek = "금요일";
+  } else if (QDate::dayOfWeek() == 6) {
+    dayofweek = "토요일";
+  } else if (QDate::dayOfWeek() == 7) {
+    dayofweek = "일요일";
+  }
+  date->setText(QDateTime::currentDateTime().toString("yyyy년 M월 d일" + dayofweek));
 
   // update alerts
 
