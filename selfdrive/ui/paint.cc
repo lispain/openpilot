@@ -483,6 +483,53 @@ static void ui_draw_vision_maxspeed_org(UIState *s) {
   }
 }
 
+static void ui_draw_vision_cameradist(UIState *s) {
+  const int SET_SPEED_NA = 255;
+  float maxspeed = s->scene.controls_state.getVCruise();
+  const bool is_cruise_set = maxspeed != 0 && maxspeed != SET_SPEED_NA && s->scene.controls_state.getEnabled();
+  float cameradist = s->scene.limitSpeedCameraDist;
+  float cameradistkm = cameradist / 1000;
+  if (is_cruise_set && !s->scene.is_metric) { maxspeed *= 0.6225; }
+
+  char str[64];
+  snprintf(str, sizeof(str), "%.1f", (float)cameradistkm);
+  
+  //int viz_max_o = 184; //offset value to move right
+  const Rect rect = {s->viz_rect.x + (bdr_s) + 184 + 15, int(s->viz_rect.y + (bdr_s)) + 170, 184, 80};
+  NVGcolor color = COLOR_WHITE;
+    
+  if (s->is_speed_over_limit) {
+    color = nvgRGBA(255, 0, 0, 180);
+  } else if (s->scene.limitSpeedCamera > 29 && !s->is_speed_over_limit) {
+    color = nvgRGBA(255, 0, 0, 180);
+  } else {
+    color = COLOR_WHITE_ALPHA(0);
+  }
+  
+  ui_fill_rect(s->vg, rect, color, 20.);
+  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE); 
+  
+  if (s->scene.limitSpeedCamera > 1000) {
+    color = COLOR_RED;
+    ui_draw_rect(s->vg, rect, color, 10, 0.);
+    //const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
+    ui_draw_text(s, rect.centerX() - 20, int(s->viz_rect.y + (bdr_s))+210, str, 34 * 2.0, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, rect.centerX() + 55, int(s->viz_rect.y + (bdr_s))+220, "km", 25 * 1.6, COLOR_WHITE, "sans-semibold");
+  } else if (s->scene.limitSpeedCamera > 29){
+    color = COLOR_WHITE_ALPHA(0);
+    ui_draw_rect(s->vg, rect, color, 10, 0.);
+    const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
+    ui_draw_text(s, rect.centerX() - 15, int(s->viz_rect.y + (bdr_s))+210, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, rect.centerX() + 55, int(s->viz_rect.y + (bdr_s))+220, "m", 25 * 1.6, COLOR_WHITE, "sans-semibold");
+  } else {
+    color = COLOR_WHITE_ALPHA(0);
+    ui_draw_rect(s->vg, rect, color, 10, 0.);
+    const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
+    ui_draw_text(s, rect.centerX() - 15, int(s->viz_rect.y + (bdr_s))+250, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE_ALPHA(0), "sans-semibold");
+    ui_draw_text(s, rect.centerX() + 65, int(s->viz_rect.y + (bdr_s))+250, "m", 25 * 1.6, COLOR_WHITE_ALPHA(0), "sans-semibold");
+  } 
+}
+
 static void ui_draw_vision_maxspeed(UIState *s) {
   const int SET_SPEED_NA = 255;
   float maxspeed = s->scene.controls_state.getVCruise();
@@ -551,53 +598,7 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   } 
 }
 
-static void ui_draw_vision_cameradist(UIState *s) {
-  const int SET_SPEED_NA = 255;
-  float maxspeed = s->scene.controls_state.getVCruise();
-  const bool is_cruise_set = maxspeed != 0 && maxspeed != SET_SPEED_NA && s->scene.controls_state.getEnabled();
-  float cameradist = s->scene.limitSpeedCameraDist;
-  float cameradistkm = cameradist / 1000;
-  if (is_cruise_set && !s->scene.is_metric) { maxspeed *= 0.6225; }
 
-  char str[64];
-  snprintf(str, sizeof(str), "%.1f", (float)cameradistkm);
-  
-  //int viz_max_o = 184; //offset value to move right
-  const Rect rect = {s->viz_rect.x + (bdr_s) + 184 + 15, int(s->viz_rect.y + (bdr_s)) + 192, 184, 80};
-  NVGcolor color = COLOR_WHITE;
-
-  if (s->is_speed_over_limit) {
-    color = nvgRGBA(255, 0, 0, 180);
-  } else if (s->scene.limitSpeedCamera > 29 && !s->is_speed_over_limit) {
-    color = nvgRGBA(255, 0, 0, 180);
-  } else {
-    color = COLOR_WHITE_ALPHA(0);
-  }
-  
-  ui_fill_rect(s->vg, rect, color, 20.);
-  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE); 
-  
-  if (s->scene.limitSpeedCamera > 1000) {
-    color = COLOR_RED;
-    ui_draw_rect(s->vg, rect, color, 10, 0.);
-    //const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-    ui_draw_text(s, rect.centerX() - 15, int(s->viz_rect.y + (bdr_s))+250, str, 34 * 2.0, COLOR_WHITE, "sans-semibold");
-    ui_draw_text(s, rect.centerX() + 70, int(s->viz_rect.y + (bdr_s))+250, "km", 25 * 1.6, COLOR_WHITE, "sans-semibold");
-  } else if (s->scene.limitSpeedCamera > 29){
-    color = COLOR_WHITE_ALPHA(0);
-    ui_draw_rect(s->vg, rect, color, 10, 0.);
-    const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-    ui_draw_text(s, rect.centerX() - 15, int(s->viz_rect.y + (bdr_s))+250, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE, "sans-semibold");
-    ui_draw_text(s, rect.centerX() + 65, int(s->viz_rect.y + (bdr_s))+250, "m", 25 * 1.6, COLOR_WHITE, "sans-semibold");
-  } else {
-    color = COLOR_WHITE_ALPHA(0);
-    ui_draw_rect(s->vg, rect, color, 10, 0.);
-    const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
-    ui_draw_text(s, rect.centerX() - 15, int(s->viz_rect.y + (bdr_s))+250, cameradist_str.c_str(), 34 * 2.0, COLOR_WHITE_ALPHA(0), "sans-semibold");
-    ui_draw_text(s, rect.centerX() + 65, int(s->viz_rect.y + (bdr_s))+250, "m", 25 * 1.6, COLOR_WHITE_ALPHA(0), "sans-semibold");
-  } 
-      
-}
 
 static void ui_draw_vision_cruise_speed(UIState *s) {
   const int SET_SPEED_NA = 255;
@@ -1196,8 +1197,8 @@ static void ui_draw_vision_header(UIState *s) {
   ui_fill_rect(s->vg, {s->viz_rect.x, s->viz_rect.y, s->viz_rect.w, header_h}, gradient);
 
   if (!s->scene.comma_stock_ui) {
-    ui_draw_vision_maxspeed(s);
     ui_draw_vision_cameradist(s);
+    ui_draw_vision_maxspeed(s);
     ui_draw_vision_cruise_speed(s);
   } else {
     ui_draw_vision_maxspeed_org(s);
