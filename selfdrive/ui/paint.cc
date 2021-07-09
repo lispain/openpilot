@@ -395,8 +395,8 @@ static void ui_draw_debug(UIState *s)
     ui_print(s, ui_viz_rx, ui_viz_ry+550, "%.2f|%.2f", scene.lateralPlan.lProb, scene.lateralPlan.rProb);
     //ui_print(s, ui_viz_rx, ui_viz_ry+800, "A:%.5f", scene.accel_sensor2);
     if (s->scene.map_is_running) {
-      if (s->scene.mapSign) ui_print(s, ui_viz_rx, ui_viz_ry+600, "S:%.0f", scene.mapSign);
-      if (s->scene.limitSpeedCameraDist) ui_print(s, ui_viz_rx, ui_viz_ry+650, "D:%.0f", scene.limitSpeedCameraDist);
+      if (s->scene.liveMapData.opkrspeedsign) ui_print(s, ui_viz_rx, ui_viz_ry+600, "S:%.0f", scene.liveMapData.opkrspeedsign);
+      if (s->scene.liveMapData.opkrspeedlimitdist) ui_print(s, ui_viz_rx, ui_viz_ry+650, "D:%.0f", scene.liveMapData.opkrspeedlimitdist);
       if (s->scene.liveMapData.opkrturninfo) ui_print(s, ui_viz_rx, ui_viz_ry+700, "T:%.0f", scene.liveMapData.opkrturninfo);
       if (s->scene.liveMapData.opkrdisttoturn) ui_print(s, ui_viz_rx, ui_viz_ry+750, "D:%.0f", scene.liveMapData.opkrdisttoturn);
     }
@@ -645,7 +645,7 @@ static void ui_draw_vision_event(UIState *s) {
   }
   if ((s->scene.mapSign == 195 || s->scene.mapSign == 197) && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist != 0 && !s->scene.comma_stock_ui) {
     ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);
-  } else if (s->scene.mapSign == 124 && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist == 0 && !s->scene.comma_stock_ui) {
+  } else if (s->scene.liveMapData.opkrspeedsign == 124 && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist == 0 && !s->scene.comma_stock_ui) {
     ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_bump", 0.5f);
   }
   
