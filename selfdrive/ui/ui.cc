@@ -161,7 +161,6 @@ static void update_state(UIState *s) {
     scene.limitSpeedCameraDist = scene.controls_state.getLimitSpeedCameraDist();
     scene.mapSign = scene.controls_state.getMapSign();
     scene.steerRatio = scene.controls_state.getSteerRatio();
-    scene.long_plan_source = scene.controls_state.getLongPlanSource();
   }
   if (sm.updated("carState")) {
     scene.car_state = sm["carState"].getCarState();
