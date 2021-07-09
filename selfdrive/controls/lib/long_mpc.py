@@ -56,14 +56,14 @@ class LongitudinalMpc():
 
     # Calculate mpc
 
-    ## neokii value, opkr mod
-    #cruise_gap = int(clip(carstate.cruiseGapSet, 1., 4.))
-    #dynamic_TR = interp(self.cur_state[0].v_ego*3.6, [0, 20, 40, 60, 110], [0.9, 1.2, 1.4, 1.65, 1.9] )
-    #TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
+    # neokii value, opkr mod
+    cruise_gap = int(clip(carstate.cruiseGapSet, 1., 4.))
+    dynamic_TR = interp(self.cur_state[0].v_ego*3.6, [0, 20, 40, 60, 110], [0.9, 1.2, 1.4, 1.65, 1.9] )
+    TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
 
     self.libmpc.run_mpc(self.cur_state, self.mpc_solution,
                         list(poss), list(speeds), list(accels),
-                        self.min_a, self.max_a)
+                        self.min_a, self.max_a, TR)
 
     self.v_solution = list(self.mpc_solution.v_ego)
     self.a_solution = list(self.mpc_solution.a_ego)
