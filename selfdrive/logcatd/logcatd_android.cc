@@ -97,7 +97,10 @@ int main() {
         oTime = 0;
         sTime = 0;
         res.safetySign = atoi( entry.message );
-        if (res.safetySign == 124) Params().put("OpkrSpeedBump", "1", 1);
+        if (res.safetySign == 124) {
+          print("test")
+          Params().put("OpkrSpeedBump", "1", 1);
+        }
       }
       else if( (res.speedLimitDistance > 1 && res.speedLimitDistance < 50) && (strcmp( entry.tag, "AudioFlinger" ) == 0) )  //   msm8974_platform
       {
