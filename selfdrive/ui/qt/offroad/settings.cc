@@ -321,8 +321,8 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   gitCommitLbl = new LabelControl("Git Commit");
   osVersionLbl = new LabelControl("OS Version");
   versionLbl = new LabelControl("Version");
-  lastUpdateLbl = new LabelControl("Last Update Check", "", "");
-  updateBtn = new ButtonControl("업데이트 확인", "");
+  lastUpdateLbl = new LabelControl("최근업데이트 확인", "", "");
+  updateBtn = new ButtonControl("업데이트 체크", "");
   connect(updateBtn, &ButtonControl::released, [=]() {
     if (params.getBool("IsOffroad")) {
       const QString paramsPath = QString::fromStdString(params.getParamsPath());
