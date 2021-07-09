@@ -6,7 +6,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
-#include <QTimer>
 #include <QWidget>
 
 

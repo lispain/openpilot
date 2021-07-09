@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QProcess> // opkr
 #include <QDateTime> // opkr
+#include <QTimer> // opkr
 
 #ifndef QCOM
 #include "selfdrive/ui/qt/offroad/networking.h"
@@ -341,7 +342,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       } else {
         desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
       }
-      if (ConfirmationDialog::confirm(desc)) {
+      if (ConfirmationDialog::alert(desc)) {
       }
     });
   });
