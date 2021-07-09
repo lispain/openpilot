@@ -36,7 +36,7 @@ SshControl::SshControl() : AbstractControl("SSH 키 설정", "경고: 이렇게 
 
   QObject::connect(&btn, &QPushButton::released, [=]() {
     if (btn.text() == "설정") {
-      QString username = InputDialog::getText("GitHub 아이디를 입력하세요");
+      QString username = InputDialog::getText("GitHub 아이디를 입력하세요", this);
       if (username.length() > 0) {
         btn.setText("로딩중");
         btn.setEnabled(false);
@@ -260,7 +260,7 @@ CarForceSet::CarForceSet() : AbstractControl("차량강제인식", "핑거프린
 
   QObject::connect(&btnc, &QPushButton::released, [=]() {
     if (btnc.text() == "설정") {
-      carname = InputDialog::getText("차량명은 이전메뉴 차량강제인식을 클릭하여 확인");
+      carname = InputDialog::getText("차량명은 이전메뉴 차량강제인식을 클릭하여 확인", this);
       if (carname.length() > 0) {
         btnc.setText("완료");
         btnc.setEnabled(false);
