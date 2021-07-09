@@ -622,6 +622,7 @@ TuningPanel::TuningPanel(QWidget* parent) : QWidget(parent) {
   layout->addWidget(horizontal_line());
 
   layout->addWidget(new LabelControl("롱컨트롤메뉴", ""));
+  layout->addWidget(new DynamicTR());
   layout->addWidget(new CruiseGapTR());
 }
 
