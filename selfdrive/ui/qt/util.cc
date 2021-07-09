@@ -36,20 +36,20 @@ void clearLayout(QLayout* layout) {
 }
 
 QString timeAgo(const QDateTime &date) {
-  int diff = date.secsTo(QDateTime::currentDateTimeUtc());
+  int diff = date.secsTo(QDateTime::currentDateTime());
 
   QString s;
   if (diff < 60) {
     s = "지금";
   } else if (diff < 60 * 60) {
     int minutes = diff / 60;
-    s = QString("%2분 전 %1").arg(minutes).arg(minutes > 1 ? "s" : "");
+    s = QString("%1분 전").arg(minutes);
   } else if (diff < 60 * 60 * 24) {
     int hours = diff / (60 * 60);
-    s = QString("%2시간 전 %1").arg(hours).arg(hours > 1 ? "s" : "");
+    s = QString("%1시간 전").arg(hours);
   } else if (diff < 3600 * 24 * 7) {
     int days = diff / (60 * 60 * 24);
-    s = QString("%2일 전 %1").arg(days).arg(days > 1 ? "s" : "");
+    s = QString("%1일 전").arg(days);
   } else {
     s = date.date().toString();
   }
