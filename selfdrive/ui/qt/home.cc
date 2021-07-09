@@ -291,7 +291,7 @@ void OffroadHome::refresh() {
   } else if (QDate::currentDate().dayOfWeek() == 7) {
     dayofweek = "일요일";
   }
-  date->setText(QDateTime::currentDateTime().toString("yyyy년 M월 d일" + dayofweek));
+  date->setText(QDateTime::currentDateTime().toString("yyyy년 M월 d일 " + dayofweek));
 
   // update alerts
 
