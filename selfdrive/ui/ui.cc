@@ -270,7 +270,7 @@ static void update_state(UIState *s) {
       } else if (scene.started && sensor.which() == cereal::SensorEventData::ACCELERATION) {
         auto accel2 = sensor.getAcceleration().getV();
         scene.accel_sensor2 = accel2[2];
-        if ((scene.accel_sensor2 < -1) && Params().getBool("OpkrSpeedBump")) {
+        if ((scene.accel_sensor2 < -1.5) && Params().getBool("OpkrSpeedBump")) {
           Params().put("OpkrSpeedBump", "0", 1);
         }
       }

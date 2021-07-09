@@ -98,7 +98,6 @@ int main() {
         sTime = 0;
         res.safetySign = atoi( entry.message );
         if (res.safetySign == 124) {
-          printf("bump test");
           Params().put("OpkrSpeedBump", "1", 1);
         }
       }
