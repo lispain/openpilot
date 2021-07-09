@@ -89,7 +89,7 @@ class LeadMpc():
 
     # neokii value, opkr mod
     cruise_gap = int(clip(CS.cruiseGapSet, 1., 4.))
-    dynamic_TR = interp(self.cur_state[0].v_ego*3.6, [0, 20, 40, 60, 110], [0.9, 1.2, 1.4, 1.65, 1.9] )
+    dynamic_TR = interp(v_ego*3.6, [0, 20, 40, 60, 110], [0.9, 1.2, 1.4, 1.65, 1.9] )
     TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
 
 
