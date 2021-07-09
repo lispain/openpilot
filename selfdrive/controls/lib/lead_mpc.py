@@ -28,9 +28,12 @@ class LeadMpc():
     self.status = False
 
     self.cruise_gap = 0
+    self.cruise_gap1 = float(Decimal(Params().get("CruiseGap1", encoding="utf8")) * Decimal('0.1'))
     self.cruise_gap2 = float(Decimal(Params().get("CruiseGap2", encoding="utf8")) * Decimal('0.1'))
     self.cruise_gap3 = float(Decimal(Params().get("CruiseGap3", encoding="utf8")) * Decimal('0.1'))
     self.cruise_gap4 = float(Decimal(Params().get("CruiseGap4", encoding="utf8")) * Decimal('0.1'))
+
+    self.dynamic_TR = int(Params().get("DynamicTR", encoding="utf8"))
 
   def reset_mpc(self):
     ffi, self.libmpc = libmpc_py.get_libmpc(self.lead_id)
@@ -90,7 +93,15 @@ class LeadMpc():
     # neokii value, opkr mod
     cruise_gap = int(clip(CS.cruiseGapSet, 1., 4.))
     dynamic_TR = interp(v_ego*3.6, [10, 40, 65, 110], [1.05, 1.30, 1.5, 2.0] )
-    TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, dynamic_TR, dynamic_TR, dynamic_TR])
+    TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
+    if self.dynamic_TR == 1:
+      TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
+    elif self.dynamic_TR == 2:
+      TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, dynamic_TR, self.cruise_gap3, self.cruise_gap4])
+    elif self.dynamic_TR == 3:
+      TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, dynamic_TR, self.cruise_gap4])
+    elif self.dynamic_TR == 4:
+      TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, self.cruise_gap3, dynamic_TR])
 
 
     # Calculate mpc
