@@ -331,7 +331,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
     }
     //params.put("LastUpdateTime", QDateTime::currentDateTime().toString(Qt::ISODate));
     std::system("/data/openpilot/gitcommit.sh");
-    QTimer::singleShot(500, []() {
+    QTimer::singleShot(500, [](this) {
       QString desc = "";
       QString commit_local = QString::fromStdString(Params().get("GitCommit").substr(0, 10));
       QString commit_remote = QString::fromStdString(Params().get("GitCommitRemote").substr(0, 10));
@@ -342,7 +342,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       } else {
         desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
       }
-      if (ConfirmationDialog::alert(desc)) {
+      if (ConfirmationDialog::alert(desc, this)) {
       }
     });
   });
