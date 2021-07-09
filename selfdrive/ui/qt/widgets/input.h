@@ -51,9 +51,9 @@ class ConfirmationDialog : public QDialogBase {
 
 public:
   explicit ConfirmationDialog(const QString &prompt_text, const QString &confirm_text,
-                              const QString &cancel_text, QWidget* parent);
-  static bool alert(const QString &prompt_text, QWidget *parent);
-  static bool confirm(const QString &prompt_text, QWidget *parent);
+                              const QString &cancel_text, QWidget* parent = 0);
+  static bool alert(const QString &prompt_text, QWidget *parent = 0);
+  static bool confirm(const QString &prompt_text, QWidget *parent = 0);
 
 private:
   QLabel *prompt;

@@ -156,7 +156,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         qInfo() << "캘리브레이션 파라미터 유효하지 않음";
       }
     }
-    if (ConfirmationDialog::confirm(desc, this)) {
+    if (ConfirmationDialog::alert(desc, this)) {
       //Params().remove("CalibrationParams");
     }
   });
@@ -341,7 +341,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       } else {
         desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
       }
-      if (ConfirmationDialog::confirm(desc)) {
+      if (ConfirmationDialog::alert(desc)) {
       }
     });
   });
