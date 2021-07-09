@@ -1,12 +1,14 @@
 import math
 import numpy as np
-from common.numpy_fast import interp
+from common.numpy_fast import clip, interp
 from common.realtime import sec_since_boot
 from selfdrive.modeld.constants import T_IDXS
 from selfdrive.controls.lib.radar_helpers import _LEAD_ACCEL_TAU
 from selfdrive.controls.lib.lead_mpc_lib import libmpc_py
 from selfdrive.controls.lib.drive_helpers import MPC_COST_LONG, CONTROL_N
 from selfdrive.swaglog import cloudlog
+from common.params import Params
+from decimal import Decimal
 
 MPC_T = list(np.arange(0,1.,.2)) + list(np.arange(1.,10.6,.6))
 
@@ -24,6 +26,11 @@ class LeadMpc():
     self.n_its = 0
     self.duration = 0
     self.status = False
+
+    self.cruise_gap = 0
+    self.cruise_gap2 = float(Decimal(Params().get("CruiseGap2", encoding="utf8")) * Decimal('0.1'))
+    self.cruise_gap3 = float(Decimal(Params().get("CruiseGap3", encoding="utf8")) * Decimal('0.1'))
+    self.cruise_gap4 = float(Decimal(Params().get("CruiseGap4", encoding="utf8")) * Decimal('0.1'))
 
   def reset_mpc(self):
     ffi, self.libmpc = libmpc_py.get_libmpc(self.lead_id)
@@ -80,9 +87,15 @@ class LeadMpc():
       a_lead = 0.0
       self.a_lead_tau = _LEAD_ACCEL_TAU
 
+    # neokii value, opkr mod
+    cruise_gap = int(clip(CS.cruiseGapSet, 1., 4.))
+    dynamic_TR = interp(self.cur_state[0].v_ego*3.6, [0, 20, 40, 60, 110], [0.9, 1.2, 1.4, 1.65, 1.9] )
+    TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
+
+
     # Calculate mpc
     t = sec_since_boot()
-    self.n_its = self.libmpc.run_mpc(self.cur_state, self.mpc_solution, self.a_lead_tau, a_lead)
+    self.n_its = self.libmpc.run_mpc(self.cur_state, self.mpc_solution, self.a_lead_tau, a_lead, TR)
     self.v_solution = interp(T_IDXS[:CONTROL_N], MPC_T, self.mpc_solution.v_ego)
     self.a_solution = interp(T_IDXS[:CONTROL_N], MPC_T, self.mpc_solution.a_ego)
     self.duration = int((sec_since_boot() - t) * 1e9)
