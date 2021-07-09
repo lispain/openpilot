@@ -419,7 +419,7 @@ void SoftwarePanel::showEvent(QShowEvent *event) {
 void SoftwarePanel::updateLabels() {
   QString lastUpdate = "";
   QString tm = QString::fromStdString(params.get("LastUpdateTime").substr(0, 19));
-  if (!tm.empty()) {
+  if (tm != "") {
     lastUpdate = timeAgo(QDateTime::fromString(tm, "yyyy-MM-dd HH:mm:ss"));
   }
 
