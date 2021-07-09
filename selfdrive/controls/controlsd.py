@@ -41,7 +41,6 @@ IGNORE_PROCESSES = set(["rtshield", "uploader", "deleter", "loggerd", "logmessag
 ThermalStatus = log.DeviceState.ThermalStatus
 State = log.ControlsState.OpenpilotState
 PandaType = log.PandaState.PandaType
-LongitudinalPlanSource = log.LongitudinalPlan.LongitudinalPlanSource
 Desire = log.LateralPlan.Desire
 LaneChangeState = log.LateralPlan.LaneChangeState
 LaneChangeDirection = log.LateralPlan.LaneChangeDirection
@@ -137,7 +136,6 @@ class Controls:
       self.LaC = LatControlLQR(self.CP)
       self.lateral_control_method = 2
 
-    self.long_plan_source = 0
     self.controlsAllowed = False
 
     self.initialized = False
@@ -708,20 +706,6 @@ class Controls:
       controlsState.limitSpeedCameraDist = float(CS.safetyDist)
     controlsState.lateralControlMethod = int(self.lateral_control_method)
     controlsState.steerRatio = float(self.steerRatio_to_send)
-
-    if self.sm['longitudinalPlan'].longitudinalPlanSource == LongitudinalPlanSource.cruise:
-      self.long_plan_source = 1
-    elif self.sm['longitudinalPlan'].longitudinalPlanSource == LongitudinalPlanSource.mpc1:
-      self.long_plan_source = 2
-    elif self.sm['longitudinalPlan'].longitudinalPlanSource == LongitudinalPlanSource.mpc2:
-      self.long_plan_source = 3
-    elif self.sm['longitudinalPlan'].longitudinalPlanSource == LongitudinalPlanSource.mpc3:
-      self.long_plan_source = 4
-    elif self.sm['longitudinalPlan'].longitudinalPlanSource == LongitudinalPlanSource.model:
-      self.long_plan_source = 5
-    else:
-      self.long_plan_source = 0
-    controlsState.longPlanSource = self.long_plan_source
 
     if self.joystick_mode:
       controlsState.lateralControlState.debugState = lac_log

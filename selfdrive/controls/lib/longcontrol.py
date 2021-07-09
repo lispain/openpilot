@@ -10,6 +10,7 @@ from common.params import Params
 import common.log as trace1
 import common.CTime1000 as tm
 LongCtrlState = log.ControlsState.LongControlState
+LongitudinalPlanSource = log.LongitudinalPlan.LongitudinalPlanSource
 
 STOPPING_EGO_SPEED = 0.5
 STOPPING_TARGET_SPEED_OFFSET = 0.01
@@ -72,6 +73,7 @@ class LongControl():
     self.v_pid = 0.0
     self.last_output_gb = 0.0
     self.long_stat = ""
+    self.long_plan_source = ""
 
     self.candidate = candidate
 
@@ -196,8 +198,21 @@ class LongControl():
     else:
       self.long_stat = "---"
 
+    if long_plan.longitudinalPlanSource == LongitudinalPlanSource.cruise:
+      self.long_plan_source = "cruise"
+    elif long_plan.longitudinalPlanSource == LongitudinalPlanSource.lead0:
+      self.long_plan_source = "lead0"
+    elif long_plan.longitudinalPlanSource == LongitudinalPlanSource.lead1:
+      self.long_plan_source = "lead1"
+    elif long_plan.longitudinalPlanSource == LongitudinalPlanSource.lead2:
+      self.long_plan_source = "lead2"
+    elif long_plan.longitudinalPlanSource == LongitudinalPlanSource.e2e:
+      self.long_plan_source = "e2e"
+    else:
+      self.long_plan_source = "---"
+
     if CP.sccBus != 0 and self.long_log:
-      str_log3 = 'MDPS={:1.0f}  SCC={:1.0f}  LS={:s}  GS={:01.2f}/{:01.2f}  BK={:01.2f}/{:01.2f}  GB={:+04.2f}  G={:1.0f}  GS={}  TG={:04.2f}/{:+04.2f}'.format(CP.mdpsBus, CP.sccBus, self.long_stat, final_gas, gas_max, abs(final_brake), abs(brake_max), output_gb, CS.cruiseGapSet, int(CS.gasPressed), v_target, a_target)
+      str_log3 = 'BUS={:1.0f}/{:1.0f}  LS={:s}  LP={:s}  GS={:01.2f}/{:01.2f}  BK={:01.2f}/{:01.2f}  GB={:+04.2f}  G={:1.0f}  GS={}  TG={:04.2f}/{:+04.2f}'.format(CP.mdpsBus, CP.sccBus, self.long_stat, self.long_plan_source, final_gas, gas_max, abs(final_brake), abs(brake_max), output_gb, CS.cruiseGapSet, int(CS.gasPressed), v_target, a_target)
       trace1.printf2('{}'.format(str_log3))
 
     return final_gas, final_brake, v_target, a_target
