@@ -3842,7 +3842,7 @@ void DcGain::refresh() {
 
 CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 따른 차간거리(TR)를 조절 합니다. TR은 앞차와 추돌시간(초)을 말하며 커질수록 앞차와 더 먼 간격을 유지합니다.", "") {
   QString dtr = QString::fromStdString(params.get("DynamicTR"));
-  if (dtr != "0") {
+  if (dtr == "0") {
     btn1.setStyleSheet(R"(
       padding: -5;
       border-radius: 45px;
@@ -3926,7 +3926,7 @@ CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 �
     hlayout->addWidget(&label1a);
     hlayout->addWidget(&label1);
     if (dtr == "0") {
-      btn1.setFixedSize(80, 100);
+      btn1.setFixedSize(70, 100);
     } else {
       btn1.setFixedSize(100, 100);
     }
@@ -3937,7 +3937,7 @@ CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 �
     hlayout->addWidget(&label2a);
     hlayout->addWidget(&label2);
     if (dtr == "0") {
-      btn2.setFixedSize(80, 100);
+      btn2.setFixedSize(70, 100);
     } else {
       btn2.setFixedSize(100, 100);
     }
@@ -3948,7 +3948,7 @@ CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 �
     hlayout->addWidget(&label3a);
     hlayout->addWidget(&label3);
     if (dtr == "0") {
-      btn3.setFixedSize(80, 100);
+      btn3.setFixedSize(70, 100);
     } else {
       btn3.setFixedSize(100, 100);
     }
@@ -3959,7 +3959,7 @@ CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 �
     hlayout->addWidget(&label4a);
     hlayout->addWidget(&label4);
     if (dtr == "0") {
-      btn4.setFixedSize(80, 100);
+      btn4.setFixedSize(70, 100);
     } else {
       btn4.setFixedSize(100, 100);
     }
