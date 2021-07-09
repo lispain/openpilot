@@ -330,7 +330,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       fs_watch->addPath(paramsPath + "/d/UpdateFailedCount");
     }
     std::system("/data/openpilot/gitcommit.sh");
-    std::system("date +%F %T > /data/params/d/LastUpdateTime");
+    std::system("date '+%F %T' > /data/params/d/LastUpdateTime");
     QString desc = "";
     QString commit_local = QString::fromStdString(Params().get("GitCommit").substr(0, 10));
     QString commit_remote = QString::fromStdString(Params().get("GitCommitRemote").substr(0, 10));
