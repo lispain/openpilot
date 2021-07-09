@@ -393,8 +393,7 @@ static void ui_draw_debug(UIState *s)
     ui_print(s, ui_viz_rx, ui_viz_ry+450, "SC:%.2f", scene.lateralPlan.steerRateCost);
     ui_print(s, ui_viz_rx, ui_viz_ry+500, "OS:%.2f", abs(scene.output_scale));
     ui_print(s, ui_viz_rx, ui_viz_ry+550, "%.2f|%.2f", scene.lateralPlan.lProb, scene.lateralPlan.rProb);
-    ui_print(s, ui_viz_rx, ui_viz_ry+800, "A:%.5f", scene.accel_sensor2);
-    ui_print(s, ui_viz_rx, ui_viz_ry+850, "G:%.5f", scene.gyro_sensor2);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+800, "A:%.5f", scene.accel_sensor2);
     if (s->scene.map_is_running) {
       if (s->scene.mapSign) ui_print(s, ui_viz_rx, ui_viz_ry+600, "S:%.0f", scene.mapSign);
       if (s->scene.limitSpeedCameraDist) ui_print(s, ui_viz_rx, ui_viz_ry+650, "D:%.0f", scene.limitSpeedCameraDist);
@@ -645,8 +644,11 @@ static void ui_draw_vision_event(UIState *s) {
     else if (s->scene.limitSpeedCamera < 120) {ui_draw_image(s, {img_speedlimit_x, img_speedlimit_y, img_speedlimit_size, img_speedlimit_size}, "speed_110", img_speedlimit_alpha);}
   }
   if ((s->scene.mapSign == 195 || s->scene.mapSign == 197) && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist != 0 && !s->scene.comma_stock_ui) {
-    {ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);}
+    ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);
+  } else if ((s->scene.mapSign == 124 && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist == 0 && !s->scene.comma_stock_ui) {
+    ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_bump", 0.5f);
   }
+  
   
   //draw compass by opkr
   if (s->scene.gpsAccuracyUblox != 0.00 && !s->scene.comma_stock_ui) {
@@ -1269,6 +1271,7 @@ void ui_nvg_init(UIState *s) {
     {"speed_100", "../assets/img_100_speedahead.png"},
     {"speed_110", "../assets/img_110_speedahead.png"},
     {"speed_var", "../assets/img_var_speedahead.png"},
+    {"speed_bump", "../assets/img_speed_bump.png"},
     {"car_left", "../assets/img_car_left.png"},
     {"car_right", "../assets/img_car_right.png"},
     {"compass", "../assets/img_compass.png"},
