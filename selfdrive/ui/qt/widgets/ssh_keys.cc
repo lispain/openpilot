@@ -3927,44 +3927,48 @@ CruiseGapTR::CruiseGapTR() : AbstractControl("크루즈갭", "크루즈갭에 �
     hlayout->addWidget(&label1);
     if (dtr == "0") {
       btn1.setFixedSize(60, 100);
+      label1a.setText("1:");
     } else {
       btn1.setFixedSize(100, 100);
+      label1a.setText("1칸:");
     }
     hlayout->addWidget(&btn1);
-    label1a.setText("1칸:");
   }
   if (dtr != "2") {
     hlayout->addWidget(&label2a);
     hlayout->addWidget(&label2);
     if (dtr == "0") {
       btn2.setFixedSize(60, 100);
+      label2a.setText("2:");
     } else {
       btn2.setFixedSize(100, 100);
+      label2a.setText("2칸:");
     }
     hlayout->addWidget(&btn2);
-    label2a.setText("2칸:");
   }
   if (dtr != "3") {
     hlayout->addWidget(&label3a);
     hlayout->addWidget(&label3);
     if (dtr == "0") {
       btn3.setFixedSize(60, 100);
+      label3a.setText("3:");
     } else {
       btn3.setFixedSize(100, 100);
+      label3a.setText("3칸:");
     }
     hlayout->addWidget(&btn3);
-    label3a.setText("3칸:");
   }
   if (dtr != "4") {
     hlayout->addWidget(&label4a);
     hlayout->addWidget(&label4);
     if (dtr == "0") {
       btn4.setFixedSize(60, 100);
+      label4a.setText("4:");
     } else {
       btn4.setFixedSize(100, 100);
+      label4a.setText("4칸:");
     }
     hlayout->addWidget(&btn4);
-    label4a.setText("4칸:");
   }
 
   QObject::connect(&btn1, &QPushButton::released, [=]() {
