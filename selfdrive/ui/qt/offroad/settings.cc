@@ -156,7 +156,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         qInfo() << "캘리브레이션 파라미터 유효하지 않음";
       }
     }
-    if (ConfirmationDialog::confirm(descm, this)) {
+    if (ConfirmationDialog::confirm(desc, this)) {
       //Params().remove("CalibrationParams");
     }
   });
@@ -341,7 +341,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       } else {
         desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
       }
-      if (ConfirmationDialog::confirm(desc, this)) {
+      if (ConfirmationDialog::confirm(desc)) {
       }
     });
   });
@@ -494,7 +494,7 @@ QWidget * user_panel(QWidget * parent) {
   const char* record_del = "rm -f /storage/emulated/0/videos/*";
   auto recorddelbtn = new ButtonControl("녹화파일 전부 삭제", "실행");
   QObject::connect(recorddelbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("저장된 녹화파일을 모두 삭제합니다. 진행하시겠습니까?", this)){
+    if (ConfirmationDialog::confirm("저장된 녹화파일을 모두 삭제합니다. 진행하시겠습니까?")){
       std::system(record_del);
     }
   });
@@ -502,7 +502,7 @@ QWidget * user_panel(QWidget * parent) {
   const char* realdata_del = "rm -rf /storage/emulated/0/realdata/*";
   auto realdatadelbtn = new ButtonControl("주행로그 전부 삭제", "실행");
   QObject::connect(realdatadelbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("저장된 주행로그를 모두 삭제합니다. 진행하시겠습니까?", this)){
+    if (ConfirmationDialog::confirm("저장된 주행로그를 모두 삭제합니다. 진행하시겠습니까?")){
       std::system(realdata_del);
     }
   });
@@ -552,7 +552,7 @@ QWidget * user_panel(QWidget * parent) {
   const char* cal_ok = "cp -f /data/openpilot/selfdrive/assets/addon/param/CalibrationParams /data/params/d/";
   auto calokbtn = new ButtonControl("캘리브레이션 강제 활성화", "실행");
   QObject::connect(calokbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("캘리브레이션을 강제로 설정합니다. 인게이지 확인용이니 실 주행시에는 초기화 하시기 바랍니다.", this)){
+    if (ConfirmationDialog::confirm("캘리브레이션을 강제로 설정합니다. 인게이지 확인용이니 실 주행시에는 초기화 하시기 바랍니다.")){
       std::system(cal_ok);
     }
   });
@@ -573,7 +573,7 @@ QWidget * user_panel(QWidget * parent) {
   const char* p_edit_go = "/data/openpilot/p_edit.sh ''";
   auto peditbtn = new ButtonControl("판다값 변경 적용", "실행");
   QObject::connect(peditbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("변경된 판다값을 적용합니다. 진행하시겠습니까? 자동 재부팅됩니다.", this)){
+    if (ConfirmationDialog::confirm("변경된 판다값을 적용합니다. 진행하시겠습니까? 자동 재부팅됩니다.")){
       std::system(p_edit_go);
     }
   });
