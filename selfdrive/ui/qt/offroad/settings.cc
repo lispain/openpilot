@@ -341,7 +341,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       } else {
         desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
       }
-      if (ConfirmationDialog::alert(desc)) {
+      if (ConfirmationDialog::alert(desc, this)) {
       }
     });
   });
