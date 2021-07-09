@@ -322,7 +322,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   osVersionLbl = new LabelControl("OS Version");
   versionLbl = new LabelControl("Version");
   lastUpdateLbl = new LabelControl("최근업데이트 확인", "", "");
-  updateBtn = new ButtonControl("업데이트 체크", "");
+  updateBtn = new ButtonControl("업데이트 체크 및 적용", "");
   connect(updateBtn, &ButtonControl::released, [=]() {
     if (params.getBool("IsOffroad")) {
       const QString paramsPath = QString::fromStdString(params.getParamsPath());
@@ -339,9 +339,10 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
     if (commit_local == commit_remote) {
       desc += QString("로컬과 리모트가 일치합니다. 업데이트가 필요 없습니다.");
     } else {
-      desc += QString("업데이트가 있습니다. 아래 Git Pull에서 실행을 눌러 업데이트 하세요.");
+      desc += QString("업데이트가 있습니다. 적용하려면 확인을 누르세요.");
     }
-    if (ConfirmationDialog::alert(desc, this)) {
+    if (ConfirmationDialog::confirm(desc, this)) {
+      std::system("/data/openpilot/gitpull.sh");
     }
   });
 
@@ -355,14 +356,6 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   }
 
   main_layout->addWidget(new GitHash());
-  const char* gitpull = "/data/openpilot/gitpull.sh ''";
-  auto gitpullbtn = new ButtonControl("Git Pull", "실행");
-  QObject::connect(gitpullbtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Git에서 변경사항이 있는 경우만 적용 후 재부팅 합니다. 깃내역 미반영시 로컬변경사항을 확인하세요. 진행하시겠습니까?", this)){
-      std::system(gitpull);
-    }
-  });
-  main_layout->addWidget(gitpullbtn);
 
   main_layout->addWidget(horizontal_line());
 
