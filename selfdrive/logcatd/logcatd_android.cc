@@ -113,7 +113,7 @@ int main() {
       {
         res.distanceToTurn = atoi( entry.message );
       }
-      else if( (strcmp( entry.tag, "GestureControl" ) == 0) && (res.speedLimitDistance == 0) && (res.speedLimit == 0)) )
+      else if( (strcmp( entry.tag, "GestureControl" ) == 0) && (res.speedLimitDistance == 0) && (res.speedLimit == 0) )
       {
         sTime++;
         if ( sTime > 20 )
