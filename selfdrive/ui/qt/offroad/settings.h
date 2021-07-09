@@ -71,3 +71,15 @@ private:
   QButtonGroup *nav_btns;
   QStackedWidget *panel_widget;
 };
+
+class UserPanel : public QWidget {
+  Q_OBJECT
+public:
+  explicit UserPanel(QWidget *parent = nullptr);
+};
+
+class TuningPanel : public QWidget {
+  Q_OBJECT
+public:
+  explicit TuningPanel(QWidget *parent = nullptr);
+};
