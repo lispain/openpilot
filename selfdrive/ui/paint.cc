@@ -1197,9 +1197,9 @@ static void ui_draw_vision_header(UIState *s) {
   ui_fill_rect(s->vg, {s->viz_rect.x, s->viz_rect.y, s->viz_rect.w, header_h}, gradient);
 
   if (!s->scene.comma_stock_ui) {
-    ui_draw_vision_cameradist(s);
     ui_draw_vision_maxspeed(s);
     ui_draw_vision_cruise_speed(s);
+    ui_draw_vision_cameradist(s);
   } else {
     ui_draw_vision_maxspeed_org(s);
   }
