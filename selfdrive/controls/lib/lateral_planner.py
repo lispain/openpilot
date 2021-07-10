@@ -76,10 +76,6 @@ class LateralPlanner():
     self.t_idxs = np.arange(TRAJECTORY_SIZE)
     self.y_pts = np.zeros(TRAJECTORY_SIZE)
 
-    self.lane_change_adjust = [0.1, 0.17, 0.65, 1.1]
-    self.lane_change_adjust_vel = [8.3, 16, 22, 30]
-    self.lane_change_adjust_new = 0.0
-
     self.standstill_elapsed_time = 0.0
     self.v_cruise_kph = 0
     self.stand_still = False
