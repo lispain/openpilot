@@ -735,7 +735,9 @@ static void ui_draw_vision_event(UIState *s) {
   }
   */
   if ((s->scene.mapSign == 195 || s->scene.mapSign == 197) && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist != 0 && !s->scene.comma_stock_ui) {
-    {ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);}
+    ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);
+  } else if (s->scene.liveMapData.opkrspeedsign == 124 && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist == 0 && !s->scene.comma_stock_ui) {
+    ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_bump", 0.35f);
   }
   /*
   //draw compass by opkr
@@ -1430,6 +1432,7 @@ void ui_nvg_init(UIState *s) {
     {"speed_100", "../assets/img_100_speedahead.png"},
     {"speed_110", "../assets/img_110_speedahead.png"},
     {"speed_var", "../assets/img_var_speedahead.png"},
+    {"speed_bump", "../assets/img_speed_bump.png"},
     {"car_left", "../assets/img_car_left.png"},
     {"car_right", "../assets/img_car_right.png"},
     {"compass", "../assets/img_compass.png"},
