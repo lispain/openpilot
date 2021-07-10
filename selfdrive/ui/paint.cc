@@ -745,7 +745,7 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
     bb_ry = bb_y + bb_h;
   }
   //BAT TEMP
-  if (true) {
+  if (scene->deviceState.getBatteryTempC() > 0) {
     //char val_str[16];
     char uom_str[6];
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
@@ -767,7 +767,7 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
     bb_ry = bb_y + bb_h;
   }
   //BAT LEVEL
-  if(true) {
+  if(scene->deviceState.getBatteryTempC() > 0) {
     char val_str[16];
     char uom_str[6];
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
