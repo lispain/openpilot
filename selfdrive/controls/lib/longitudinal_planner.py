@@ -79,7 +79,9 @@ class Planner():
     a_ego = sm['carState'].aEgo
     self.vego = v_ego
 
-    if CP.sccBus != 0:
+    if sm['controlsState'].mapSign == 124:
+      v_cruise_kph = 20.
+    elif CP.sccBus != 0:
       v_cruise_kph = sm['carState'].vSetDis
     else:
       v_cruise_kph = sm['controlsState'].vCruise
@@ -186,8 +188,8 @@ class Planner():
     if self.map_enabled:
       longitudinalPlan.mapSign = float(self.map_sign)
       cam_distance_calc = 0
-      cam_distance_calc = interp(self.vego*CV.MS_TO_KPH, [30,110], [2.5,4])
-      consider_speed = interp((self.vego*CV.MS_TO_KPH - self.target_speed_map), [0,40], [1, 1.5])
+      cam_distance_calc = interp(self.vego*CV.MS_TO_KPH, [30,110], [2.5,4])  # 감속 기본 거리
+      consider_speed = interp((self.vego*CV.MS_TO_KPH - self.target_speed_map), [0,40], [1, 2]) # 속도차에 따른 거리 추가
       if self.target_speed_map > 29 and self.target_speed_map_sign:
         longitudinalPlan.targetSpeedCamera = float(self.target_speed_map)
         longitudinalPlan.targetSpeedCameraDist = float(self.target_speed_map_dist)

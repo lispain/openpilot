@@ -267,6 +267,12 @@ static void update_state(UIState *s) {
         if (gyro.totalSize().wordCount) {
           scene.gyro_sensor = gyro[1];
         }
+      } else if (scene.started && sensor.which() == cereal::SensorEventData::ACCELERATION) {
+        auto accel2 = sensor.getAcceleration().getV();
+        scene.accel_sensor2 = accel2[2];
+        if ((scene.accel_sensor2 < -1) && Params().getBool("OpkrSpeedBump")) {
+          Params().put("OpkrSpeedBump", "0", 1);
+        }
       }
     }
   }
@@ -396,6 +402,7 @@ static void update_status(UIState *s) {
       s->scene.scr.nTime = s->scene.scr.autoScreenOff * 60 * UI_FREQ;
       s->scene.comma_stock_ui = Params().getBool("CommaStockUI");
       s->scene.apks_enabled = Params().getBool("OpkrApksEnable");
+      Params().put("OpkrSpeedBump", "0", 1);
       Params().put("OpkrMapEnable", "0", 1);
       //opkr navi on boot
       s->scene.map_on_top = false;
