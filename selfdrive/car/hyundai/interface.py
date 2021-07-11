@@ -13,7 +13,7 @@ EventName = car.CarEvent.EventName
 ButtonType = car.CarState.ButtonEvent.Type
 
 def compute_gb_1(accel, speed):
-  return float(accel) / 3.5
+  return float(accel) / 3.0
 
 def compute_gb_2(accel, speed):
   creep_brake = 0.0
@@ -79,6 +79,8 @@ class CarInterface(CarInterfaceBase):
 
     if self.CS.CP.carFingerprint == CAR.K5_HEV:
       self.compute_gb = compute_gb_3()
+    else:
+      self.compute_gb = compute_gb_1
 
   @staticmethod
   def compute_gb(accel, speed): # pylint: disable=method-hidden
