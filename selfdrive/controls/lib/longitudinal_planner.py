@@ -79,9 +79,9 @@ class Planner():
     a_ego = sm['carState'].aEgo
     self.vego = v_ego
 
-    if sm['controlsState'].mapSign == 124:
-      v_cruise_kph = 20.
-    elif CP.sccBus != 0:
+    # if sm['controlsState'].mapSign == 124:
+    #   v_cruise_kph = 20.
+    if CP.sccBus != 0:
       v_cruise_kph = sm['carState'].vSetDis
     else:
       v_cruise_kph = sm['controlsState'].vCruise
@@ -105,7 +105,7 @@ class Planner():
 
     accel_limits = [A_CRUISE_MIN, A_CRUISE_MAX]
     accel_limits_turns = limit_accel_in_turns(v_ego, sm['carState'].steeringAngleDeg, accel_limits, self.CP)
-    if force_slow_decel:
+    if force_slow_decel and False: # awareness decel is disabled for now:
       # if required so, force a smooth deceleration
       accel_limits_turns[1] = min(accel_limits_turns[1], AWARENESS_DECEL)
       accel_limits_turns[0] = min(accel_limits_turns[0], accel_limits_turns[1])
@@ -188,7 +188,7 @@ class Planner():
     if self.map_enabled:
       longitudinalPlan.mapSign = float(self.map_sign)
       cam_distance_calc = 0
-      cam_distance_calc = interp(self.vego*CV.MS_TO_KPH, [30,110], [2.5,4])  # 감속 기본 거리
+      cam_distance_calc = interp(self.vego*CV.MS_TO_KPH, [30,110], [2.8,4.5])  # 감속 기본 거리
       consider_speed = interp((self.vego*CV.MS_TO_KPH - self.target_speed_map), [0,40], [1, 2]) # 속도차에 따른 거리 추가
       if self.target_speed_map > 29 and self.target_speed_map_sign:
         longitudinalPlan.targetSpeedCamera = float(self.target_speed_map)

@@ -95,6 +95,7 @@ class Controls:
     passive = params.get_bool("Passive") or not openpilot_enabled_toggle
     self.commIssue_ignored = params.get_bool("ComIssueGone")
     self.auto_enabled = params.get_bool("AutoEnable") and params.get_bool("MadModeEnabled")
+    self.batt_less = params.get_bool("OpkrBattLess")
 
     # detect sound card presence and ensure successful init
     sounds_available = HARDWARE.get_sound_card_online()
@@ -219,7 +220,7 @@ class Controls:
       return
 
     # Create events for battery, temperature, disk space, and memory
-    if self.sm['deviceState'].batteryPercent < 1 and self.sm['deviceState'].chargingError:
+    if self.sm['deviceState'].batteryPercent < 1 and self.sm['deviceState'].chargingError and not self.batt_less:
       # at zero percent battery, while discharging, OP should not allowed
       self.events.add(EventName.lowBattery)
     if self.sm['deviceState'].thermalStatus >= ThermalStatus.red:
