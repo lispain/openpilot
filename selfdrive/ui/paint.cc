@@ -392,10 +392,11 @@ static void ui_draw_debug(UIState *s)
     ui_print(s, ui_viz_rx, ui_viz_ry+450, "OS:%.2f", abs(scene.output_scale));
     ui_print(s, ui_viz_rx, ui_viz_ry+500, "%.2f|%.2f", scene.lateralPlan.lProb, scene.lateralPlan.rProb);
     if (s->scene.map_is_running) {
-      if (s->scene.mapSign) ui_print(s, ui_viz_rx, ui_viz_ry+550, "S:%.0f", scene.mapSign);
-      if (s->scene.limitSpeedCameraDist) ui_print(s, ui_viz_rx, ui_viz_ry+600, "D:%.0f", scene.limitSpeedCameraDist);
-      if (s->scene.liveMapData.opkrturninfo) ui_print(s, ui_viz_rx, ui_viz_ry+650, "T:%.0f", scene.liveMapData.opkrturninfo);
-      if (s->scene.liveMapData.opkrdisttoturn) ui_print(s, ui_viz_rx, ui_viz_ry+700, "D:%.0f", scene.liveMapData.opkrdisttoturn);
+      if (s->scene.liveMapData.opkrspeedsign) ui_print(s, ui_viz_rx, ui_viz_ry+550, "S:%.0f", scene.liveMapData.opkrspeedsign);
+      if (s->scene.liveMapData.opkrspeedlimit) ui_print(s, ui_viz_rx, ui_viz_ry+600, "S:%.0f", scene.liveMapData.opkrspeedlimit);
+      if (s->scene.liveMapData.opkrspeedlimitdist) ui_print(s, ui_viz_rx, ui_viz_ry+650, "D:%.0f", scene.liveMapData.opkrspeedlimitdist);
+      if (s->scene.liveMapData.opkrturninfo) ui_print(s, ui_viz_rx, ui_viz_ry+700, "T:%.0f", scene.liveMapData.opkrturninfo);
+      if (s->scene.liveMapData.opkrdisttoturn) ui_print(s, ui_viz_rx, ui_viz_ry+750, "D:%.0f", scene.liveMapData.opkrdisttoturn);
     }
     nvgFontSize(s->vg, 40);
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
@@ -578,23 +579,23 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   }
   */
   if (is_cruise_set && s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_30", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_30", 1.0f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_40", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_40", 1.0f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_50", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_50", 1.0f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_60", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_60", 1.0f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_70", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_70", 1.0f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_80", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_80", 1.0f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_90", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_90", 1.0f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_100", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_100", 1.0f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0  && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_110", 5.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_110", 1.0f);
   } 
 }
 
@@ -1199,8 +1200,8 @@ static void ui_draw_vision_header(UIState *s) {
   ui_fill_rect(s->vg, {s->viz_rect.x, s->viz_rect.y, s->viz_rect.w, header_h}, gradient);
 
   if (!s->scene.comma_stock_ui) {
-    ui_draw_vision_maxspeed(s);
     ui_draw_vision_cruise_speed(s);
+    ui_draw_vision_maxspeed(s);
     ui_draw_vision_cameradist(s);
   } else {
     ui_draw_vision_maxspeed_org(s);
