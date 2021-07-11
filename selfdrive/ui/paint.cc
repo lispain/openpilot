@@ -510,7 +510,7 @@ static void ui_draw_vision_cameradist(UIState *s) {
   ui_fill_rect(s->vg, rect, color, 20.);
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE); 
   
-  if (s->scene.mapSign == 165) {
+  if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist) {
     color = COLOR_RED;
     ui_draw_rect(s->vg, rect, color, 10, 0.);
     //const std::string cameradist_str = std::to_string((int)std::nearbyint(cameradist));
