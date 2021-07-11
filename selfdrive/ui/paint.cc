@@ -500,9 +500,9 @@ static void ui_draw_vision_cameradist(UIState *s) {
   NVGcolor color = COLOR_WHITE;
     
   if (s->is_speed_over_limit) {
-    color = nvgRGBA(255, 0, 0, 180);
+    color = nvgRGBA(200, 0, 0, 230);
   } else if (s->scene.limitSpeedCamera > 29 && !s->is_speed_over_limit) {
-    color = nvgRGBA(255, 0, 0, 180);
+    color = nvgRGBA(200, 0, 0, 230);
   } else {
     color = COLOR_WHITE_ALPHA(0);
   }
@@ -639,7 +639,6 @@ static void ui_draw_vision_speed(UIState *s) {
   const UIScene *scene = &s->scene;
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
   
-
   // turning blinker sequential crwusiz / mod by arne-fork Togo
   const int viz_blinker_w = 280;
   const int viz_blinker_x = s->viz_rect.centerX() - 140;
@@ -691,6 +690,14 @@ static void ui_draw_vision_event(UIState *s) {
   const int viz_event_w = 220;
   const int viz_event_x = s->viz_rect.right() - (viz_event_w + bdr_s);
   const int viz_event_y = s->viz_rect.y + (bdr_s);
+  
+  const int SET_SPEED_NA = 255;
+  float maxspeed = s->scene.controls_state.getVCruise();
+  const bool is_cruise_set = maxspeed != 0 && maxspeed != SET_SPEED_NA && s->scene.controls_state.getEnabled();
+  if (is_cruise_set && !s->scene.is_metric) { maxspeed *= 0.6225; }
+  
+  const int center_x = s->viz_rect.x + (bdr_s) + 184 + 15;
+  const int center_y = int(s->viz_rect.y + (bdr_s));
   /*
   if (s->scene.limitSpeedCamera > 29 && !s->scene.comma_stock_ui) {
     int img_speedlimit_growing_size_init = 0;
@@ -719,23 +726,23 @@ static void ui_draw_vision_event(UIState *s) {
   */
 
   if (is_cruise_set && s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_30", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_30", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_40", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_40", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_50", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_50", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_60", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_60", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_70", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_70", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_80", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_80", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_90", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_90", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_100", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_100", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0  && s->scene.limitSpeedCameraDist != 0) {
-    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_110", 1.0f);
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_110", 0.8f);
   }
 
   if ((s->scene.mapSign == 195 || s->scene.mapSign == 197) && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist != 0 && !s->scene.comma_stock_ui) {
