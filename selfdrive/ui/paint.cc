@@ -488,7 +488,7 @@ static void ui_draw_vision_cameradist(UIState *s) {
   const int SET_SPEED_NA = 255;
   float maxspeed = s->scene.controls_state.getVCruise();
   const bool is_cruise_set = maxspeed != 0 && maxspeed != SET_SPEED_NA && s->scene.controls_state.getEnabled();
-  float cameradist = s->scene.liveMapData.opkrspeedlimitdist;
+  float cameradist = s->scene.limitSpeedCameraDist;
   float cameradistkm = cameradist / 1000;
   if (is_cruise_set && !s->scene.is_metric) { maxspeed *= 0.6225; }
 
