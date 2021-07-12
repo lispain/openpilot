@@ -964,10 +964,6 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   int uom_fontSize = 17;
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
 
-  auto car_control = (*s->sm)["carControl"].getCarControl();
-  float gas = car_control.getActuators().getGas();
-  float brake = car_control.getActuators().getBrake();
-
   //add visual radar relative distance
   if (true) {
     char val_str[16];
@@ -1052,31 +1048,6 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     snprintf(uom_str, sizeof(uom_str), "   °");
 
     bb_h +=bb_ui_draw_measure(s, val_str, uom_str, "현재조향각",
-        bb_rx, bb_ry, bb_uom_dx,
-        val_color, lab_color, uom_color,
-        value_fontSize, label_fontSize, uom_fontSize );
-    bb_ry = bb_y + bb_h;
-  }
-  
-  // Gas & Brake
-  if (true) {
-    char val_str[16];
-    char uom_str[6];
-    //std::string angle_val = std::to_string(int(s->scene.angleSteers*10)/10) + "°";
-    NVGcolor val_color = COLOR_GREEN_ALPHA(200);
-    //show Orange if more than 30 degrees
-    //show red if  more than 50 degrees
-    if(gas >= 0 && brake < 0) {
-      val_color = COLOR_ORANGE_ALPHA(200);
-      snprintf(val_str, sizeof(val_str), "%.3f",gas);
-      snprintf(uom_str, sizeof(uom_str), " ");
-    }else{
-      val_color = COLOR_RED_ALPHA(200);
-      snprintf(val_str, sizeof(val_str), "%.3f",brake);
-      snprintf(uom_str, sizeof(uom_str), " ");
-    }
-    
-    bb_h +=bb_ui_draw_measure(s, val_str, uom_str, "Gas / Brake",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
