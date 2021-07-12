@@ -1066,7 +1066,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     NVGcolor val_color = COLOR_GREEN_ALPHA(200);
     //show Orange if more than 30 degrees
     //show red if  more than 50 degrees
-    if(gas >= 0 && brake < 0)) {
+    if(gas >= 0 && brake < 0) {
       val_color = COLOR_ORANGE_ALPHA(200);
       snprintf(val_str, sizeof(val_str), "%.3f",gas);
       snprintf(uom_str, sizeof(uom_str), " ");
