@@ -725,7 +725,7 @@ static void ui_draw_vision_event(UIState *s) {
   }
   */
 
-  if (is_cruise_set && s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+  if (s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_30", 0.8f);
   } else if (is_cruise_set && s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_40", 0.8f);
