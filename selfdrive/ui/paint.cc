@@ -384,13 +384,13 @@ static void ui_draw_debug(UIState *s)
     //ui_print(s, ui_viz_rx, ui_viz_ry, "Live Parameters");
     //ui_print(s, ui_viz_rx, ui_viz_ry+250, "SR:%.2f", scene.liveParams.steerRatio);
     //ui_print(s, ui_viz_rx, ui_viz_ry+100, "AOfs:%.2f", scene.liveParams.angleOffset);
-    ui_print(s, ui_viz_rx, ui_viz_ry+250, "AA:%.2f", scene.liveParams.angleOffsetAverage);
-    ui_print(s, ui_viz_rx, ui_viz_ry+300, "SF:%.2f", scene.liveParams.stiffnessFactor);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+250, "AA:%.2f", scene.liveParams.angleOffsetAverage);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+300, "SF:%.2f", scene.liveParams.stiffnessFactor);
 
-    ui_print(s, ui_viz_rx, ui_viz_ry+350, "AD:%.2f", scene.steer_actuator_delay);
-    ui_print(s, ui_viz_rx, ui_viz_ry+400, "SC:%.2f", scene.lateralPlan.steerRateCost);
-    ui_print(s, ui_viz_rx, ui_viz_ry+450, "OS:%.2f", abs(scene.output_scale));
-    ui_print(s, ui_viz_rx, ui_viz_ry+500, "%.2f|%.2f", scene.lateralPlan.lProb, scene.lateralPlan.rProb);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+350, "AD:%.2f", scene.steer_actuator_delay);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+400, "SC:%.2f", scene.lateralPlan.steerRateCost);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+450, "OS:%.2f", abs(scene.output_scale));
+    //ui_print(s, ui_viz_rx, ui_viz_ry+500, "%.2f|%.2f", scene.lateralPlan.lProb, scene.lateralPlan.rProb);
     if (s->scene.map_is_running) {
       if (s->scene.liveMapData.opkrspeedsign) ui_print(s, ui_viz_rx, ui_viz_ry+550, "S:%.0f", scene.liveMapData.opkrspeedsign);
       if (s->scene.liveMapData.opkrspeedlimit) ui_print(s, ui_viz_rx, ui_viz_ry+600, "S:%.0f", scene.liveMapData.opkrspeedlimit);
