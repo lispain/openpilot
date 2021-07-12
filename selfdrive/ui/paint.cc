@@ -500,9 +500,9 @@ static void ui_draw_vision_cameradist(UIState *s) {
   NVGcolor color = COLOR_WHITE;
     
   if (s->is_speed_over_limit) {
-    color = nvgRGBA(200, 0, 0, 230);
+    color = nvgRGBA(200, 0, 0, 255);
   } else if (s->scene.limitSpeedCamera > 29 && !s->is_speed_over_limit) {
-    color = nvgRGBA(200, 0, 0, 230);
+    color = nvgRGBA(200, 0, 0, 255);
   } else {
     color = COLOR_WHITE_ALPHA(0);
   }
