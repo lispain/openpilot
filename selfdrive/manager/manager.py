@@ -22,16 +22,10 @@ from selfdrive.swaglog import cloudlog, add_file_handler
 from selfdrive.version import dirty, get_git_commit, version, origin, branch, commit, \
                               terms_version, training_version, comma_remote, \
                               get_git_branch, get_git_remote
-from common.spinner import Spinner
 
 sys.path.append(os.path.join(BASEDIR, "pyextra"))
-PREBUILT = os.path.exists(os.path.join(BASEDIR, 'prebuilt'))
 
 def manager_init():
-
-  if PREBUILT:
-    spinner = Spinner()
-    spinner.update("prebuilt on, fast booting...")
 
   # update system time from panda
   set_time(cloudlog)
