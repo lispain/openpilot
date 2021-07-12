@@ -836,31 +836,17 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   if (true) {
     //char val_str[16];
     char uom_str[6];
-    std::string cpu_temp_val = std::to_string(int(s->scene.cpuTemp));
+    std::string cpu_temp_val = std::to_string(int(s->scene.cpuTemp)) + "°C";
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
     //snprintf(val_str, sizeof(val_str), "%.0fC", (round(s->scene.cpuTemp)));
-    snprintf(uom_str, sizeof(uom_str), "°C");
+    snprintf(uom_str, sizeof(uom_str), "%d%%", (s->scene.cpuPerc));
     bb_h +=bb_ui_draw_measure(s, cpu_temp_val.c_str(), uom_str, "CPU 온도",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
     bb_ry = bb_y + bb_h;
   }
-
-  //CPU Perc
-  if (true) {
-    char val_str[16];
-    char uom_str[3];
-    NVGcolor val_color = COLOR_WHITE_ALPHA(200);
-    snprintf(val_str, sizeof(val_str), "%d", (s->scene.cpuPerc));
-    snprintf(uom_str, sizeof(uom_str), "%%");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "CPU 점유율",
-        bb_rx, bb_ry, bb_uom_dx,
-        val_color, lab_color, uom_color,
-        value_fontSize, label_fontSize, uom_fontSize );
-    bb_ry = bb_y + bb_h;
-  }
-
+  
   /*
   //BAT TEMP
   if (true) {
