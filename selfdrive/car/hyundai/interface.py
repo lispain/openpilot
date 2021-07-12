@@ -21,7 +21,7 @@ def compute_gb_2(accel, speed):
   creep_brake_value = 0.15
   if speed < creep_speed:
     creep_brake = (creep_speed - speed) / creep_speed * creep_brake_value
-  return float(accel) / 4.8 - creep_brake
+  return float(accel) / 3.0 - creep_brake
 
 def compute_gb_3():
   # generate a function that takes in [desired_accel, current_speed] -> [-1.0, 1.0]
@@ -78,7 +78,7 @@ class CarInterface(CarInterfaceBase):
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
 
     if self.CS.CP.carFingerprint == CAR.K5_HEV:
-      self.compute_gb = compute_gb_3()
+      self.compute_gb = compute_gb_2
     else:
       self.compute_gb = compute_gb_1
 
