@@ -728,15 +728,15 @@ static void ui_draw_vision_event(UIState *s) {
   if (s->scene.mapSign == 165 ) { 
     if (s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0) {
       ui_draw_image(s, {center_x, center_y, 180, 180}, "section_60", 0.8f);
-    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0) {
+    } else if (s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0) {
       ui_draw_image(s, {center_x, center_y, 180, 180}, "section_70", 0.8f);
-    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0) {
+    } else if (s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0) {
       ui_draw_image(s, {center_x, center_y, 180, 180}, "section_80", 0.8f);
-    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0) {
+    } else if (s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0) {
       ui_draw_image(s, {center_x, center_y, 180, 180}, "section_90", 0.8f);
-    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0) {
+    } else if (s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0) {
       ui_draw_image(s, {center_x, center_y, 180, 180}, "section_100", 0.8f);
-    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0) {
+    } else if (s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0) {
       ui_draw_image(s, {center_x, center_y, 180, 180}, "section_110", 0.8f);
     }
   // 일반적인 과속단속구간일 경우  
