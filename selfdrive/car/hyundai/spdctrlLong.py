@@ -109,9 +109,9 @@ class SpdctrlLong(SpdController):
             self.seq_step_debug = "RES속도조정"
             lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, 20, -1)
         # 선행차량이 멀리 있는 상태에서 감속 조건
-        elif 6 < dRel < 149 and lead_objspd < -22 and not self.map_decel_only: #정지 차량 및 급감속 차량 발견 시
+        elif 6 < dRel < 149 and lead_objspd < -23 and not self.map_decel_only: #정지 차량 및 급감속 차량 발견 시
             self.seq_step_debug = "정차차량 감속"
-            lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, max(10, dRel-40), -10)
+            lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, max(10, dRel-25), -10)
         elif self.cruise_set_speed_kph > int(round((CS.clu_Vanz))) and not self.map_decel_only:  #이온설정속도가 차량속도보다 큰경우
             if 10 > dRel > 3 and lead_objspd <= 0 and 1 < int(CS.clu_Vanz) <= 7 and CS.VSetDis < 45 and ((int(round(self.target_speed)) > int(CS.VSetDis) and self.target_speed != 0) or self.target_speed == 0):
                 self.seq_step_debug = "출발속도조정"
