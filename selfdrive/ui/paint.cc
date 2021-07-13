@@ -724,27 +724,78 @@ static void ui_draw_vision_event(UIState *s) {
     else if (s->scene.limitSpeedCamera < 120) {ui_draw_image(s, {img_speedlimit_x, img_speedlimit_y, img_speedlimit_size, img_speedlimit_size}, "speed_110", img_speedlimit_alpha);}
   }
   */
-
+  // 구간단속구간일 경우
+  if (s->scene.mapSign == 165 ) { 
+    if (s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "section_60", 0.8f);
+    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "section_70", 0.8f);
+    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "section_80", 0.8f);
+    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "section_90", 0.8f);
+    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "section_100", 0.8f);
+    } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "section_110", 0.8f);
+    }
+  // 일반적인 과속단속구간일 경우  
+  } else { 
+    if (s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_30", 0.8f);
+    } else if (s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_40", 0.8f);
+    } else if (s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_50", 0.8f);
+    } else if (s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_60", 0.8f);
+    } else if (s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_70", 0.8f);
+    } else if (s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_80", 0.8f);
+    } else if (s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_90", 0.8f);
+    } else if (s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_100", 0.8f);
+    } else if (s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0  && s->scene.limitSpeedCameraDist != 0) {
+      ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_110", 0.8f);
+    }
+  }
+  /*
+  if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_60", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_70", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_80", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_90", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_100", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_110", 0.8f);
+  }
+  
   if (s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_30", 0.8f);
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_40", 0.8f);
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_50", 0.8f);
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_60", 0.8f);
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_70", 0.8f);
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_80", 0.8f);
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_90", 0.8f);
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+  } else if (s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_100", 0.8f);
-  } else if (is_cruise_set && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0  && s->scene.limitSpeedCameraDist != 0) {
+  } else if (s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0  && s->scene.limitSpeedCameraDist != 0) {
     ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_110", 0.8f);
   }
-
+  */
   if ((s->scene.mapSign == 195 || s->scene.mapSign == 197) && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist != 0 && !s->scene.comma_stock_ui) {
     ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);
   } else if (s->scene.liveMapData.opkrspeedsign == 124 && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist == 0 && !s->scene.comma_stock_ui) {
@@ -1431,6 +1482,12 @@ void ui_nvg_init(UIState *s) {
     {"speed_90", "../assets/img_90_speedahead.png"},
     {"speed_100", "../assets/img_100_speedahead.png"},
     {"speed_110", "../assets/img_110_speedahead.png"},
+    {"section_60", "..//assets/img_60_section.png"},
+    {"section_70", "..//assets/img_70_section.png"},
+    {"section_80", "..//assets/img_80_section.png"},
+    {"section_90", "..//assets/img_90_section.png"},
+    {"section_100", "..//assets/img_100_section.png"},
+    {"section_110", "..//assets/img_110_section.png"},
     {"speed_var", "../assets/img_var_speedahead.png"},
     {"speed_bump", "../assets/img_speed_bump.png"},
     {"car_left", "../assets/img_car_left.png"},
