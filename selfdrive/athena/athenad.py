@@ -424,7 +424,7 @@ def ws_recv(ws, end_event):
     except WebSocketTimeoutException:
       ns_since_last_ping = int(sec_since_boot() * 1e9) - last_ping
       if ns_since_last_ping > RECONNECT_TIMEOUT_S * 1e9:
-        cloudlog.exception("athenad.wc_recv.timeout")
+        cloudlog.exception("athenad.ws_recv.timeout")
         end_event.set()
     except Exception:
       cloudlog.exception("athenad.ws_recv.exception")
