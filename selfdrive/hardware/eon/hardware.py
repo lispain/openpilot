@@ -375,7 +375,7 @@ class Android(HardwareBase):
     with open("/sys/class/leds/lcd-backlight/brightness", "w") as f:
       f.write(str(int(percentage * 2.55)))
 
-  def set_power_save(self, enabled):
+  def set_power_save(self, powersave_enabled):
     pass
 
   def get_gpu_usage_percent(self):
@@ -387,6 +387,12 @@ class Android(HardwareBase):
       return 0
 
   def get_modem_version(self):
+    return None
+
+  def initialize_hardware(self):
+    pass
+
+  def get_networks(self):
     return None
 
   def get_ip_address(self):
