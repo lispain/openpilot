@@ -38,7 +38,7 @@ AbstractAlert::AbstractAlert(bool hasRebootBtn, QWidget *parent) : QFrame(parent
     QPushButton *recheckBtn = new QPushButton("재등록 시도");
     recheckBtn->setFixedSize(600, 125);
     footer_layout->addWidget(recheckBtn, 0, Qt::AlignBottom | Qt::AlignRight);
-    QObject::connect(&recheckBtn, &QPushButton::released, [=]() {
+    QObject::connect(recheckBtn, &QPushButton::released, [=]() {
       Params().remove("DongleId");
       QTimer::singleShot(1000, []() {
         Hardware::reboot();
