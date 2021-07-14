@@ -436,7 +436,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       Priority.LOWEST, VisualAlert.none, AudibleAlert.none, .0, .0, .1),
   },
 
-  EventName.steerTempUnavailableUserOverride: {
+  EventName.steerTempUnavailableSilent: {
     ET.WARNING: Alert(
       "조향제어가 일시적으로 비활성화 되었습니다",
       "",
