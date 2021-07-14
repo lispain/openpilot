@@ -223,6 +223,8 @@ struct SensorEventData {
     mmc3416x @7;  # magnetometer (c2)
     bmx055 @8;
     rpr0521 @9;
+    lsm6ds3trc @10;
+    mmc5603nj @11;
   }
 }
 
@@ -813,7 +815,7 @@ struct LongitudinalPlan @0xe00b5b3eba12876c {
   fcw @8 :Bool;
   longitudinalPlanSource @15 :LongitudinalPlanSource;
   processingDelay @29 :Float32;
-  
+
   # desired speed/accel over next 2.5s
   accels @32 :List(Float32);
   speeds @33 :List(Float32);
@@ -1373,6 +1375,18 @@ struct ManagerState {
   }
 }
 
+struct UploaderState {
+  immediateQueueSize @0 :UInt32;
+  immediateQueueCount @1 :UInt32;
+  rawQueueSize @2 :UInt32;
+  rawQueueCount @3 :UInt32;
+
+  # stats for last successfully uploaded file
+  lastTime @4 :Float32;  # s
+  lastSpeed @5 :Float32; # MB/s
+  lastFilename @6 :Text;
+}
+
 struct Event {
   logMonoTime @0 :UInt64;  # nanoseconds
   valid @67 :Bool = true;
@@ -1423,6 +1437,7 @@ struct Event {
     # systems stuff
     androidLog @20 :AndroidLogEntry;
     managerState @78 :ManagerState;
+    uploaderState @79 :UploaderState;
     procLog @33 :ProcLog;
     clocks @35 :Clocks;
     deviceState @6 :DeviceState;

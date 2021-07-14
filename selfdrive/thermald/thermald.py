@@ -186,6 +186,7 @@ def thermald_thread():
   network_type = NetworkType.none
   network_strength = NetworkStrength.unknown
   network_info = None
+  modem_version = None
   registered_count = 0
   wifiIpAddress = 'N/A'
 
@@ -315,6 +316,12 @@ def thermald_thread():
         network_type = HARDWARE.get_network_type()
         network_strength = HARDWARE.get_network_strength(network_type)
         network_info = HARDWARE.get_network_info()  # pylint: disable=assignment-from-none
+
+        # Log modem version once
+        if modem_version is None:
+          modem_version = HARDWARE.get_modem_version()  # pylint: disable=assignment-from-none
+          if modem_version is not None:
+            cloudlog.warning(f"Modem version: {modem_version}")
 
         if TICI and (network_info.get('state', None) == "REGISTERED"):
           registered_count += 1
