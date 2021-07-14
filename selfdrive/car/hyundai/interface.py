@@ -77,7 +77,7 @@ class CarInterface(CarInterfaceBase):
     self.blinker_timer = 0
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
 
-    if self.CS.CP.carFingerprint == CAR.NIRO_HEV:
+    if self.CS.CP.carFingerprint == CAR.K5_HEV:
       self.compute_gb = compute_gb_2
     else:
       self.compute_gb = compute_gb_1
