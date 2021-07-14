@@ -68,7 +68,7 @@ void safety_setter_thread() {
   }
 
   // VIN query done, stop listening to OBDII
-  panda->set_safety_model(cereal::CarParams::SafetyModel::ELM327, 1);
+  panda->set_safety_model(cereal::CarParams::SafetyModel::NO_OUTPUT);
 
   std::string params;
   LOGW("waiting for params to set safety model");

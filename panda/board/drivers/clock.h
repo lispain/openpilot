@@ -37,3 +37,4 @@ void watchdog_init(void) {
 void watchdog_feed(void) {
   IWDG->KR = 0xAAAAU;
 }
+

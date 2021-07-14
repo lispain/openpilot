@@ -1,8 +1,3 @@
-// Function prototypes
-void pwm_init(TIM_TypeDef *TIM, uint8_t channel);
-void pwm_set(TIM_TypeDef *TIM, uint8_t channel, uint8_t percentage);
-
-
 void fan_set_power(uint8_t percentage){
   pwm_set(TIM3, 3, percentage);
 }
