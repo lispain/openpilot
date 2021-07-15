@@ -56,8 +56,8 @@ class LeadMpc():
     if self.lead_id == 0:
       lead = radarstate.leadOne
     else:
-      lead = radarstate.leadOne
-    self.status = lead.status and lead.modelProb > .5
+      lead = radarstate.leadTwo
+    self.status = lead.status
 
     # Setup current mpc state
     self.cur_state[0].x_ego = 0.0
@@ -91,7 +91,7 @@ class LeadMpc():
 
     # neokii value, opkr mod
     cruise_gap = int(clip(CS.cruiseGapSet, 1., 4.))
-    dynamic_TR = interp(v_ego*3.6, [0, 20, 40, 60, 110], [1.0, 1.3, 1.5, 1.7, 2.0] )
+    dynamic_TR = interp(v_ego*3.6, [0, 20, 40, 60, 110], [0.9, 1.2, 1.4, 1.6, 1.9] )
     TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
     if self.dynamic_TR == 1:
       TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
