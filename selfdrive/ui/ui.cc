@@ -332,21 +332,22 @@ static void update_params(UIState *s) {
   }
   //opkr navi on boot
   if (!scene.navi_on_boot) {
-    if (Params().getBool("OpkrRunNaviOnBoot") && !scene.map_is_running) {
-      if (frame - scene.started_frame > 2*UI_FREQ) {
+    if (Params().getBool("OpkrRunNaviOnBoot")) {
+      if ((frame - scene.started_frame > 2*UI_FREQ) && !scene.map_is_running) {
         s->scene.map_is_running = true;
         s->scene.map_on_top = true;
         s->scene.map_on_overlay = false;
         Params().put("OpkrMapEnable", "1", 1);
         system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
+      } else if (!scene.move_to_background && (frame - scene.started_frame > 7*UI_FREQ) && Params().getBool("OpkrMapEnable")) {
+        scene.navi_on_boot = true;
+        scene.move_to_background = true;
+        scene.map_on_top = false;
+        scene.map_on_overlay = true;
+        system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
       }
-    }
-    if (!scene.move_to_background && (frame - scene.started_frame > 7*UI_FREQ) && Params().getBool("OpkrMapEnable")) {
+    } else {
       scene.navi_on_boot = true;
-      scene.move_to_background = true;
-      scene.map_on_top = false;
-      scene.map_on_overlay = true;
-      system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
     }
   }
 }
