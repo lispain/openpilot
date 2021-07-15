@@ -116,7 +116,7 @@ void Sidebar::updateState(const UIState &s) {
     pandaStr = "차량\n연결안됨";
   } else if (s.scene.started && !sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK()) {
     pandaStatus = warning_color;
-    pandaStr = "GPS\n검색중";
+    pandaStr = "차랑연결됨\nGPS 검색중";
   } else if (s.scene.satelliteCount > 0) {
   	pandaStr = QString("차량연결됨\nSAT : %1").arg(s.scene.satelliteCount);
   }
