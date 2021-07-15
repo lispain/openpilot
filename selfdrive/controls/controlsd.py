@@ -103,7 +103,7 @@ class Controls:
     car_recognized = self.CP.carName != 'mock'
 
     controller_available = self.CI.CC is not None and not passive and not self.CP.dashcamOnly
-    community_feature = self.CP.communityFeature or self.CP.fuzzyFingerprint or \
+    community_feature = self.CP.communityFeature or \
                         self.CP.fingerprintSource == car.CarParams.FingerprintSource.can
     community_feature_disallowed = community_feature and (not community_feature_toggle)
     self.read_only = not car_recognized or not controller_available or \
@@ -167,7 +167,7 @@ class Controls:
 
     if not sounds_available:
       self.events.add(EventName.soundsUnavailable, static=True)
-    if community_feature_disallowed and car_recognized:
+    if community_feature_disallowed and car_recognized and not self.CP.dashcamOnly:
       self.events.add(EventName.communityFeatureDisallowed, static=True)
     if not car_recognized:
       self.events.add(EventName.carUnrecognized, static=True)
@@ -403,9 +403,9 @@ class Controls:
     """Compute conditional state transitions and execute actions on state transitions"""
 
     # if stock cruise is completely disabled, then we can use our own set speed logic
-    if not self.CP.enableCruise:
+    if not self.CP.pcmCruise:
       self.v_cruise_kph = update_v_cruise(self.v_cruise_kph, CS.buttonEvents, self.enabled)
-    elif self.CP.enableCruise and CS.cruiseState.enabled:
+    elif self.CP.pcmCruise and CS.cruiseState.enabled:
       if Params().get_bool('OpkrVariableCruise') and CS.cruiseState.modeSel != 0 and self.CP.vCruisekph > 30:
         self.v_cruise_kph = self.CP.vCruisekph
         self.v_cruise_kph_last = self.v_cruise_kph
@@ -599,7 +599,7 @@ class Controls:
     CC.actuators = actuators
 
     CC.cruiseControl.override = True
-    CC.cruiseControl.cancel = self.CP.enableCruise and not self.enabled and CS.cruiseState.enabled
+    CC.cruiseControl.cancel = self.CP.pcmCruise and not self.enabled and CS.cruiseState.enabled
 
     if self.joystick_mode and self.sm.rcv_frame['testJoystick'] > 0 and self.sm['testJoystick'].buttons[0]:
       CC.cruiseControl.cancel = True
@@ -609,7 +609,7 @@ class Controls:
     # brake discount removes a sharp nonlinearity
     brake_discount = (1.0 - clip(actuators.brake * 3., 0.0, 1.0))
     speed_override = max(0.0, (self.LoC.v_pid + CS.cruiseState.speedOffset) * brake_discount)
-    CC.cruiseControl.speedOverride = float(speed_override if self.CP.enableCruise else 0.0)
+    CC.cruiseControl.speedOverride = float(speed_override if self.CP.pcmCruise else 0.0)
     CC.cruiseControl.accelOverride = float(self.CI.calc_accel_override(CS.aEgo, self.a_target,
                                                                        CS.vEgo, self.v_target))
 

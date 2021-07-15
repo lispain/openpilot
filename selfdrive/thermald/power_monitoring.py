@@ -50,6 +50,8 @@ class PowerMonitoring:
     self.car_voltage_instant_mV = 12e3          # Last value of pandaState voltage
     self.integration_lock = threading.Lock()
 
+    self.ts_last_charging_ctrl = None
+
     car_battery_capacity_uWh = self.params.get("CarBatteryCapacity")
     if car_battery_capacity_uWh is None:
       car_battery_capacity_uWh = 0
@@ -211,3 +213,13 @@ class PowerMonitoring:
     should_shutdown |= ((HARDWARE.get_battery_capacity() < BATT_PERC_OFF) and (not HARDWARE.get_battery_charging()) and ((now - offroad_timestamp) > 60))
     should_shutdown &= started_seen or (now > MIN_ON_TIME_S)
     return should_shutdown
+
+  def charging_ctrl(self, msg, ts, to_discharge, to_charge ):
+    if self.ts_last_charging_ctrl is None or (ts - self.ts_last_charging_ctrl) >= 300.:
+      battery_changing = HARDWARE.get_battery_charging()
+      if self.ts_last_charging_ctrl:
+        if msg.deviceState.batteryPercent >= to_discharge and battery_changing:
+          HARDWARE.set_battery_charging(False)
+        elif msg.deviceState.batteryPercent <= to_charge and not battery_changing:
+          HARDWARE.set_battery_charging(True)
+      self.ts_last_charging_ctrl = ts

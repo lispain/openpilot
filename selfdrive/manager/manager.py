@@ -12,7 +12,7 @@ from common.basedir import BASEDIR
 from common.params import Params, ParamKeyType
 from common.text_window import TextWindow
 from selfdrive.boardd.set_time import set_time
-from selfdrive.hardware import EON, HARDWARE, PC
+from selfdrive.hardware import HARDWARE, PC, EON
 from selfdrive.hardware.eon.apk import (pm_apply_packages, update_apks)
 from selfdrive.manager.helpers import unblock_stdout
 from selfdrive.manager.process import ensure_running

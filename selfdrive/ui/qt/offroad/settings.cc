@@ -87,6 +87,14 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
     });
   }
 
+#ifdef ENABLE_MAPS
+  toggles.append(new ParamControl("NavSettingTime24h",
+                                  "Show ETA in 24h format",
+                                  "Use 24h format instead of am/pm",
+                                  "../assets/offroad/icon_metric.png",
+                                  this));
+#endif
+
   toggles.append(new ParamControl("OpkrEnableDriverMonitoring",
                                   "운전자 모니터링 사용",
                                   "운전자 감시 모니터링을 사용합니다.",
@@ -628,11 +636,8 @@ TuningPanel::TuningPanel(QWidget* parent) : QWidget(parent) {
 }
 
 void SettingsWindow::showEvent(QShowEvent *event) {
-  if (layout()) {
-    panel_widget->setCurrentIndex(0);
-    nav_btns->buttons()[0]->setChecked(true);
-    return;
-  }
+  panel_widget->setCurrentIndex(0);
+  nav_btns->buttons()[0]->setChecked(true);
 }
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
@@ -715,6 +720,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
     panel_widget->addWidget(panel_frame);
 
     QObject::connect(btn, &QPushButton::released, [=, w = panel_frame]() {
+      btn->setChecked(true);
       panel_widget->setCurrentWidget(w);
     });
   }
