@@ -59,7 +59,6 @@ static void ui_init_vision(UIState *s) {
   s->scene.setbtn_count = 0;
   s->scene.homebtn_count = 0;
   s->scene.move_to_background = false;
-  s->scene.navi_on_boot = false;
 }
 
 static int get_path_length_idx(const cereal::ModelDataV2::XYZTData::Reader &line, const float path_height) {
@@ -330,24 +329,11 @@ static void update_params(UIState *s) {
     scene.driving_record = Params().getBool("OpkrDrivingRecord");
     scene.end_to_end = Params().getBool("EndToEndToggle");
   }
-  //opkr navi on boot
-  if (!scene.navi_on_boot) {
-    if (Params().getBool("OpkrRunNaviOnBoot" && !scene.map_is_running)) {
-      if (frame - scene.started_frame > 2*UI_FREQ) {
-        s->scene.map_is_running = true;
-        s->scene.map_on_top = true;
-        s->scene.map_on_overlay = false;
-        Params().put("OpkrMapEnable", "1", 1);
-        system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
-      }
-    }
-    if (!scene.move_to_background && (frame - scene.started_frame > 7*UI_FREQ) && Params().getBool("OpkrMapEnable")) {
-      scene.navi_on_boot = true;
-      scene.move_to_background = true;
-      scene.map_on_top = false;
-      scene.map_on_overlay = true;
-      system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
-    }
+  if (!scene.move_to_background && (frame - scene.started_frame > 5*UI_FREQ) && Params().getBool("OpkrRunNaviOnBoot") && Params().getBool("OpkrMapEnable")) {
+    scene.move_to_background = true;
+    scene.map_on_top = false;
+    scene.map_on_overlay = true;
+    system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
   }
 }
 
@@ -419,9 +405,17 @@ static void update_status(UIState *s) {
       s->scene.batt_less = Params().getBool("OpkrBattLess");
       Params().put("OpkrSpeedBump", "0", 1);
       Params().put("OpkrMapEnable", "0", 1);
+      //opkr navi on boot
       s->scene.map_on_top = false;
       s->scene.map_on_overlay = false;
       s->scene.map_is_running = false;
+      if (Params().getBool("OpkrRunNaviOnBoot")) {
+        s->scene.map_is_running = true;
+        s->scene.map_on_top = true;
+        s->scene.map_on_overlay = false;
+        Params().put("OpkrMapEnable", "1", 1);
+        system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
+      }
     } else {
       s->vipc_client->connected = false;
     }
