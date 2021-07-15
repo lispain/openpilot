@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+import numpy as np
+from common.numpy_fast import clip, interp
 from cereal import car
 from selfdrive.config import Conversions as CV
-from selfdrive.car.hyundai.values import CAR, Buttons, EV_CAR, HYBRID_CAR
+from selfdrive.car.hyundai.values import CAR, EV_CAR, HYBRID_CAR, Buttons
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
 from selfdrive.car.interfaces import CarInterfaceBase
 from common.params import Params
@@ -9,6 +11,7 @@ from decimal import Decimal
 
 EventName = car.CarEvent.EventName
 ButtonType = car.CarState.ButtonEvent.Type
+
 
 class CarInterface(CarInterfaceBase):
   def __init__(self, CP, CarController, CarState):
@@ -255,8 +258,8 @@ class CarInterface(CarInterfaceBase):
     ret.radarOffCan = ret.sccBus == -1
     ret.openpilotLongitudinalControl = ret.sccBus == 2
     
-    # enableCruise is true
-    ret.enableCruise = not ret.radarOffCan
+    # pcmCruise is true
+    ret.pcmCruise = not ret.radarOffCan
     
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
     if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or params.get_bool("MadModeEnabled"):
@@ -278,10 +281,10 @@ class CarInterface(CarInterfaceBase):
     ret.canValid = self.cp.can_valid and self.cp2.can_valid and self.cp_cam.can_valid
     ret.steeringRateLimited = self.CC.steer_rate_limited if self.CC is not None else False
 
-    if self.CP.enableCruise and not self.CC.scc_live:
-      self.CP.enableCruise = False
-    elif self.CC.scc_live and not self.CP.enableCruise:
-      self.CP.enableCruise = True
+    if self.CP.pcmCruise and not self.CC.scc_live:
+      self.CP.pcmCruise = False
+    elif self.CC.scc_live and not self.CP.pcmCruise:
+      self.CP.pcmCruise = True
 
     # most HKG cars has no long control, it is safer and easier to engage by main on
     if self.mad_mode_enabled:

@@ -280,6 +280,7 @@ static void ui_draw_tpms(UIState *s) {
   float maxv = 0;
   float minv = 300;
   const Rect rect = {viz_tpms_x, viz_tpms_y, viz_tpms_w, viz_tpms_h};
+
   if (maxv < s->scene.tpmsPressureFl) {maxv = s->scene.tpmsPressureFl;}
   if (maxv < s->scene.tpmsPressureFr) {maxv = s->scene.tpmsPressureFr;}
   if (maxv < s->scene.tpmsPressureRl) {maxv = s->scene.tpmsPressureRl;}
@@ -288,6 +289,7 @@ static void ui_draw_tpms(UIState *s) {
   if (minv > s->scene.tpmsPressureFr) {minv = s->scene.tpmsPressureFr;}
   if (minv > s->scene.tpmsPressureRl) {minv = s->scene.tpmsPressureRl;}
   if (minv > s->scene.tpmsPressureRr) {minv = s->scene.tpmsPressureRr;}
+
   // Draw Border
   ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(100), 10, 20.);
   // Draw Background
@@ -296,6 +298,7 @@ static void ui_draw_tpms(UIState *s) {
   } else {
     ui_fill_rect(s->vg, rect, COLOR_BLACK_ALPHA(80), 20);
   }
+
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
   const int pos_x = viz_tpms_x + (viz_tpms_w / 2);
   const int pos_y = viz_tpms_y + 45;
@@ -381,18 +384,19 @@ static void ui_draw_debug(UIState *s)
     //ui_print(s, ui_viz_rx, ui_viz_ry, "Live Parameters");
     //ui_print(s, ui_viz_rx, ui_viz_ry+250, "SR:%.2f", scene.liveParams.steerRatio);
     //ui_print(s, ui_viz_rx, ui_viz_ry+100, "AOfs:%.2f", scene.liveParams.angleOffset);
-    ui_print(s, ui_viz_rx, ui_viz_ry+250, "AA:%.2f", scene.liveParams.angleOffsetAverage);
-    ui_print(s, ui_viz_rx, ui_viz_ry+300, "SF:%.2f", scene.liveParams.stiffnessFactor);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+250, "AA:%.2f", scene.liveParams.angleOffsetAverage);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+300, "SF:%.2f", scene.liveParams.stiffnessFactor);
 
-    ui_print(s, ui_viz_rx, ui_viz_ry+350, "AD:%.2f", scene.steer_actuator_delay);
-    ui_print(s, ui_viz_rx, ui_viz_ry+400, "SC:%.2f", scene.lateralPlan.steerRateCost);
-    ui_print(s, ui_viz_rx, ui_viz_ry+450, "OS:%.2f", abs(scene.output_scale));
-    ui_print(s, ui_viz_rx, ui_viz_ry+500, "%.2f|%.2f", scene.lateralPlan.lProb, scene.lateralPlan.rProb);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+350, "AD:%.2f", scene.steer_actuator_delay);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+400, "SC:%.2f", scene.lateralPlan.steerRateCost);
+    //ui_print(s, ui_viz_rx, ui_viz_ry+450, "OS:%.2f", abs(scene.output_scale));
+    //ui_print(s, ui_viz_rx, ui_viz_ry+500, "%.2f|%.2f", scene.lateralPlan.lProb, scene.lateralPlan.rProb);
     if (s->scene.map_is_running) {
-      if (s->scene.mapSign) ui_print(s, ui_viz_rx, ui_viz_ry+550, "S:%.0f", scene.mapSign);
-      if (s->scene.limitSpeedCameraDist) ui_print(s, ui_viz_rx, ui_viz_ry+600, "D:%.0f", scene.limitSpeedCameraDist);
-      if (s->scene.liveMapData.opkrturninfo) ui_print(s, ui_viz_rx, ui_viz_ry+650, "T:%.0f", scene.liveMapData.opkrturninfo);
-      if (s->scene.liveMapData.opkrdisttoturn) ui_print(s, ui_viz_rx, ui_viz_ry+700, "D:%.0f", scene.liveMapData.opkrdisttoturn);
+      if (s->scene.liveMapData.opkrspeedsign) ui_print(s, ui_viz_rx, ui_viz_ry+550, "S:%.0f", scene.liveMapData.opkrspeedsign);
+      if (s->scene.liveMapData.opkrspeedlimit) ui_print(s, ui_viz_rx, ui_viz_ry+600, "S:%.0f", scene.liveMapData.opkrspeedlimit);
+      if (s->scene.liveMapData.opkrspeedlimitdist) ui_print(s, ui_viz_rx, ui_viz_ry+650, "D:%.0f", scene.liveMapData.opkrspeedlimitdist);
+      if (s->scene.liveMapData.opkrturninfo) ui_print(s, ui_viz_rx, ui_viz_ry+700, "T:%.0f", scene.liveMapData.opkrturninfo);
+      if (s->scene.liveMapData.opkrdisttoturn) ui_print(s, ui_viz_rx, ui_viz_ry+750, "D:%.0f", scene.liveMapData.opkrdisttoturn);
     }
     nvgFontSize(s->vg, 40);
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
@@ -757,9 +761,47 @@ static void ui_draw_vision_event(UIState *s) {
       ui_draw_image(s, {center_x, center_y - 10, 180, 180}, "speed_110", 0.8f);
     }
   }
-  if ((s->scene.mapSign == 195 || s->scene.mapSign == 197) && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist != 0 && !s->scene.comma_stock_ui) {
-    {ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);}
+  /*
+  if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_60", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_70", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_80", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_90", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_100", 0.8f);
+  } else if (s->scene.mapSign == 165 && s->scene.limitSpeedCameraDist > 1000 && s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "section_110", 0.8f);
   }
+  
+  if (s->scene.limitSpeedCamera < 40 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_30", 0.8f);
+  } else if (s->scene.limitSpeedCamera < 50 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_40", 0.8f);
+  } else if (s->scene.limitSpeedCamera < 60 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_50", 0.8f);
+  } else if (s->scene.limitSpeedCamera < 70 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_60", 0.8f);
+  } else if (s->scene.limitSpeedCamera < 80 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_70", 0.8f);
+  } else if (s->scene.limitSpeedCamera < 90 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_80", 0.8f);
+  } else if (s->scene.limitSpeedCamera < 100 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_90", 0.8f);
+  } else if (s->scene.limitSpeedCamera < 110 && s->scene.limitSpeedCamera != 0 && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_100", 0.8f);
+  } else if (s->scene.limitSpeedCamera < 120 && s->scene.limitSpeedCamera != 0  && s->scene.limitSpeedCameraDist != 0) {
+    ui_draw_image(s, {center_x, center_y, 180, 180}, "speed_110", 0.8f);
+  }
+  */
+  if ((s->scene.mapSign == 195 || s->scene.mapSign == 197) && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist != 0 && !s->scene.comma_stock_ui) {
+    ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_var", 0.25f);
+  } else if (s->scene.liveMapData.opkrspeedsign == 124 && s->scene.limitSpeedCamera == 0 && s->scene.limitSpeedCameraDist == 0 && !s->scene.comma_stock_ui) {
+    ui_draw_image(s, {s->viz_rect.centerX() - 500/2, s->viz_rect.centerY() - 500/2, 500, 500}, "speed_bump", 0.35f);
+  }
+
   /*
   //draw compass by opkr
   if (s->scene.gpsAccuracyUblox != 0.00 && !s->scene.comma_stock_ui) {
@@ -845,31 +887,17 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   if (true) {
     //char val_str[16];
     char uom_str[6];
-    std::string cpu_temp_val = std::to_string(int(s->scene.cpuTemp));
+    std::string cpu_temp_val = std::to_string(int(s->scene.cpuTemp)) + "°C";
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
     //snprintf(val_str, sizeof(val_str), "%.0fC", (round(s->scene.cpuTemp)));
-    snprintf(uom_str, sizeof(uom_str), "°C");
+    snprintf(uom_str, sizeof(uom_str), "%d%%", (s->scene.cpuPerc));
     bb_h +=bb_ui_draw_measure(s, cpu_temp_val.c_str(), uom_str, "CPU 온도",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
     bb_ry = bb_y + bb_h;
   }
-
-  //CPU Perc
-  if (true) {
-    char val_str[16];
-    char uom_str[3];
-    NVGcolor val_color = COLOR_WHITE_ALPHA(200);
-    snprintf(val_str, sizeof(val_str), "%d", (s->scene.cpuPerc));
-    snprintf(uom_str, sizeof(uom_str), "%%");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "CPU 점유율",
-        bb_rx, bb_ry, bb_uom_dx,
-        val_color, lab_color, uom_color,
-        value_fontSize, label_fontSize, uom_fontSize );
-    bb_ry = bb_y + bb_h;
-  }
-
+  
   /*
   //BAT TEMP
   if (true) {
@@ -1179,6 +1207,7 @@ static void draw_navi_button(UIState *s) {
     nvgText(s->vg,btn_xc1,btn_yc,"NAVI",NULL);
   }
 }
+
 static void draw_laneless_button(UIState *s) {
   if (s->vipc_client->connected || s->scene.is_OpenpilotViewEnabled) {
     int btn_w = 140;
@@ -1228,6 +1257,7 @@ static void ui_draw_vision_header(UIState *s) {
   } else {
     ui_draw_vision_maxspeed_org(s);
   }
+  
   if (!s->scene.comma_stock_ui) {
     bb_ui_draw_UI(s);
     //ui_draw_tpms(s);
@@ -1452,13 +1482,14 @@ void ui_nvg_init(UIState *s) {
     {"speed_90", "../assets/img_90_speedahead.png"},
     {"speed_100", "../assets/img_100_speedahead.png"},
     {"speed_110", "../assets/img_110_speedahead.png"},
-    {"section_60", "..//assets/img_60_section.png"},
-    {"section_70", "..//assets/img_70_section.png"},
-    {"section_80", "..//assets/img_80_section.png"},
-    {"section_90", "..//assets/img_90_section.png"},
-    {"section_100", "..//assets/img_100_section.png"},
-    {"section_110", "..//assets/img_110_section.png"},
+    {"section_60", "../assets/img_60_section.png"},
+    {"section_70", "../assets/img_70_section.png"},
+    {"section_80", "../assets/img_80_section.png"},
+    {"section_90", "../assets/img_90_section.png"},
+    {"section_100", "../assets/img_100_section.png"},
+    {"section_110", "../assets/img_110_section.png"},
     {"speed_var", "../assets/img_var_speedahead.png"},
+    {"speed_bump", "../assets/img_speed_bump.png"},
     {"car_left", "../assets/img_car_left.png"},
     {"car_right", "../assets/img_car_right.png"},
     {"compass", "../assets/img_compass.png"},
@@ -1515,15 +1546,15 @@ void ui_resize(UIState *s, int width, int height) {
 
   auto intrinsic_matrix = s->wide_camera ? ecam_intrinsic_matrix : fcam_intrinsic_matrix;
 
-  s->zoom = zoom / intrinsic_matrix.v[0];
+  float zoom = ZOOM / intrinsic_matrix.v[0];
 
   if (s->wide_camera) {
-    s->zoom *= 0.5;
+    zoom *= 0.5;
   }
 
   s->video_rect = Rect{bdr_s, bdr_s, s->fb_w - 2 * bdr_s, s->fb_h - 2 * bdr_s};
-  float zx = s->zoom * 2 * intrinsic_matrix.v[2] / s->video_rect.w;
-  float zy = s->zoom * 2 * intrinsic_matrix.v[5] / s->video_rect.h;
+  float zx = zoom * 2 * intrinsic_matrix.v[2] / s->video_rect.w;
+  float zy = zoom * 2 * intrinsic_matrix.v[5] / s->video_rect.h;
 
   const mat4 frame_transform = {{
     zx, 0.0, 0.0, 0.0,
@@ -1539,7 +1570,7 @@ void ui_resize(UIState *s, int width, int height) {
   nvgTranslate(s->vg, s->video_rect.x + s->video_rect.w / 2, s->video_rect.y + s->video_rect.h / 2 + y_offset);
 
   // 2) Apply same scaling as video
-  nvgScale(s->vg, s->zoom, s->zoom);
+  nvgScale(s->vg, zoom, zoom);
 
   // 3) Put (0, 0) in top left corner of video
   nvgTranslate(s->vg, -intrinsic_matrix.v[2], -intrinsic_matrix.v[5]);

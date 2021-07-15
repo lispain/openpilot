@@ -20,9 +20,9 @@ int default_rx_hook(CAN_FIFOMailBox_TypeDef *to_push) {
       if (HKG_obd_int_cnt == 20) {puts("  LKAS on bus2: forwarding enabled\n");}
       if (HKG_Lcan_bus1_cnt > 0) {HKG_Lcan_bus1_cnt--;} else if (HKG_LCAN_on_bus1) {HKG_LCAN_on_bus1 = false; puts("  Lcan not on bus1\n");}
       // set CAN2 mode to normal if int_cnt expaired
-      if (HKG_obd_int_cnt == 11 && !HKG_forward_bus1 && board_has_obd()) {
+      if (HKG_obd_int_cnt == 11 && !HKG_forward_bus1 && current_board->has_obd) {
         current_board->set_can_mode(CAN_MODE_OBD_CAN2); puts("  checking bus1: setting can2 mode obd\n");}
-      if (HKG_obd_int_cnt == 1 && !HKG_forward_obd && !HKG_forward_bus1 && board_has_obd()) {
+      if (HKG_obd_int_cnt == 1 && !HKG_forward_obd && !HKG_forward_bus1 && current_board->has_obd) {
           current_board->set_can_mode(CAN_MODE_NORMAL); puts("  OBD2 CAN empty: setting can2 mode normal\n");}
       if (HKG_obd_int_cnt > 0) {HKG_obd_int_cnt--;}
     }
@@ -38,7 +38,7 @@ int default_rx_hook(CAN_FIFOMailBox_TypeDef *to_push) {
   }
   // check if we have a MDPS or SCC on Bus1
   if (bus == 1 && (addr == 593 || addr == 897 || addr == 1057)) {
-    if (!HKG_forward_bus1 && HKG_obd_int_cnt > 1 && HKG_obd_int_cnt < 11 && board_has_obd()) {
+    if (!HKG_forward_bus1 && HKG_obd_int_cnt > 1 && HKG_obd_int_cnt < 11 && current_board->has_obd) {
       HKG_forward_obd = true; HKG_obd_int_cnt = 0; puts("  MDPS or SCC on OBD2 CAN: setting can mode obd\n");
     }
     else if (!HKG_forward_bus1 && !HKG_LCAN_on_bus1) {
@@ -73,7 +73,7 @@ static void nooutput_init(int16_t param) {
   UNUSED(param);
   controls_allowed = false;
   relay_malfunction_reset();
-  if (board_has_obd() && HKG_forward_obd) {
+  if (current_board->has_obd && HKG_forward_obd) {
     current_board->set_can_mode(CAN_MODE_OBD_CAN2);
     puts("setting can mode obd\n");
   }
@@ -139,14 +139,14 @@ static int default_fwd_hook(int bus_num, CAN_FIFOMailBox_TypeDef *to_fwd) {
         }
         New_Chksum2 %= 256;
       } else if (HKG_MDPS12_checksum) {
-        uint8_t crc = 0xFF;
+        uint8_t crc = 0xFFU;
         uint8_t poly = 0x1D;
         int i, j;
         for (i=0; i<8; i++){
           if (i!=3){ //don't include CRC byte
             crc ^= dat[i];
             for (j=0; j<8; j++) {
-              if ((crc & 0x80) != 0U) {
+              if ((crc & 0x80U) != 0U) {
                 crc = (crc << 1) ^ poly;
               } else {
                 crc <<= 1;
@@ -154,7 +154,7 @@ static int default_fwd_hook(int bus_num, CAN_FIFOMailBox_TypeDef *to_fwd) {
             }
           }
         }
-        crc ^= 0xFF;
+        crc ^= 0xFFU;
         crc %= 256;
         New_Chksum2 = crc;
       }
@@ -180,7 +180,7 @@ static void alloutput_init(int16_t param) {
   UNUSED(param);
   controls_allowed = true;
   relay_malfunction_reset();
-  if (board_has_obd() && HKG_forward_obd) {
+  if (current_board->has_obd && HKG_forward_obd) {
     current_board->set_can_mode(CAN_MODE_OBD_CAN2);
     puts("  setting can mode obd\n");
   }

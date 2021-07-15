@@ -12,7 +12,7 @@ from common.basedir import BASEDIR
 from common.params import Params, ParamKeyType
 from common.text_window import TextWindow
 from selfdrive.boardd.set_time import set_time
-from selfdrive.hardware import EON, HARDWARE, PC
+from selfdrive.hardware import HARDWARE, PC, EON
 from selfdrive.hardware.eon.apk import (pm_apply_packages, update_apks)
 from selfdrive.manager.helpers import unblock_stdout
 from selfdrive.manager.process import ensure_running
@@ -136,9 +136,12 @@ def manager_init():
     ("SteerWarningFix", "0"),
     ("OpkrRunNaviOnBoot", "0"),
     ("OpkrApksEnable", "0"),
+    ("CruiseGap1", "10"),
     ("CruiseGap2", "12"),
     ("CruiseGap3", "15"),
     ("CruiseGap4", "20"),
+    ("DynamicTR", "2"),
+    ("OpkrBattLess", "0"),
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
@@ -217,7 +220,7 @@ def manager_prepare():
 
 
 def manager_cleanup():
-  if EON and params.get_bool("OpkrApksEnable"):
+  if EON and Params().get_bool("OpkrApksEnable"):
     pm_apply_packages('disable')
 
   for p in managed_processes.values():

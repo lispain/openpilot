@@ -44,7 +44,7 @@
 // TODO: this is also hardcoded in common/transformations/camera.py
 // TODO: choose based on frame input size
 const float y_offset = Hardware::TICI() ? 150.0 : 0.0;
-const float zoom = Hardware::TICI() ? 2912.8 : 2138.5;
+const float ZOOM = Hardware::TICI() ? 2912.8 : 2138.5;
 
 typedef struct Rect {
   int x, y, w, h;
@@ -162,6 +162,7 @@ typedef struct UIScene {
   bool driving_record;
   bool move_to_background;
   float steer_actuator_delay;
+  bool batt_less;
 
   cereal::DeviceState::Reader deviceState;
   cereal::RadarState::LeadData::Reader lead_data[2];
@@ -187,7 +188,7 @@ typedef struct UIScene {
   // lead
   vertex_data lead_vertices[2];
 
-  float light_sensor, accel_sensor, gyro_sensor;
+  float light_sensor, accel_sensor, gyro_sensor, accel_sensor2;
   bool started, ignition, is_metric, longitudinal_control, end_to_end;
   uint64_t started_frame;
 
@@ -273,7 +274,6 @@ typedef struct UIState {
   Rect video_rect, viz_rect;
   float car_space_transform[6];
   bool wide_camera;
-  float zoom;
 } UIState;
 
 

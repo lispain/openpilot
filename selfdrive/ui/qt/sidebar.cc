@@ -114,11 +114,11 @@ void Sidebar::updateState(const UIState &s) {
   if (s.scene.pandaType == cereal::PandaState::PandaType::UNKNOWN) {
     pandaStatus = danger_color;
     pandaStr = "차량\n연결안됨";
+  } else if (s.scene.started && !sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK()) {
+    pandaStatus = warning_color;
+    pandaStr = "GPS\n검색중";
   } else if (s.scene.satelliteCount > 0) {
   	pandaStr = QString("차량연결됨\nSAT : %1").arg(s.scene.satelliteCount);
-  } else if (Hardware::TICI() && s.scene.started) {
-    pandaStr = QString("SATS %1\nACC %2").arg(s.scene.satelliteCount).arg(fmin(10, s.scene.gpsAccuracy), 0, 'f', 2);
-    pandaStatus = sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK() ? good_color : warning_color;
   }
   setProperty("pandaStr", pandaStr);
   setProperty("pandaStatus", pandaStatus);

@@ -11,6 +11,7 @@ V_CRUISE_MIN = 30
 V_CRUISE_DELTA = 10
 V_CRUISE_ENABLE_MIN = 30
 LAT_MPC_N = 16
+LON_MPC_N = 32
 CONTROL_N = 17
 CAR_ROTATION_RADIUS = 0.0
 
@@ -69,7 +70,7 @@ def get_lag_adjusted_curvature(CP, v_ego, psis, curvatures, curvature_rates):
     curvature_rates = [0.0 for i in range(CONTROL_N)]
 
   # TODO this needs more thought, use .2s extra for now to estimate other delays
-  delay = CP.steerActuatorDelay
+  delay = max(0.01, CP.steerActuatorDelay)
   current_curvature = curvatures[0]
   psi = interp(delay, T_IDXS[:CONTROL_N], psis)
   desired_curvature_rate = curvature_rates[0]

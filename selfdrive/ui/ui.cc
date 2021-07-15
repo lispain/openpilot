@@ -93,7 +93,7 @@ static void update_line_data(const UIState *s, const cereal::ModelDataV2::XYZTDa
     v += calib_frame_to_full_frame(s, line_x[i], line_y[i] + y_off, line_z[i] + z_off, v);
   }
   pvd->cnt = v - pvd->v;
-  assert(pvd->cnt < std::size(pvd->v));
+  assert(pvd->cnt <= std::size(pvd->v));
 }
 
 static void update_model(UIState *s, const cereal::ModelDataV2::Reader &model) {
@@ -161,7 +161,6 @@ static void update_state(UIState *s) {
     scene.limitSpeedCameraDist = scene.controls_state.getLimitSpeedCameraDist();
     scene.mapSign = scene.controls_state.getMapSign();
     scene.steerRatio = scene.controls_state.getSteerRatio();
-    scene.long_plan_source = scene.controls_state.getLongPlanSource();
   }
   if (sm.updated("carState")) {
     scene.car_state = sm["carState"].getCarState();
@@ -198,7 +197,7 @@ static void update_state(UIState *s) {
     scene.liveParams.stiffnessFactor = data.getStiffnessFactor();
     scene.liveParams.steerRatio = data.getSteerRatio();
   }
-  if (sm.updated("radarState")) {
+  if (sm.updated("radarState") && s->vg) {
     std::optional<cereal::ModelDataV2::XYZTData::Reader> line;
     if (sm.rcv_frame("modelV2") > 0) {
       line = sm["modelV2"].getModelV2().getPosition();
@@ -222,7 +221,7 @@ static void update_state(UIState *s) {
       }
     }
   }
-  if (sm.updated("modelV2")) {
+  if (sm.updated("modelV2") && s->vg) {
     update_model(s, sm["modelV2"].getModelV2());
   }
   if (sm.updated("deviceState")) {
@@ -268,6 +267,12 @@ static void update_state(UIState *s) {
         if (gyro.totalSize().wordCount) {
           scene.gyro_sensor = gyro[1];
         }
+      } else if (scene.started && sensor.which() == cereal::SensorEventData::ACCELERATION) {
+        auto accel2 = sensor.getAcceleration().getV();
+        scene.accel_sensor2 = accel2[2];
+        if ((scene.accel_sensor2 < -1) && Params().getBool("OpkrSpeedBump")) {
+          Params().put("OpkrSpeedBump", "0", 1);
+        }
       }
     }
   }
@@ -275,11 +280,11 @@ static void update_state(UIState *s) {
     auto camera_state = sm["roadCameraState"].getRoadCameraState();
 
     float max_lines = Hardware::EON() ? 5408 : 1757;
-    float gain = camera_state.getGainFrac();
+    float gain = camera_state.getGain();
 
     if (Hardware::TICI()) {
-      // gainFrac can go up to 4, with another 2.5x multiplier based on globalGain. Scale back to 0 - 1
-      gain *= (camera_state.getGlobalGain() > 100 ? 2.5 : 1.0) / 10.0;
+      // Max gain is 4 * 2.5 (High Conversion Gain)
+      gain /= 10.0;
     }
 
     scene.light_sensor = std::clamp<float>((1023.0 / max_lines) * (max_lines - camera_state.getIntegLines() * gain), 0.0, 1023.0);
@@ -397,6 +402,8 @@ static void update_status(UIState *s) {
       s->scene.scr.nTime = s->scene.scr.autoScreenOff * 60 * UI_FREQ;
       s->scene.comma_stock_ui = Params().getBool("CommaStockUI");
       s->scene.apks_enabled = Params().getBool("OpkrApksEnable");
+      s->scene.batt_less = Params().getBool("OpkrBattLess");
+      Params().put("OpkrSpeedBump", "0", 1);
       Params().put("OpkrMapEnable", "0", 1);
       //opkr navi on boot
       s->scene.map_on_top = false;
@@ -419,9 +426,9 @@ static void update_status(UIState *s) {
 
 QUIState::QUIState(QObject *parent) : QObject(parent) {
   ui_state.sm = std::make_unique<SubMaster, const std::initializer_list<const char *>>({
-    "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "liveLocationKalman",
-    "pandaState", "carParams", "driverMonitoringState", "sensorEvents", "carState", "ubloxGnss",
-    "gpsLocationExternal", "roadCameraState", "liveParameters", "lateralPlan", "liveMapData",
+    "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "roadCameraState",
+    "pandaState", "carParams", "driverMonitoringState", "sensorEvents", "carState", "liveLocationKalman",
+    "ubloxGnss", "gpsLocationExternal", "liveParameters", "lateralPlan", "liveMapData",
   });
 
   ui_state.fb_w = vwp_w;
