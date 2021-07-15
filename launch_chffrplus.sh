@@ -172,12 +172,12 @@ function launch {
   # write tmux scrollback to a file
   tmux capture-pane -pq -S-1000 > /tmp/launch_log
 
-  # spinner
+  # spinner, by opkr
   if [ -f "$BASEDIR/prebuilt" ]; then
     python /data/openpilot/common/spinner.py &
   fi
 
-  # ssh key restore
+  # ssh key restore, by opkr
   if [ -f "/data/params/d/OpkrSSHLegacy" ]; then
     SSH_KEY=$(/data/data/com.termux/files/usr/bin/cat /data/params/d/OpkrSSHLegacy)
   else

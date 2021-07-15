@@ -20,8 +20,8 @@ from selfdrive.swaglog import cloudlog
 LON_MPC_STEP = 0.2  # first step is 0.2s
 AWARENESS_DECEL = -0.2     # car smoothly decel at .2m/s^2 when user is distracted
 A_CRUISE_MIN = -1.2
-A_CRUISE_MAX_VALS = [1.2, 1.2, 0.8]
-A_CRUISE_MAX_BP = [0., 15., 25.]
+A_CRUISE_MAX_VALS = [1.2, 1.2, 0.8, 0.6]
+A_CRUISE_MAX_BP = [0., 15., 25., 40.]
 
 # Lookup table for turns
 _A_TOTAL_MAX_V = [1.7, 3.2]
@@ -127,6 +127,7 @@ class Planner():
         self.longitudinalPlanSource = key
         self.v_desired_trajectory = self.mpcs[key].v_solution[:CONTROL_N]
         self.a_desired_trajectory = self.mpcs[key].a_solution[:CONTROL_N]
+        self.j_desired_trajectory = self.mpcs[key].j_solution[:CONTROL_N]
         next_a = self.mpcs[key].a_solution[5]
 
     # determine fcw
@@ -175,11 +176,13 @@ class Planner():
 
     longitudinalPlan.speeds = [float(x) for x in self.v_desired_trajectory]
     longitudinalPlan.accels = [float(x) for x in self.a_desired_trajectory]
+    longitudinalPlan.jerks = [float(x) for x in self.j_desired_trajectory]
 
     longitudinalPlan.hasLead = self.mpcs['lead0'].status
     longitudinalPlan.longitudinalPlanSource = self.longitudinalPlanSource
     longitudinalPlan.fcw = self.fcw
 
+    # opkr
     # Send radarstate(dRel, vRel, yRel)
     lead_1 = sm['radarState'].leadOne
     lead_2 = sm['radarState'].leadTwo

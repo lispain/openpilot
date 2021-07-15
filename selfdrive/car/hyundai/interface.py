@@ -201,7 +201,6 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 2285. + STD_CARGO_KG
       ret.wheelbase = 2.895
 
-    ret.radarTimeStep = 0.05
     ret.centerToFront = ret.wheelbase * 0.4
 
     # TODO: get actual value, for now starting with reasonable value for
@@ -237,7 +236,6 @@ class CarInterface(CarInterfaceBase):
 
     ret.enableBsm = 0x58b in fingerprint[0]
 
-    ret.stoppingControl = True
     ret.startAccel = 0.2
 
     ret.standStill = False

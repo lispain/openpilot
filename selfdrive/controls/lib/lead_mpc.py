@@ -27,6 +27,10 @@ class LeadMpc():
     self.duration = 0
     self.status = False
 
+    self.v_solution = np.zeros(CONTROL_N)
+    self.a_solution = np.zeros(CONTROL_N)
+    self.j_solution = np.zeros(CONTROL_N)
+
     self.cruise_gap1 = float(Decimal(Params().get("CruiseGap1", encoding="utf8")) * Decimal('0.1'))
     self.cruise_gap2 = float(Decimal(Params().get("CruiseGap2", encoding="utf8")) * Decimal('0.1'))
     self.cruise_gap3 = float(Decimal(Params().get("CruiseGap3", encoding="utf8")) * Decimal('0.1'))
@@ -108,6 +112,7 @@ class LeadMpc():
     self.n_its = self.libmpc.run_mpc(self.cur_state, self.mpc_solution, self.a_lead_tau, a_lead, TR)
     self.v_solution = interp(T_IDXS[:CONTROL_N], MPC_T, self.mpc_solution.v_ego)
     self.a_solution = interp(T_IDXS[:CONTROL_N], MPC_T, self.mpc_solution.a_ego)
+    self.j_solution = interp(T_IDXS[:CONTROL_N], MPC_T[:-1], self.mpc_solution.j_ego)
     self.duration = int((sec_since_boot() - t) * 1e9)
 
     # Reset if NaN or goes through lead car
