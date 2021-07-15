@@ -268,6 +268,11 @@ def getNetworkType():
 
 
 @dispatcher.add_method
+def getNetworks():
+  return HARDWARE.get_networks()
+
+
+@dispatcher.add_method
 def takeSnapshot():
   from selfdrive.camerad.snapshot.snapshot import snapshot, jpeg_write
   ret = snapshot()
@@ -491,6 +496,8 @@ def main():
     except (ConnectionError, TimeoutError, WebSocketException):
       conn_retries += 1
       #params.delete("LastAthenaPingTime")
+      if TICI:
+        cloudlog.exception("athenad.main.exception2")
     except Exception:
       cloudlog.exception("athenad.main.exception")
 

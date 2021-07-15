@@ -816,22 +816,23 @@ struct LongitudinalPlan @0xe00b5b3eba12876c {
   longitudinalPlanSource @15 :LongitudinalPlanSource;
   processingDelay @29 :Float32;
 
-  # desired speed/accel over next 2.5s
+  # desired speed/accel/jerk over next 2.5s
   accels @32 :List(Float32);
   speeds @33 :List(Float32);
+  jerks @34 :List(Float32);
 
   # opkr
-  dRel1 @34 :Float32;
-  yRel1 @35 :Float32;
-  vRel1 @36 :Float32;
-  dRel2 @37 :Float32;
-  yRel2 @38 :Float32;
-  vRel2 @39 :Float32;
-  status2 @40 :Bool;
-  targetSpeedCamera @41 :Float32;
-  targetSpeedCameraDist @42 :Float32;
-  mapSign @43 :Float32;
-  onSpeedControl @44 :Bool;
+  dRel1 @35 :Float32;
+  yRel1 @36 :Float32;
+  vRel1 @37 :Float32;
+  dRel2 @38 :Float32;
+  yRel2 @39 :Float32;
+  vRel2 @40 :Float32;
+  status2 @41 :Bool;
+  targetSpeedCamera @42 :Float32;
+  targetSpeedCameraDist @43 :Float32;
+  mapSign @44 :Float32;
+  onSpeedControl @45 :Bool;
 
   enum LongitudinalPlanSource {
     cruise @0;
