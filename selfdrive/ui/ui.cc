@@ -58,7 +58,6 @@ static void ui_init_vision(UIState *s) {
   s->scene.touched = false;
   s->scene.setbtn_count = 0;
   s->scene.homebtn_count = 0;
-  s->scene.move_to_background = false;
 }
 
 static int get_path_length_idx(const cereal::ModelDataV2::XYZTData::Reader &line, const float path_height) {
@@ -329,11 +328,15 @@ static void update_params(UIState *s) {
     scene.driving_record = Params().getBool("OpkrDrivingRecord");
     scene.end_to_end = Params().getBool("EndToEndToggle");
   }
-  if (!scene.move_to_background && (frame - scene.started_frame > 5*UI_FREQ) && Params().getBool("OpkrRunNaviOnBoot") && Params().getBool("OpkrMapEnable")) {
-    scene.move_to_background = true;
-    scene.map_on_top = false;
-    scene.map_on_overlay = true;
-    system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
+  if (!scene.move_to_background && (frame - scene.started_frame > 5*UI_FREQ)) {
+    if (Params().getBool("OpkrRunNaviOnBoot") && Params().getBool("OpkrMapEnable")) {
+      scene.move_to_background = true;
+      scene.map_on_top = false;
+      scene.map_on_overlay = true;
+      system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
+    } else {
+      scene.move_to_background = true;
+    }
   }
 }
 
@@ -409,6 +412,7 @@ static void update_status(UIState *s) {
       s->scene.map_on_top = false;
       s->scene.map_on_overlay = false;
       s->scene.map_is_running = false;
+      s->scene.move_to_background = false;
       if (Params().getBool("OpkrRunNaviOnBoot")) {
         s->scene.map_is_running = true;
         s->scene.map_on_top = true;
