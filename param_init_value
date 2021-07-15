@@ -10,7 +10,7 @@ OpkrVariableCruise:1
 OpkrLaneChangeSpeed:45
 OpkrAutoLaneChangeDelay:0
 OpkrSteerAngleCorrection:0
-PutPrebuiltOn:0
+PutPrebuiltOn:1
 LdwsCarFix:0
 LateralControlMethod:0
 CruiseStatemodeSelInit:1
@@ -25,7 +25,7 @@ IgnoreZone:0
 PidKp:20
 PidKi:40
 PidKd:150
-PidKf:6
+PidKf:7
 CameraOffsetAdj:60
 SteerRatioAdj:155
 SteerRatioMaxAdj:175
