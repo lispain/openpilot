@@ -9,7 +9,7 @@ Version 0.8.6 (2021-XX-XX)
    * Planners now output desired trajectories for speed, acceleration, curvature, and curvature rate
    * Use MPC for longitudinal planning when no lead car is present, this replaces a mostly hardcoded policy and makes accel and deccel smoother
  * Remove "CHECK DRIVER FACE VISIBILITY" warning
- * Hyundai Elantra Hybrid 2021 support thanks to tecandrew!
+ * Hyundai Elantra Hybrid 2021 support thanks to tecandrew
  * Hyundai Ioniq PHEV 2020 support thanks to YawWashout!
  * Kia Niro Hybrid 2019 support thanks to jyoung8607!
  * Škoda Octavia RS 2016 support thanks to jyoung8607!
