@@ -329,7 +329,7 @@ static void update_params(UIState *s) {
     scene.end_to_end = Params().getBool("EndToEndToggle");
   }
   if (!scene.move_to_background && (frame - scene.started_frame > 5*UI_FREQ)) {
-    if Params().getBool("OpkrRunNaviOnBoot") && Params().getBool("OpkrMapEnable")) {
+    if (Params().getBool("OpkrRunNaviOnBoot") && Params().getBool("OpkrMapEnable")) {
       scene.move_to_background = true;
       scene.map_on_top = false;
       scene.map_on_overlay = true;
