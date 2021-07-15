@@ -146,7 +146,7 @@ static int hyundai_community_tx_hook(CAN_FIFOMailBox_TypeDef *to_send) {
   if (addr == 832) {
     OP_LKAS_live = 20;
     int desired_torque = ((GET_BYTES_04(to_send) >> 16) & 0x7ff) - 1024;
-    uint32_t ts = MICROSECOND_TIMER->CNT;
+    uint32_t ts = microsecond_timer_get();
     bool violation = 0;
 
     if (controls_allowed) {
