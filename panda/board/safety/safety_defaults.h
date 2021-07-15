@@ -146,7 +146,7 @@ static int default_fwd_hook(int bus_num, CAN_FIFOMailBox_TypeDef *to_fwd) {
           if (i!=3){ //don't include CRC byte
             crc ^= dat[i];
             for (j=0; j<8; j++) {
-              if ((crc & 0x80) != 0U) {
+              if ((crc & 0x80U) != 0U) {
                 crc = (crc << 1) ^ poly;
               } else {
                 crc <<= 1;
