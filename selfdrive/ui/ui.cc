@@ -332,7 +332,7 @@ static void update_params(UIState *s) {
   }
   //opkr navi on boot
   if (!scene.navi_on_boot) {
-    if (Params().getBool("OpkrRunNaviOnBoot") && !scene.map_is_running) {
+    if (Params().getBool("OpkrRunNaviOnBoot" && !scene.map_is_running)) {
       if (frame - scene.started_frame > 2*UI_FREQ) {
         s->scene.map_is_running = true;
         s->scene.map_on_top = true;
