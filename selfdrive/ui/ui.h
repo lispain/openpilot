@@ -161,6 +161,7 @@ typedef struct UIScene {
   bool is_OpenpilotViewEnabled;
   bool driving_record;
   bool move_to_background;
+  bool navi_on_boot;
   float steer_actuator_delay;
   bool batt_less;
 
