@@ -239,6 +239,8 @@ def thermald_thread():
   battery_charging_min = int(params.get("OpkrBatteryChargingMin", encoding="utf8"))
   battery_charging_max = int(params.get("OpkrBatteryChargingMax", encoding="utf8"))
 
+  is_openpilot_dir = True
+
   while 1:
     ts = sec_since_boot()
     pandaState = messaging.recv_sock(pandaState_sock, wait=True)
@@ -490,7 +492,9 @@ def thermald_thread():
 
     # opkr
     prebuiltlet = params.get_bool("PutPrebuiltOn")
-    if not os.path.isfile(prebuiltfile) and prebuiltlet:
+    if not os.path.isdir("/data/openpilot"):
+      is_openpilot_dir = False
+    elif not os.path.isfile(prebuiltfile) and prebuiltlet and is_openpilot_dir:
       os.system("cd /data/openpilot; touch prebuilt")
     elif os.path.isfile(prebuiltfile) and not prebuiltlet:
       os.system("cd /data/openpilot; rm -f prebuilt")

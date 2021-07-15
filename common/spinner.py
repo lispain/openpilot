@@ -49,7 +49,8 @@ if __name__ == "__main__":
   import time
   if PREBUILT:
     with Spinner() as s:
-      s.update("prebuilt on, fast booting...")
+      # opkr
+      s.update("OPENPILOT Quick Booting...")
       time.sleep(7.0)
   else:
     with Spinner() as s:
