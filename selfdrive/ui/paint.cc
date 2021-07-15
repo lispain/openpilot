@@ -601,9 +601,7 @@ static void ui_draw_vision_cruise_speed(UIState *s) {
     ui_draw_rect(s->vg, rect, color, 10, 20.);
   } else {
     color = COLOR_WHITE_ALPHA(100);
-    ui_draw_rect(s->vg, rect, color, 5, 20.);COLOR_WHITE_ALPHA(is_cruise_set ? 200 : 100), "sans-bold");
-
-  } else {
+    ui_draw_rect(s->vg, rect, color, 5, 20.);
   }
   
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
