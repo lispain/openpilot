@@ -126,31 +126,6 @@ def handle_fan_uno(max_cpu_temp, bat_temp, fan_speed, ignition):
 
   return new_speed
 
-def check_car_battery_voltage(should_start, pandaState, charging_disabled, msg):
-  battery_charging_control = Params().get_bool("OpkrBatteryChargingControl")
-  battery_charging_min = int(Params().get("OpkrBatteryChargingMin", encoding="utf8")) if Params().get("OpkrBatteryChargingMin", encoding="utf8") is not None else 70
-  battery_charging_max = int(Params().get("OpkrBatteryChargingMax", encoding="utf8")) if Params().get("OpkrBatteryChargingMax", encoding="utf8") is not None else 80
-
-  # charging disallowed if:
-  #   - there are pandaState packets from panda, and;
-  #   - 12V battery voltage is too low, and;
-  #   - onroad isn't started
-  print(pandaState)
-  
-  if charging_disabled and msg.deviceState.batteryPercent < battery_charging_min:
-    charging_disabled = False
-    os.system('echo "1" > /sys/class/power_supply/battery/charging_enabled')
-  elif not charging_disabled and msg.deviceState.batteryPercent > battery_charging_max:
-    charging_disabled = True
-    os.system('echo "0" > /sys/class/power_supply/battery/charging_enabled')
-  elif msg.deviceState.batteryCurrent < 0 and msg.deviceState.batteryPercent > battery_charging_max:
-    charging_disabled = True
-    os.system('echo "0" > /sys/class/power_supply/battery/charging_enabled')
-
-  if not battery_charging_control:
-    charging_disabled = False
-
-  return charging_disabled
 
 def set_offroad_alert_if_changed(offroad_alert: str, show_alert: bool, extra_text: Optional[str]=None):
   if prev_offroad_states.get(offroad_alert, None) == (show_alert, extra_text):
@@ -193,7 +168,6 @@ def thermald_thread():
   current_filter = FirstOrderFilter(0., CURRENT_TAU, DT_TRML)
   cpu_temp_filter = FirstOrderFilter(0., CPU_TEMP_TAU, DT_TRML)
   pandaState_prev = None
-  charging_disabled = False
   should_start_prev = False
   handle_fan = None
   is_uno = False
@@ -261,7 +235,12 @@ def thermald_thread():
   else:
     opkrAutoShutdown = 18000
 
+  battery_charging_control = params.get_bool("OpkrBatteryChargingControl")
+  battery_charging_min = int(params.get("OpkrBatteryChargingMin", encoding="utf8"))
+  battery_charging_max = int(params.get("OpkrBatteryChargingMax", encoding="utf8"))
+
   while 1:
+    ts = sec_since_boot()
     pandaState = messaging.recv_sock(pandaState_sock, wait=True)
     msg = read_thermal(thermal_config)
 
@@ -509,22 +488,14 @@ def thermald_thread():
           off_ts = sec_since_boot()
 
 
-    charging_disabled = check_car_battery_voltage(should_start, pandaState, charging_disabled, msg)
-
-    if msg.deviceState.batteryCurrent > 0:
-      msg.deviceState.batteryStatus = "Discharging"
-    else:
-      msg.deviceState.batteryStatus = "Charging"
-
-    
-    msg.deviceState.chargingDisabled = charging_disabled
-
+    # opkr
     prebuiltlet = params.get_bool("PutPrebuiltOn")
     if not os.path.isfile(prebuiltfile) and prebuiltlet:
       os.system("cd /data/openpilot; touch prebuilt")
     elif os.path.isfile(prebuiltfile) and not prebuiltlet:
       os.system("cd /data/openpilot; rm -f prebuilt")
 
+    # opkr
     sshkeylet = params.get_bool("OpkrSSHLegacy")
     if not os.path.isfile(sshkeyfile) and sshkeylet:
       os.system("cp -f /data/openpilot/selfdrive/assets/addon/key/GithubSshKeys_legacy /data/params/d/GithubSshKeys; chmod 600 /data/params/d/GithubSshKeys; touch /data/public_key")
@@ -575,6 +546,10 @@ def thermald_thread():
 
     should_start_prev = should_start
     startup_conditions_prev = startup_conditions.copy()
+
+    # atom
+    if usb_power and battery_charging_control:
+      power_monitor.charging_ctrl( msg, ts, battery_charging_max, battery_charging_min )    
 
     # report to server once every 10 minutes
     if (count % int(600. / DT_TRML)) == 0:
