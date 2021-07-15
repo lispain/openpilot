@@ -333,7 +333,7 @@ static void update_params(UIState *s) {
       scene.move_to_background = true;
       scene.map_on_top = false;
       scene.map_on_overlay = true;
-      system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
+      system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity &");
     } else {
       scene.move_to_background = true;
     }
@@ -418,7 +418,7 @@ static void update_status(UIState *s) {
         s->scene.map_on_top = true;
         s->scene.map_on_overlay = false;
         Params().put("OpkrMapEnable", "1", 1);
-        system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
+        system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity &");
       }
     } else {
       s->vipc_client->connected = false;
