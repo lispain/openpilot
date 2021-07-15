@@ -58,6 +58,8 @@ static void ui_init_vision(UIState *s) {
   s->scene.touched = false;
   s->scene.setbtn_count = 0;
   s->scene.homebtn_count = 0;
+  s->scene.move_to_background = false;
+  s->scene.navi_on_boot = false;
 }
 
 static int get_path_length_idx(const cereal::ModelDataV2::XYZTData::Reader &line, const float path_height) {
@@ -421,8 +423,6 @@ static void update_status(UIState *s) {
       s->scene.map_on_top = false;
       s->scene.map_on_overlay = false;
       s->scene.map_is_running = false;
-      s->scene.move_to_background = false;
-      s->scene.navi_on_boot = false;
     } else {
       s->vipc_client->connected = false;
     }
