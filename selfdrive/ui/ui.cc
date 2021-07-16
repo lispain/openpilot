@@ -328,13 +328,26 @@ static void update_params(UIState *s) {
     scene.driving_record = Params().getBool("OpkrDrivingRecord");
     scene.end_to_end = Params().getBool("EndToEndToggle");
   }
-  if (!scene.move_to_background && (frame - scene.started_frame > 5*UI_FREQ)) {
-    if (Params().getBool("OpkrRunNaviOnBoot") && Params().getBool("OpkrMapEnable")) {
+  //opkr navi on boot
+  if (!scene.navi_on_boot && (frame - scene.started_frame > 2*UI_FREQ)) {
+    if (Params().getBool("OpkrRunNaviOnBoot") && Params().getBool("ControlsReady") && (Params().get("CarParams").size() > 0)) {
+      scene.navi_on_boot = true;
+      scene.map_is_running = true;
+      scene.map_on_top = true;
+      scene.map_on_overlay = false;
+      Params().put("OpkrMapEnable", "1", 1);
+      system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
+    } else if (frame - scene.started_frame > 15*UI_FREQ) {
+      scene.navi_on_boot = true;
+    }
+  }
+  if (!scene.move_to_background && (frame - scene.started_frame > 7*UI_FREQ)) {
+    if (Params().getBool("OpkrRunNaviOnBoot") && Params().getBool("OpkrMapEnable") && Params().getBool("ControlsReady") && (Params().get("CarParams").size() > 0)) {
       scene.move_to_background = true;
       scene.map_on_top = false;
       scene.map_on_overlay = true;
       system("am start --activity-task-on-home com.opkr.maphack/com.opkr.maphack.MainActivity");
-    } else {
+    } else if (frame - scene.started_frame > 15*UI_FREQ) {
       scene.move_to_background = true;
     }
   }
@@ -413,13 +426,7 @@ static void update_status(UIState *s) {
       s->scene.map_on_overlay = false;
       s->scene.map_is_running = false;
       s->scene.move_to_background = false;
-      if (Params().getBool("OpkrRunNaviOnBoot")) {
-        s->scene.map_is_running = true;
-        s->scene.map_on_top = true;
-        s->scene.map_on_overlay = false;
-        Params().put("OpkrMapEnable", "1", 1);
-        system("am start com.mnsoft.mappyobn/com.mnsoft.mappy.MainActivity");
-      }
+      s->scene.navi_on_boot = false;
     } else {
       s->vipc_client->connected = false;
     }
