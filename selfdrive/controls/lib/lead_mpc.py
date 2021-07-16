@@ -95,16 +95,16 @@ class LeadMpc():
 
     # neokii value, opkr mod
     cruise_gap = int(clip(CS.cruiseGapSet, 1., 4.))
-    dynamic_TR = interp(v_ego*3.6, [0, 20, 40, 60, 110], [0.9, 1.2, 1.4, 1.6, 1.9] )
-    TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
-    if self.dynamic_TR == 1:
-      TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
-    elif self.dynamic_TR == 2:
-      TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, dynamic_TR, self.cruise_gap3, self.cruise_gap4])
-    elif self.dynamic_TR == 3:
-      TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, dynamic_TR, self.cruise_gap4])
-    elif self.dynamic_TR == 4:
-      TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, self.cruise_gap3, dynamic_TR])
+    dynamic_TR = interp(v_ego*3.6, [10, 40, 65, 110], [1.05, 1.30, 1.55, 2.0] )
+    TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, dynamic_TR, dynamic_TR, dynamic_TR])
+    #if self.dynamic_TR == 1:
+    #  TR = interp(float(cruise_gap), [1., 2., 3., 4.], [dynamic_TR, self.cruise_gap2, self.cruise_gap3, self.cruise_gap4])
+    #elif self.dynamic_TR == 2:
+    #  TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, dynamic_TR, self.cruise_gap3, self.cruise_gap4])
+    #elif self.dynamic_TR == 3:
+    #  TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, dynamic_TR, self.cruise_gap4])
+    #elif self.dynamic_TR == 4:
+    #  TR = interp(float(cruise_gap), [1., 2., 3., 4.], [self.cruise_gap1, self.cruise_gap2, self.cruise_gap3, dynamic_TR])
 
 
     # Calculate mpc
