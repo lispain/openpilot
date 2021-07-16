@@ -4127,3 +4127,237 @@ void DynamicTR::refresh() {
   btnminus.setText("◀");
   btnplus.setText("▶");
 }
+
+LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 속도별 차선변경 타이밍을 조절합니다. 빠른 차선변경을 원할경우 값을 높이고 느린 차선변경을 원할경우 값을 낮추세요.", "") {
+  btn0.setStyleSheet(R"(
+    padding: -5;
+    border-radius: 40px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btn1.setStyleSheet(R"(
+    padding: -10;
+    border-radius: 35px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btn1.setStyleSheet(R"(
+    padding: -10;
+    border-radius: 35px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btn2.setStyleSheet(R"(
+    padding: -10;
+    border-radius: 35px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btn3.setStyleSheet(R"(
+    padding: -10;
+    border-radius: 35px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btn4.setStyleSheet(R"(
+    padding: -10;
+    border-radius: 35px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  label1.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label1.setStyleSheet("color: #e0e879");
+  label2.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label2.setStyleSheet("color: #e0e879");
+  label3.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label3.setStyleSheet("color: #e0e879");
+  label4.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label4.setStyleSheet("color: #e0e879");
+  label1a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label2a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label3a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label4a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+
+  btn0.setFixedSize(70, 100);
+  hlayout->addWidget(&btn0);
+  hlayout->addWidget(&label1a);
+  hlayout->addWidget(&label1);
+  btn1.setFixedSize(60, 100);
+  label1a.setText("30:");
+  hlayout->addWidget(&btn1);
+  hlayout->addWidget(&label2a);
+  hlayout->addWidget(&label2);
+  btn2.setFixedSize(60, 100);
+  label2a.setText("60:");
+  hlayout->addWidget(&btn2);
+  hlayout->addWidget(&label3a);
+  hlayout->addWidget(&label3);
+  btn3.setFixedSize(60, 100);
+  label3a.setText("80:");
+  hlayout->addWidget(&btn3);
+  hlayout->addWidget(&label4a);
+  hlayout->addWidget(&label4);
+  btn4.setFixedSize(60, 100);
+  label4a.setText("110:");
+  hlayout->addWidget(&btn4);
+
+  QObject::connect(&btn0, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("LCTimingFactorUD"));
+    int value = str.toInt();
+    value = value + 1;
+    if (value >= 2 ) {
+      value = 0;
+    }
+    QString values = QString::number(value);
+    params.put("LCTimingFactorUD", values.toStdString());
+    refresh0();
+  });
+
+  QObject::connect(&btn1, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("LCTimingFactor30"));
+    int value = str.toInt();
+    auto str2 = QString::fromStdString(params.get("LCTimingFactor60"));
+    int value2 = str2.toInt();
+    auto str_ud = QString::fromStdString(params.get("LCTimingFactorUD"));
+    if (str_ud = "1") {
+      value = value + 5;
+    } else {
+      value = value - 5;
+    }
+    if (value >= value2 ) {
+      value = value2;
+    } else if (value <= 5 ) {
+      value = 5;
+    }
+    QString values = QString::number(value);
+    params.put("LCTimingFactor30", values.toStdString());
+    refresh1();
+  });
+
+  QObject::connect(&btn2, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("LCTimingFactor60"));
+    int value = str.toInt();
+    auto str0 = QString::fromStdString(params.get("LCTimingFactor30"));
+    int value0 = str0.toInt();
+    auto str2 = QString::fromStdString(params.get("LCTimingFactor80"));
+    int value2 = str2.toInt();
+    auto str_ud = QString::fromStdString(params.get("LCTimingFactorUD"));
+    if (str_ud = "1") {
+      value = value + 5;
+    } else {
+      value = value - 5;
+    }
+    if (value >= value2 ) {
+      value = value2;
+    } else if (value <= value0 ) {
+      value = value0;
+    }
+    QString values = QString::number(value);
+    params.put("LCTimingFactor60", values.toStdString());
+    refresh2();
+  });
+  
+  QObject::connect(&btn3, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("LCTimingFactor80"));
+    int value = str.toInt();
+    auto str0 = QString::fromStdString(params.get("LCTimingFactor60"));
+    int value0 = str0.toInt();
+    auto str2 = QString::fromStdString(params.get("LCTimingFactor110"));
+    int value2 = str2.toInt();
+    auto str_ud = QString::fromStdString(params.get("LCTimingFactorUD"));
+    if (str_ud = "1") {
+      value = value + 5;
+    } else {
+      value = value - 5;
+    }
+    if (value >= value2 ) {
+      value = value2;
+    } else if (value <= value0 ) {
+      value = value0;
+    }
+    QString values = QString::number(value);
+    params.put("LCTimingFactor80", values.toStdString());
+    refresh3();
+  });
+
+  QObject::connect(&btn4, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("LCTimingFactor110"));
+    int value = str.toInt();
+    auto str0 = QString::fromStdString(params.get("LCTimingFactor80"));
+    int value0 = str0.toInt();
+    auto str_ud = QString::fromStdString(params.get("LCTimingFactorUD"));
+    if (str_ud = "1") {
+      value = value + 5;
+    } else {
+      value = value - 5;
+    }
+    if (value <= value0 ) {
+      value = value0;
+    } else if (value >= 300 ) {
+      value = 300;
+    }
+    QString values = QString::number(value);
+    params.put("LCTimingFactor110", values.toStdString());
+    refresh4();
+  });
+
+  refresh0();
+  refresh1();
+  refresh2();
+  refresh3();
+  refresh4();
+}
+
+void LCTimingFactor::refresh0() {
+  auto strs = QString::fromStdString(params.get("LCTimingFactorUD"));
+  if (strs = "1") {
+    btn1.setText("↑");
+  } else {
+    btn1.setText("↓");
+  }
+}
+
+void LCTimingFactor::refresh1() {
+  auto strs = QString::fromStdString(params.get("LCTimingFactor30"));
+  int valuei = strs.toInt();
+  float valuef = valuei * 0.01;
+  QString valuefs = QString::number(valuef);
+  label1.setText(QString::fromStdString(valuefs.toStdString()));
+  btn1.setText("↕");
+}
+void LCTimingFactor::refresh2() {
+  auto strs = QString::fromStdString(params.get("LCTimingFactor60"));
+  int valuei = strs.toInt();
+  float valuef = valuei * 0.01;
+  QString valuefs = QString::number(valuef);
+  label2.setText(QString::fromStdString(valuefs.toStdString()));
+  btn2.setText("↕");
+}
+void LCTimingFactor::refresh3() {
+  auto strs = QString::fromStdString(params.get("LCTimingFactor80"));
+  int valuei = strs.toInt();
+  float valuef = valuei * 0.01;
+  QString valuefs = QString::number(valuef);
+  label3.setText(QString::fromStdString(valuefs.toStdString()));
+  btn3.setText("↕");
+}
+void LCTimingFactor::refresh4() {
+  auto strs = QString::fromStdString(params.get("LCTimingFactor110"));
+  int valuei = strs.toInt();
+  float valuef = valuei * 0.01;
+  QString valuefs = QString::number(valuef);
+  label4.setText(QString::fromStdString(valuefs.toStdString()));
+  btn4.setText("↕");
+}

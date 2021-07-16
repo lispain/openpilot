@@ -82,3 +82,8 @@ CruiseGap2:12
 CruiseGap3:15
 CruiseGap4:20
 DynamicTR:2
+LCTimingFactorUD:0
+LCTimingFactor30:10
+LCTimingFactor60:20
+LCTimingFactor80:70
+LCTimingFactor110:110

@@ -1385,3 +1385,32 @@ private:
   
   void refresh();
 };
+
+class LCTimingFactor : public AbstractControl {
+  Q_OBJECT
+
+public:
+  LCTimingFactor();
+
+private:
+  QPushButton btn0;
+  QPushButton btn1;
+  QPushButton btn2;
+  QPushButton btn3;
+  QPushButton btn4;
+  QLabel label1;
+  QLabel label2;
+  QLabel label3;
+  QLabel label4;
+  QLabel label1a;
+  QLabel label2a;
+  QLabel label3a;
+  QLabel label4a;
+  Params params;
+
+  void refresh0();  
+  void refresh1();
+  void refresh2();
+  void refresh3();
+  void refresh4();
+};

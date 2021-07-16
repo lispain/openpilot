@@ -142,6 +142,11 @@ def manager_init():
     ("CruiseGap4", "20"),
     ("DynamicTR", "2"),
     ("OpkrBattLess", "0"),
+    ("LCTimingFactorUD", "0"),
+    ("LCTimingFactor30", "10"),
+    ("LCTimingFactor60", "20"),
+    ("LCTimingFactor80", "70"),
+    ("LCTimingFactor110", "110"),
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
