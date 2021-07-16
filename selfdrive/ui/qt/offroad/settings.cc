@@ -521,7 +521,7 @@ UserPanel::UserPanel(QWidget* parent) : QWidget(parent) {
   layout->addWidget(new CruisemodeSelInit());
   layout->addWidget(new LaneChangeSpeed());
   layout->addWidget(new LaneChangeDelay());
-  layout->addWidget(new LabelControl("속도별 차선변경 타이밍 설정(km/h)", ""));
+  layout->addWidget(new LCTimingFactorUD());
   layout->addWidget(new LCTimingFactor());
   layout->addWidget(new LeftCurvOffset());
   layout->addWidget(new RightCurvOffset());

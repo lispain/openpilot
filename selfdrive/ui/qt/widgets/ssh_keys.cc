@@ -4128,23 +4128,8 @@ void DynamicTR::refresh() {
   btnplus.setText("▶");
 }
 
-LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 속도별 차선변경 타이밍을 조절합니다. 빠른 차선변경을 원할경우 값을 높이고 느린 차선변경을 원할경우 값을 낮추세요.", "") {
-  btn0.setStyleSheet(R"(
-    padding: -5;
-    border-radius: 40px;
-    font-size: 35px;
-    font-weight: 500;
-    color: #E4E4E4;
-    background-color: #393939;
-  )");
-  btn1.setStyleSheet(R"(
-    padding: -10;
-    border-radius: 35px;
-    font-size: 30px;
-    font-weight: 500;
-    color: #E4E4E4;
-    background-color: #393939;
-  )");
+LCTimingFactor::LCTimingFactor() : AbstractControl("", "", "") {
+
   btn1.setStyleSheet(R"(
     padding: -10;
     border-radius: 35px;
@@ -4190,8 +4175,6 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 
   label3a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label4a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
 
-  btn0.setFixedSize(70, 100);
-  hlayout->addWidget(&btn0);
   hlayout->addWidget(&label1a);
   hlayout->addWidget(&label1);
   btn1.setFixedSize(60, 100);
@@ -4212,18 +4195,6 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 
   btn4.setFixedSize(60, 100);
   label4a.setText("110:");
   hlayout->addWidget(&btn4);
-
-  QObject::connect(&btn0, &QPushButton::released, [=]() {
-    auto str = QString::fromStdString(params.get("LCTimingFactorUD"));
-    int value = str.toInt();
-    value = value + 1;
-    if (value >= 2 ) {
-      value = 0;
-    }
-    QString values = QString::number(value);
-    params.put("LCTimingFactorUD", values.toStdString());
-    refresh0();
-  });
 
   QObject::connect(&btn1, &QPushButton::released, [=]() {
     auto str = QString::fromStdString(params.get("LCTimingFactor30"));
@@ -4313,20 +4284,10 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 
     refresh4();
   });
 
-  refresh0();
   refresh1();
   refresh2();
   refresh3();
   refresh4();
-}
-
-void LCTimingFactor::refresh0() {
-  auto strs = QString::fromStdString(params.get("LCTimingFactorUD"));
-  if (strs == "1") {
-    btn1.setText("↑");
-  } else {
-    btn1.setText("↓");
-  }
 }
 
 void LCTimingFactor::refresh1() {
@@ -4360,4 +4321,39 @@ void LCTimingFactor::refresh4() {
   QString valuefs = QString::number(valuef);
   label4.setText(QString::fromStdString(valuefs.toStdString()));
   btn4.setText("↕");
+}
+
+LCTimingFactorUD::LCTimingFactorUD() : AbstractControl("차선변경 타이밍(km/h)", "차선변경 시 해당 속도별 차선변경 타이밍을 조절합니다. 빠른 차선변경을 원할경우 값을 높이고 느린 차선변경을 원할경우 값을 낮추세요.", "../assets/offroad/icon_shell.png") {
+
+  btn.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btn.setFixedSize(100, 100);
+  hlayout->addWidget(&btn);
+
+  QObject::connect(&btn, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("LCTimingFactorUD"));
+    int value = str.toInt();
+    value = value + 1;
+    if (value >= 2 ) {
+      value = 0;
+    }
+    QString values = QString::number(value);
+    params.put("LCTimingFactorUD", values.toStdString());
+    refresh();
+  });
+}
+
+void LCTimingFactorUD::refresh() {
+  auto strs = QString::fromStdString(params.get("LCTimingFactorUD"));
+  if (strs == "1") {
+    btn.setText("↑");
+  } else {
+    btn.setText("↓");
+  }
 }

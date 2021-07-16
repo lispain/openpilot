@@ -1393,7 +1393,6 @@ public:
   LCTimingFactor();
 
 private:
-  QPushButton btn0;
   QPushButton btn1;
   QPushButton btn2;
   QPushButton btn3;
@@ -1408,9 +1407,21 @@ private:
   QLabel label4a;
   Params params;
 
-  void refresh0();  
   void refresh1();
   void refresh2();
   void refresh3();
   void refresh4();
+};
+
+class LCTimingFactorUD : public AbstractControl {
+  Q_OBJECT
+
+public:
+  LCTimingFactorUD();
+
+private:
+  QPushButton btn;
+  Params params;
+  
+  void refresh();
 };
