@@ -4162,37 +4162,37 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "", "") {
     color: #E4E4E4;
     background-color: #393939;
   )");
-  label1.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label1.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
   label1.setStyleSheet("color: #e0e879");
-  label2.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label2.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
   label2.setStyleSheet("color: #e0e879");
-  label3.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label3.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
   label3.setStyleSheet("color: #e0e879");
-  label4.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label4.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
   label4.setStyleSheet("color: #e0e879");
-  label1a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
-  label2a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
-  label3a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
-  label4a.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label1a.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label2a.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label3a.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
+  label4a.setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
 
   hlayout->addWidget(&label1a);
   hlayout->addWidget(&label1);
-  btn1.setFixedSize(60, 100);
+  btn1.setFixedSize(50, 100);
   label1a.setText("30:");
   hlayout->addWidget(&btn1);
   hlayout->addWidget(&label2a);
   hlayout->addWidget(&label2);
-  btn2.setFixedSize(60, 100);
+  btn2.setFixedSize(50, 100);
   label2a.setText("60:");
   hlayout->addWidget(&btn2);
   hlayout->addWidget(&label3a);
   hlayout->addWidget(&label3);
-  btn3.setFixedSize(60, 100);
+  btn3.setFixedSize(50, 100);
   label3a.setText("80:");
   hlayout->addWidget(&btn3);
   hlayout->addWidget(&label4a);
   hlayout->addWidget(&label4);
-  btn4.setFixedSize(60, 100);
+  btn4.setFixedSize(50, 100);
   label4a.setText("110:");
   hlayout->addWidget(&btn4);
 
@@ -4347,6 +4347,7 @@ LCTimingFactorUD::LCTimingFactorUD() : AbstractControl("차선변경 타이밍(k
     params.put("LCTimingFactorUD", values.toStdString());
     refresh();
   });
+  refresh();
 }
 
 void LCTimingFactorUD::refresh() {
