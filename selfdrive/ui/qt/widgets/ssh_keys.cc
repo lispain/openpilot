@@ -4231,7 +4231,7 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 
     auto str2 = QString::fromStdString(params.get("LCTimingFactor60"));
     int value2 = str2.toInt();
     auto str_ud = QString::fromStdString(params.get("LCTimingFactorUD"));
-    if (str_ud = "1") {
+    if (str_ud == "1") {
       value = value + 5;
     } else {
       value = value - 5;
@@ -4254,7 +4254,7 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 
     auto str2 = QString::fromStdString(params.get("LCTimingFactor80"));
     int value2 = str2.toInt();
     auto str_ud = QString::fromStdString(params.get("LCTimingFactorUD"));
-    if (str_ud = "1") {
+    if (str_ud == "1") {
       value = value + 5;
     } else {
       value = value - 5;
@@ -4277,7 +4277,7 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 
     auto str2 = QString::fromStdString(params.get("LCTimingFactor110"));
     int value2 = str2.toInt();
     auto str_ud = QString::fromStdString(params.get("LCTimingFactorUD"));
-    if (str_ud = "1") {
+    if (str_ud == "1") {
       value = value + 5;
     } else {
       value = value - 5;
@@ -4298,7 +4298,7 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 
     auto str0 = QString::fromStdString(params.get("LCTimingFactor80"));
     int value0 = str0.toInt();
     auto str_ud = QString::fromStdString(params.get("LCTimingFactorUD"));
-    if (str_ud = "1") {
+    if (str_ud == "1") {
       value = value + 5;
     } else {
       value = value - 5;
@@ -4322,7 +4322,7 @@ LCTimingFactor::LCTimingFactor() : AbstractControl("", "차선변경 시 해당 
 
 void LCTimingFactor::refresh0() {
   auto strs = QString::fromStdString(params.get("LCTimingFactorUD"));
-  if (strs = "1") {
+  if (strs == "1") {
     btn1.setText("↑");
   } else {
     btn1.setText("↓");
