@@ -521,6 +521,8 @@ UserPanel::UserPanel(QWidget* parent) : QWidget(parent) {
   layout->addWidget(new CruisemodeSelInit());
   layout->addWidget(new LaneChangeSpeed());
   layout->addWidget(new LaneChangeDelay());
+  layout->addWidget(new LCTimingFactorUD());
+  layout->addWidget(new LCTimingFactor());
   layout->addWidget(new LeftCurvOffset());
   layout->addWidget(new RightCurvOffset());
   layout->addWidget(new BlindSpotDetectToggle());

@@ -332,6 +332,11 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"DynamicTR", PERSISTENT},
     {"OpkrSpeedBump", PERSISTENT},
     {"OpkrBattLess", PERSISTENT},
+    {"LCTimingFactorUD", PERSISTENT},
+    {"LCTimingFactor30", PERSISTENT},
+    {"LCTimingFactor60", PERSISTENT},
+    {"LCTimingFactor80", PERSISTENT},
+    {"LCTimingFactor110", PERSISTENT},
 };
 
 } // namespace
