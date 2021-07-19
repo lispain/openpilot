@@ -236,6 +236,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"OpkrUIVolumeBoost", PERSISTENT},
     {"OpkrEnableDriverMonitoring", PERSISTENT},
     {"OpkrEnableLogger", PERSISTENT},
+    {"FusionWithStockScc", PERSISTENT},
     {"OpkrEnableGetoffAlert", PERSISTENT},
     {"OpkrAutoResume", PERSISTENT},
     {"OpkrVariableCruise", PERSISTENT},
