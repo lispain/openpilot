@@ -1146,7 +1146,7 @@ static void ui_draw_vision_scc_gap(UIState *s) {
   //bool longControl = scc_smoother.getLongControl();
   //int autoTrGap = scc_smoother.getAutoTrGap();
 
-  self.dynamic_TR = int(Params().get("DynamicTR", encoding="utf8"))
+  int dynamic_TR = Params().get("DynamicTR", encoding="utf8")
 
   const int radius = 96;
   const int center_x = s->viz_rect.x + radius + (bdr_s * 2) - 15;
@@ -1167,7 +1167,7 @@ static void ui_draw_vision_scc_gap(UIState *s) {
     snprintf(str, sizeof(str), "N/A");
   }
   
-  else if(gap == self.dynamic_TR) {
+  else if(gap == dynamic_TR) {
     snprintf(str, sizeof(str), "AUTO");
     textColor = nvgRGBA(120, 255, 120, 200);
   }
