@@ -1146,7 +1146,7 @@ static void ui_draw_vision_scc_gap(UIState *s) {
   //bool longControl = scc_smoother.getLongControl();
   //int autoTrGap = scc_smoother.getAutoTrGap();
 
-  int dynamic_TR = Params().get("DynamicTR", encoding="utf8")
+  int dynamic_TR = Params().get("DynamicTR");
 
   const int radius = 96;
   const int center_x = s->viz_rect.x + radius + (bdr_s * 2) - 15;
