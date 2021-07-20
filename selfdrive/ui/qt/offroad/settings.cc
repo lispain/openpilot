@@ -117,7 +117,7 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   this));
   toggles.append(new ParamControl("FusionWithStockScc",
                                   "Stock Scc 조합 사용 여부",
-                                  "근거리(25m이내)에서 Stock Scc를 조합하여 사용합니다.",
+                                  "근거리(25m이내)에서 Stock Scc를 조합하여 사용합니다. by neokii",
                                   "../assets/offroad/icon_shell.png",
                                   this));
 
