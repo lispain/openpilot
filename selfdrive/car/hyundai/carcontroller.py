@@ -137,7 +137,7 @@ class CarController():
     self.apks_enabled = self.params.get_bool("OpkrApksEnable")
 
     #neokii
-    self.fusion_scc = self.param.get_bool("FusionWithStockScc")   
+    self.fusion_scc = self.params.get_bool("FusionWithStockScc")   
 
     self.steer_mode = ""
     self.mdps_status = ""
@@ -472,7 +472,7 @@ class CarController():
         self.res_speed = 0
 
     if self.model_speed > 95 and self.cancel_counter == 0 and not CS.acc_active and not CS.out.brakeLights and CS.VSetDis >= 30 and \
-     (CS.lead_distance < 149 or int(CS.clu_Vanz) > 10) and self.auto_res_timer <= 0 and self.opkr_cruise_auto_res:
+     (CS.lead_distance < 149 or int(CS.clu_Vanz) > 10) and self.auto_res_timer <= 0 and self.vCruiseSet != 0 and self.opkr_cruise_auto_res:
       if self.opkr_cruise_auto_res_option == 0 and int(CS.clu_Vanz) > 75: #크루즈속도조절 선택 시 속도에 따라 SET/RES
         can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.RES_ACCEL)) if not self.longcontrol \
          else can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.RES_ACCEL, clu11_speed, CS.CP.sccBus))  # auto res @ above 75kph
