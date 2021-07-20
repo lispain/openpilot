@@ -137,7 +137,7 @@ class CarController():
     self.apks_enabled = self.params.get_bool("OpkrApksEnable")
 
     #neokii
-    self.fusion_scc = self.param.get_bool("FusionWithStockScc")   
+    self.fusion_scc = self.params.get_bool("FusionWithStockScc")   
 
     self.steer_mode = ""
     self.mdps_status = ""
