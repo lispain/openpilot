@@ -421,8 +421,8 @@ class Controls:
       elif CS.cruiseButtons == Buttons.RES_ACCEL or CS.cruiseButtons == Buttons.SET_DECEL:
         self.v_cruise_kph = round(CS.cruiseState.speed * CV.MS_TO_KPH)
         self.v_cruise_kph_last = self.v_cruise_kph
-      elif CS.driverAcc and Params().get_bool('OpkrVariableCruise') and Params().get_bool('CruiseOverMaxSpeed') and 30 <= self.v_cruise_kph < int(round(CS.vEgo*CV.MS_TO_KPH)):
-        self.v_cruise_kph = int(round(CS.vEgo*CV.MS_TO_KPH))
+      elif CS.driverAcc and Params().get_bool('OpkrVariableCruise') and Params().get_bool('CruiseOverMaxSpeed') and 30 <= self.v_cruise_kph <= int(round(CS.vEgo*CV.MS_TO_KPH)):
+        self.v_cruise_kph = int(round(CS.vEgo*CV.MS_TO_KPH)) + 5 #현재속도+5로 동기화
         self.v_cruise_kph_last = self.v_cruise_kph
 
     # decrease the soft disable timer at every step, as it's reset on
