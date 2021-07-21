@@ -50,6 +50,7 @@ def manager_init():
     ("OpkrEnableDriverMonitoring", "1"),
     ("OpkrEnableLogger", "0"),
     ("OpkrEnableUploader", "0"),
+    ("FusionWithStockScc", "1"),
     ("OpkrEnableGetoffAlert", "1"),
     ("OpkrAutoResume", "1"),
     ("OpkrVariableCruise", "1"),

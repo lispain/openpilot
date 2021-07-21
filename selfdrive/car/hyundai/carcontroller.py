@@ -136,6 +136,9 @@ class CarController():
     self.ldws_fix = self.params.get_bool("LdwsCarFix")
     self.apks_enabled = self.params.get_bool("OpkrApksEnable")
 
+    #neokii
+    self.fusion_scc = self.params.get_bool("FusionWithStockScc")
+
     self.steer_mode = ""
     self.mdps_status = ""
     self.lkas_switch = ""
@@ -539,7 +542,7 @@ class CarController():
         self.fca11alivecnt = self.fca11maxcnt - self.fca11inc
         lead_objspd = CS.lead_objspd  # vRel (km/h)
         aReqValue = CS.scc12["aReqValue"]
-        if 0 < CS.out.radarDistance <= 149:
+        if self.fusion_scc and 0 < CS.out.radarDistance <= 149: # neokii
           if aReqValue > 0.:
             stock_weight = interp(CS.out.radarDistance, [3., 25.], [0.8, 0.])
           elif aReqValue < 0.:

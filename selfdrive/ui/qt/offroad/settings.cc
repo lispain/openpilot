@@ -115,6 +115,11 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "주행화면을 콤마의 순정 UI를 사용합니다. 주행화면 좌측상단의 박스를 눌러도 실시간 전환 가능합니다.",
                                   "../assets/offroad/icon_shell.png",
                                   this));
+  toggles.append(new ParamControl("FusionWithStockScc",
+                                  "Stock Scc 조합 사용 여부",
+                                  "근거리(25m이내)에서 Stock Scc를 조합하여 사용합니다. by neokii",
+                                  "../assets/offroad/icon_shell.png",
+                                  this));
 
   bool record_lock = Params().getBool("RecordFrontLock");
   record_toggle->setEnabled(!record_lock);
