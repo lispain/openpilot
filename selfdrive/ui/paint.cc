@@ -1124,14 +1124,11 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
       } else {
         val_color = COLOR_WHITE_ALPHA(200);
         snprintf(val_str, sizeof(val_str), "%d",(s->scene.cruise_gap));
+        snprintf(uom_str, sizeof(uom_str), "S");
       }
     } else {
       snprintf(val_str, sizeof(val_str), "-");
-    }
-    if (s->scene.cruise_gap == s->scene.dynamic_tr_mode) {
-      snprintf(uom_str, sizeof(uom_str), "%.2f",(s->scene.dynamic_tr_value));
-    } else {
-      snprintf(uom_str, sizeof(uom_str), "S");
+      snprintf(uom_str, sizeof(uom_str), "");
     }
     bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "크루즈갭",
         bb_rx, bb_ry, bb_uom_dx,

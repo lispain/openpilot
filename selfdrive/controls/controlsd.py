@@ -186,7 +186,7 @@ class Controls:
     self.mpc_frame = 0
 
     self.steerRatio_Max = float(Decimal(params.get("SteerRatioMaxAdj", encoding="utf8")) * Decimal('0.1'))
-    self.angle_differ_range = [0, 15]
+    self.steer_angle_range = [5, 30]
     self.steerRatio_range = [self.CP.steerRatio, self.steerRatio_Max]
     self.new_steerRatio = self.CP.steerRatio
     self.new_steerRatio_prev = self.CP.steerRatio
@@ -498,15 +498,11 @@ class Controls:
     lat_plan = self.sm['lateralPlan']
     long_plan = self.sm['longitudinalPlan']
 
-    anglesteer_current = CS.steeringAngleDeg
-    # need to fix
-    anglesteer_desire = CS.steeringAngleDeg
+    # opkr
     output_scale = lat_plan.outputScale
-
     if not self.live_sr:
-      angle_diff = abs(anglesteer_desire) - abs(anglesteer_current)
-      if abs(output_scale) >= self.CP.steerMaxV[0] and CS.vEgo > 8:
-        self.new_steerRatio_prev = interp(angle_diff, self.angle_differ_range, self.steerRatio_range)
+      if abs(output_scale) >= self.CP.steerMaxV[0] and CS.vEgo > 8 and not CS.steeringPressed:
+        self.new_steerRatio_prev = interp(CS.steeringAngleDeg, self.steer_angle_range, self.steerRatio_range)
         if self.new_steerRatio_prev > self.new_steerRatio:
           self.new_steerRatio = self.new_steerRatio_prev
       else:
